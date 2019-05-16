@@ -23,6 +23,7 @@ class BezierViewFragment : MasterFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_bezier, container, false)
+        allowSwipeBack(false)
         return mBinding.root
     }
 }
