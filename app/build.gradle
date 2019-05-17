@@ -34,6 +34,7 @@ dependencies {
     implementation rootProject.ext.androidx.constraintlayout
     // framework
     implementation rootProject.ext.framework.oneActivity
+    implementation rootProject.ext.framework.autoFlowLayout
     // test
     testImplementation rootProject.ext.test.junit
     androidTestImplementation rootProject.ext.test.runner

@@ -3,4 +3,46 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="color000066">#000066</color>
+    <color name="color006633">#006633</color>
+    <color name="color009966">#009966</color>
+    <color name="color0099FF">#0099FF</color>
+    <color name="color00CCFF">#00CCFF</color>
+    <color name="color00FF66">#00FF66</color>
+    <color name="color00FF99">#00FF99</color>
+    <color name="color330066">#330066</color>
+    <color name="color333333">#333333</color>
+    <color name="color333366">#333366</color>
+    <color name="color333399">#333399</color>
+    <color name="color3333CC">#3333CC</color>
+    <color name="color3366FF">#3366FF</color>
+    <color name="color3399FF">#3399FF</color>
+    <color name="color660099">#660099</color>
+    <color name="color6600FF">#6600FF</color>
+    <color name="color663300">#663300</color>
+    <color name="color666666">#666666</color>
+    <color name="color990033">#990033</color>
+    <color name="color9900FF">#9900FF</color>
+    <color name="color993333">#993333</color>
+    <color name="color99FFFF">#99FFFF</color>
+    <color name="colorCC0033">#CC0033</color>
+    <color name="colorCC0066">#CC0066</color>
+    <color name="colorCC3333">#CC3333</color>
+    <color name="colorCC3366">#CC3366</color>
+    <color name="colorCC9933">#CC9933</color>
+    <color name="colorCCCCCC">#CCCCCC</color>
+    <color name="colorCCFF00">#CCFF00</color>
+    <color name="colorCCFFFF">#CCFFFF</color>
+    <color name="colorCC9900">#CC9900</color>
+    <color name="colorFF0066">#FF0066</color>
+    <color name="colorFF6600">#FF6600</color>
+    <color name="colorFF6699">#FF6699</color>
+    <color name="colorFF66CC">#FF66CC</color>
+    <color name="colorFF9900">#FF9900</color>
+    <color name="colorFFCC66">#FFCC66</color>
+    <color name="colorFFCC99">#FFCC99</color>
+    <color name="colorFFFF33">#FFFF33</color>
+    <color name="colorFFFF66">#FFFF66</color>
+
 </resources>

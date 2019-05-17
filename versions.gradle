@@ -1,6 +1,7 @@
 private static def addRepos(RepositoryHandler handler) {
     handler.google()
     handler.jcenter()
+    handler.maven { url 'https://jitpack.io' }
 }
 
 ext {
@@ -31,7 +32,8 @@ ext {
     ]
 
     framework = [
-            oneActivity: "engineer.echo.oneactivity:core:0.0.1"
+            oneActivity   : "engineer.echo.oneactivity:core:0.0.1",
+            autoFlowLayout: "com.github.LRH1993:AutoFlowLayout:1.0.5"
     ]
 
     test = [
