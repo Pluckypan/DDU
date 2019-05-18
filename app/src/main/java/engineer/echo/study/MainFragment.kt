@@ -24,15 +24,19 @@ class MainFragment : MasterFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mBinding.tvQuadBezierApp.setOnClickListener {
-            BezierViewFragment.goto(this)
-        }
         mBinding.flowBezierApp.setAdapter(object : FlowAdapter<String>(BEZIER) {
             override fun getView(p0: Int): View {
-                return TextView(this@MainFragment.context).also {
-                    it.text = BEZIER[p0]
+                val itemView = View.inflate(context, R.layout.item_subject_app, null)
+                itemView.findViewById<TextView>(R.id.tv_subject_item_app).apply {
+                    text = BEZIER[p0]
                 }
+                return itemView
             }
         })
+        mBinding.flowBezierApp.setOnItemClickListener { i, view ->
+            when (i) {
+                0 -> BezierViewFragment.goto(this)
+            }
+        }
     }
 }

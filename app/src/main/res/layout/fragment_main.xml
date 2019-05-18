@@ -37,23 +37,37 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_slogan_app"/>
-        <TextView
-                android:id="@+id/tv_quad_bezier_app"
-                style="@style/TextItemStyle"
-                android:background="#666699"
-                android:text="@string/label_quad_bezier_app"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-        <TextView
-                android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:id="@+id/tv_bezier_group_app"
+
+
+        <LinearLayout
+                android:id="@+id/ll_bezier_group_app"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="@+id/flow_bezier_app"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="25dp"
                 app:layout_constraintStart_toStartOf="parent"
+                android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="@+id/flow_bezier_app"
-                android:text="贝舍尔曲线"/>
+                android:orientation="vertical">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:id="@+id/icon_bezier_group_app"
+                    android:text="@string/iconBezier"
+                    app:iconfont="@{true}"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_bezier_group_app"
+                    app:layout_constraintTop_toTopOf="@+id/flow_bezier_app"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/flow_bezier_app"
+                    android:text="贝舍尔曲线"/>
+        </LinearLayout>
         <com.example.library.AutoFlowLayout
-                app:layout_constraintStart_toEndOf="@+id/tv_bezier_group_app"
+                android:layout_marginStart="10dp"
+                app:layout_constraintStart_toEndOf="@+id/ll_bezier_group_app"
                 android:id="@+id/flow_bezier_app"
                 android:layout_width="wrap_content"
                 android:layout_marginTop="26dp"
