@@ -32,6 +32,7 @@ dependencies {
     implementation rootProject.ext.androidx.appcompat
     implementation rootProject.ext.androidx.ktx
     implementation rootProject.ext.androidx.constraintlayout
+    implementation rootProject.ext.androidx.recyclerview
     // framework
     implementation rootProject.ext.framework.oneActivity
     implementation rootProject.ext.framework.autoFlowLayout

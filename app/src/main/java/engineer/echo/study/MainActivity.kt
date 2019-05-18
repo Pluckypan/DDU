@@ -4,6 +4,7 @@ import android.os.Bundle
 import engineer.echo.oneactivity.core.MasterCompatActivity
 import engineer.echo.oneactivity.core.FragmentMaster
 import engineer.echo.oneactivity.core.Request
+import engineer.echo.study.ui.main.MainFragment
 
 
 class MainActivity : MasterCompatActivity() {

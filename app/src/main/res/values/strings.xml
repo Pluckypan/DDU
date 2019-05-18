@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Studay</string>
-    <string name="label_quad_bezier_app">二阶贝舍尔曲线</string>
     <string name="label_slogan_app">好好学习 天天向上</string>
+    <!--贝舍尔曲线-->
+    <string name="title_subject_bezier_app">贝舍尔曲线</string>
+    <string name="label_quad_bezier_app">二阶</string>
+    <string name="label_quad_bezier_manual_app">二阶(定点)</string>
 </resources>

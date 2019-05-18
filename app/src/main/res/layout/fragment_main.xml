@@ -39,41 +39,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_slogan_app"/>
 
 
-        <LinearLayout
-                android:id="@+id/ll_bezier_group_app"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@+id/flow_bezier_app"
-                android:layout_marginStart="25dp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:gravity="center"
-                app:layout_constraintBottom_toBottomOf="@+id/flow_bezier_app"
-                android:orientation="vertical">
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:id="@+id/icon_bezier_group_app"
-                    android:text="@string/iconBezier"
-                    app:iconfont="@{true}"/>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tv_bezier_group_app"
-                    app:layout_constraintTop_toTopOf="@+id/flow_bezier_app"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@+id/flow_bezier_app"
-                    android:text="贝舍尔曲线"/>
-        </LinearLayout>
-        <com.example.library.AutoFlowLayout
-                android:layout_marginStart="10dp"
-                app:layout_constraintStart_toEndOf="@+id/ll_bezier_group_app"
-                android:id="@+id/flow_bezier_app"
-                android:layout_width="wrap_content"
-                android:layout_marginTop="26dp"
-                android:minHeight="40dp"
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_subject_main_app"
                 app:layout_constraintTop_toBottomOf="@+id/line_top_app"
-                android:layout_height="wrap_content"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_height="0dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

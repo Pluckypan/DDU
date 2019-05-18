@@ -1,4 +1,4 @@
-package engineer.echo.study
+package engineer.echo.study.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import engineer.echo.oneactivity.core.MasterFragment
 import engineer.echo.oneactivity.core.Request
+import engineer.echo.study.R
 import engineer.echo.study.databinding.BezierBinding
 
 class BezierViewFragment : MasterFragment() {
