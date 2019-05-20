@@ -4,27 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import engineer.echo.oneactivity.core.MasterFragment
 import engineer.echo.oneactivity.core.Request
 import engineer.echo.study.R
-import engineer.echo.study.databinding.BezierBinding
 
 class BezierViewFragment : MasterFragment() {
 
     companion object {
-        fun goto(fragment: MasterFragment) {
+        private const val KEY_MANUAL = "key_for_manual"
+        fun goto(fragment: MasterFragment, manual: Boolean = false) {
             Request(BezierViewFragment::class.java).also {
+                it.putExtra(KEY_MANUAL, manual)
                 fragment.startFragment(it)
             }
         }
     }
 
-    private lateinit var mBinding: BezierBinding
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_bezier, container, false)
+        val manual = request.getBooleanExtra(KEY_MANUAL, false)
+        val layoutId = if (manual) R.layout.fragment_manual_bezier else R.layout.fragment_bezier
         allowSwipeBack(false)
-        return mBinding.root
+        return layoutInflater.inflate(layoutId, container, false)
     }
 }

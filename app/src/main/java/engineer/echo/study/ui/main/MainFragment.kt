@@ -33,6 +33,7 @@ class MainFragment : MasterFragment(), MainAdapter.MainAdapterCallback {
     override fun onItemClick(pos: Int, subItemId: Int) {
         when (subItemId) {
             R.string.label_quad_bezier_app -> BezierViewFragment.goto(this)
+            R.string.label_quad_bezier_manual_app -> BezierViewFragment.goto(this, true)
         }
     }
 }

@@ -4,5 +4,5 @@
     <!--贝舍尔曲线-->
     <string name="title_subject_bezier_app">贝舍尔曲线</string>
     <string name="label_quad_bezier_app">二阶</string>
-    <string name="label_quad_bezier_manual_app">二阶(定点)</string>
+    <string name="label_quad_bezier_manual_app">定点二阶</string>
 </resources>
