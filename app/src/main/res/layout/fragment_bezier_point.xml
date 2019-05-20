@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data class="BezierPointBinding">
+        <variable name="startX" type="Integer"/>
+        <variable name="startY" type="Integer"/>
+        <variable name="stopX" type="Integer"/>
+        <variable name="stopY" type="Integer"/>
+        <variable name="ctrlX" type="Integer"/>
+        <variable name="ctrlY" type="Integer"/>
+    </data>
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:padding="25dp"
+                android:layout_height="wrap_content">
+            <TextView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/tv_axis_x_bezier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="@string/title_axis_x_bezier"/>
+            <TextView
+                    android:id="@+id/tv_start_point_bezier"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_axis_x_bezier"
+                    app:layout_constraintStart_toStartOf="@+id/tv_axis_x_bezier"
+                    android:text="@string/label_start_point_bezier"
+                    style="@style/BezierPointLabel"/>
+            <androidx.appcompat.widget.AppCompatSeekBar
+                    android:id="@+id/seekBar_startX_bezier"
+                    app:layout_constraintTop_toTopOf="@+id/tv_start_point_bezier"
+                    style="@style/AxisXSeekBar"
+                    android:progress="@{startX}"
+                    app:layout_constraintStart_toEndOf="@+id/tv_start_point_bezier"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_start_point_bezier"/>
+
+            <TextView
+                    android:id="@+id/tv_end_point_bezier"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_start_point_bezier"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/label_end_point_bezier"
+                    style="@style/BezierPointLabel"/>
+            <androidx.appcompat.widget.AppCompatSeekBar
+                    android:id="@+id/seekBar_stopX_bezier"
+                    app:layout_constraintTop_toTopOf="@+id/tv_end_point_bezier"
+                    app:layout_constraintStart_toEndOf="@+id/tv_end_point_bezier"
+                    android:layout_height="wrap_content"
+                    style="@style/AxisXSeekBar"
+                    android:progress="@{stopX}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_end_point_bezier"/>
+
+            <TextView
+                    android:id="@+id/tv_ctrl_point_bezier"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_end_point_bezier"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/label_ctrl_point_bezier"
+                    style="@style/BezierPointLabel"/>
+            <androidx.appcompat.widget.AppCompatSeekBar
+                    android:id="@+id/seekBar_ctrlX_bezier"
+                    app:layout_constraintTop_toTopOf="@+id/tv_ctrl_point_bezier"
+                    app:layout_constraintStart_toEndOf="@+id/tv_ctrl_point_bezier"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:progress="@{ctrlX}"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_ctrl_point_bezier"
+                    style="@style/AxisXSeekBar"/>
+            <View
+                    android:id="@+id/axis_x_line_bezier"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_ctrl_point_bezier"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    style="@style/Line"/>
+
+            <TextView
+                    app:layout_constraintTop_toBottomOf="@+id/axis_x_line_bezier"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/tv_axis_y_bezier"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="@string/label_axis_y_bezier"/>
+            <TextView
+                    android:id="@+id/tv_start_point_y_bezier"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_axis_y_bezier"
+                    app:layout_constraintStart_toStartOf="@+id/tv_axis_y_bezier"
+                    android:text="@string/label_start_point_bezier"
+                    style="@style/BezierPointLabel"/>
+            <androidx.appcompat.widget.AppCompatSeekBar
+                    android:id="@+id/seekBar_startY_bezier"
+                    app:layout_constraintTop_toTopOf="@+id/tv_start_point_y_bezier"
+                    style="@style/AxisYSeekBar"
+                    android:progress="@{startY}"
+                    app:layout_constraintStart_toEndOf="@+id/tv_start_point_y_bezier"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_start_point_y_bezier"/>
+
+            <TextView
+                    android:id="@+id/tv_end_point_y_bezier"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_start_point_y_bezier"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/label_end_point_bezier"
+                    style="@style/BezierPointLabel"/>
+            <androidx.appcompat.widget.AppCompatSeekBar
+                    android:id="@+id/seekBar_stopY_bezier"
+                    app:layout_constraintTop_toTopOf="@+id/tv_end_point_y_bezier"
+                    app:layout_constraintStart_toEndOf="@+id/tv_end_point_y_bezier"
+                    android:layout_height="wrap_content"
+                    style="@style/AxisYSeekBar"
+                    android:progress="@{stopY}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_end_point_y_bezier"/>
+
+            <TextView
+                    android:id="@+id/tv_ctrl_point_y_bezier"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_end_point_y_bezier"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/label_ctrl_point_bezier"
+                    style="@style/BezierPointLabel"/>
+            <androidx.appcompat.widget.AppCompatSeekBar
+                    android:id="@+id/seekBar_ctrlY_bezier"
+                    app:layout_constraintTop_toTopOf="@+id/tv_ctrl_point_y_bezier"
+                    app:layout_constraintStart_toEndOf="@+id/tv_ctrl_point_y_bezier"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:progress="@{ctrlY}"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_ctrl_point_y_bezier"
+                    style="@style/AxisYSeekBar"/>
+
+            <TextView
+                    android:id="@+id/tv_confirm_point_bezier"
+                    style="@style/TextItemStyle"
+                    android:text="@android:string/ok"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_ctrl_point_y_bezier"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="wrap_content"
+                    android:minWidth="100dp"
+                    android:gravity="center"
+                    android:background="@color/color006633"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_confirm_point_bezier"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:id="@+id/tv_info_point_bezier"
+                    android:layout_width="wrap_content"
+                    app:startX="@{startX}"
+                    app:startY="@{startY}"
+                    app:stopX="@{stopX}"
+                    app:stopY="@{stopY}"
+                    app:ctrlX="@{ctrlX}"
+                    app:ctrlY="@{ctrlY}"
+                    android:layout_height="wrap_content"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</layout>

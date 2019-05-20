@@ -113,11 +113,23 @@ class ManualQuadBezierView @JvmOverloads constructor(
         canvas.drawText(point, ox / 2, oy / 2 + 40f, mTextPaint)
     }
 
+    var startX: Float = 0f
+    var startY: Float = 0f
+    var stopX: Float = 60000f
+    var stopY: Float = 1.0f
+    var ctrlX: Float = 60000f
+    var ctrlY: Float = 0f
     fun start(
         startX: Float = 0f, startY: Float = 0f,
         stopX: Float = 60000f, stopY: Float = 1.0f,
         ctrlX: Float = 60000f, ctrlY: Float = 0f
     ) {
+        this.startX = startX
+        this.startY = startY
+        this.stopX = stopX
+        this.stopY = stopY
+        this.ctrlX = ctrlX
+        this.ctrlY = ctrlY
         // 必须要界面测绘完成
         if (width == 0 || height == 0) return
         val ox = width / 4f

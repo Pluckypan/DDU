@@ -5,4 +5,9 @@
     <string name="title_subject_bezier_app">贝舍尔曲线</string>
     <string name="label_quad_bezier_app">二阶</string>
     <string name="label_quad_bezier_manual_app">定点二阶</string>
+    <string name="label_start_point_bezier">起始点</string>
+    <string name="label_end_point_bezier">结束点</string>
+    <string name="label_ctrl_point_bezier">控制点</string>
+    <string name="title_axis_x_bezier">时间点(x-axis)</string>
+    <string name="label_axis_y_bezier">音量(y-axis)</string>
 </resources>
