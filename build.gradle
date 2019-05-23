@@ -4,6 +4,7 @@ buildscript {
     dependencies {
         classpath build.gradleX
         classpath build.kotlinX
+        classpath protoBuf.gradle
     }
 }
 

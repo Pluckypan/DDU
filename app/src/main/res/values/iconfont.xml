@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="iconBezier">&#xe7ad;</string>
+    <string name="iconProtoBuf">&#xe880;</string>
 </resources>

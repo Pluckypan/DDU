@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: rootProject.ext.protoBuf.plugin
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -22,6 +23,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            proto {
+                srcDir 'src/main/proto'
+                include '**/*.proto'
+            }
+        }
+    }
 }
 
 dependencies {
@@ -40,4 +49,26 @@ dependencies {
     testImplementation rootProject.ext.test.junit
     androidTestImplementation rootProject.ext.test.runner
     androidTestImplementation rootProject.ext.test.espresso
+    // ProtocolBuffer
+    implementation rootProject.ext.protoBuf.java
+}
+
+
+protobuf {
+    protoc {
+        artifact = rootProject.ext.protoBuf.compile
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                remove java
+            }
+            task.builtins {
+                java {}
+                cpp {}
+            }
+        }
+    }
+    //生成目录
+    generatedFilesBaseDir = "$projectDir/src/generated"
 }

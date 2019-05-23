@@ -22,6 +22,16 @@ class C {
                     R.string.label_quad_bezier_app,
                     R.string.label_quad_bezier_manual_app
                 )
+            ),
+            Subject(
+                R.string.title_subject_protobuf_app,
+                R.color.color006633,
+                R.string.iconProtoBuf,
+                listOf(
+                    R.string.label_entry_level_protobuf_app,
+                    R.string.label_advanced_protobuf_app,
+                    R.string.label_high_level_protobuf_app
+                )
             )
         )
     }

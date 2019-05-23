@@ -10,4 +10,9 @@
     <string name="label_ctrl_point_bezier">控制点</string>
     <string name="title_axis_x_bezier">时间点(x-axis)</string>
     <string name="label_axis_y_bezier">音量(y-axis)</string>
+    <!--ProtocolBuffer-->
+    <string name="title_subject_protobuf_app">ProtoBuf</string>
+    <string name="label_entry_level_protobuf_app">入门</string>
+    <string name="label_advanced_protobuf_app">进阶</string>
+    <string name="label_high_level_protobuf_app">高级</string>
 </resources>
