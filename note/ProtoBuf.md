@@ -52,3 +52,8 @@ UserEntity.User.newBuilder().apply {
             mBinding.user = it.toString()
         }
 ```
+
+### 为什么 `ProtoBuf`
+- 因为可以很方便 `toByteArray()` 便于传输(IPC)
+- 二进制 ProtoBuf 虽然可读性差 但是私密性好
+- 需要根据实际需求选择, ProtoBuf 并非必需品
