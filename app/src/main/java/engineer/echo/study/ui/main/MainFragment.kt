@@ -12,6 +12,7 @@ import engineer.echo.study.R
 import engineer.echo.study.databinding.MainBinding
 import engineer.echo.study.ui.BezierViewFragment
 import engineer.echo.study.ui.ProtoBufFragment
+import engineer.echo.study.ui.ipc.WifiP2pFragment
 
 @Configuration(theme = R.style.Theme_AppCompat_Light)
 class MainFragment : MasterFragment(), MainAdapter.MainAdapterCallback {
@@ -36,6 +37,7 @@ class MainFragment : MasterFragment(), MainAdapter.MainAdapterCallback {
             R.string.label_quad_bezier_app -> BezierViewFragment.goto(this)
             R.string.label_quad_bezier_manual_app -> BezierViewFragment.goto(this, true)
             R.string.label_entry_level_protobuf_app -> ProtoBufFragment.goto(this)
+            R.string.label_wifi_p2p_app -> WifiP2pFragment.goto(this)
         }
     }
 }

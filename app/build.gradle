@@ -34,7 +34,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     // build
     implementation rootProject.ext.build.kotlinLib
     // androidx
@@ -54,6 +54,8 @@ dependencies {
     implementation rootProject.ext.protoBuf.javaFormat
     // Widgets
     implementation rootProject.ext.widget.syntaxView
+    // module
+    implementation project(':whisper')
 }
 
 

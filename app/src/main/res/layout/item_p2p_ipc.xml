@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:padding="10dp"
+        android:layout_height="80dp">
+    <TextView
+            android:id="@+id/tv_icon_ipc"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="20sp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+    <TextView
+            android:id="@+id/tv_name_ipc"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:textSize="16sp"
+            android:textColor="@color/color333333"
+            android:letterSpacing="0.2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_icon_ipc"
+            android:layout_width="wrap_content"
+            tools:text="HUAWEI P20"
+            android:layout_height="wrap_content"/>
+    <TextView
+            android:id="@+id/tv_address_ipc"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name_ipc"
+            app:layout_constraintStart_toStartOf="@+id/tv_name_ipc"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/color666666"
+            android:textSize="14sp"
+            android:letterSpacing="0.2"
+            android:layout_width="wrap_content"
+            tools:text="AB:CD:EF:1D"
+            android:layout_height="wrap_content"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

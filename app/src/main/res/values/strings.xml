@@ -19,4 +19,7 @@
     <string name="label_string_protobuf">普通字符串</string>
     <string name="label_json_protobuf">JSON 字符串</string>
     <string name="label_entity_protobuf">字符反转</string>
+    <!--IPC-->
+    <string name="title_subject_ipc_app">IPC</string>
+    <string name="label_wifi_p2p_app">WiFi-P2P</string>
 </resources>

@@ -59,6 +59,12 @@ class C {
                     R.string.label_advanced_protobuf_app,
                     R.string.label_high_level_protobuf_app
                 )
+            ),
+            Subject(
+                R.string.title_subject_ipc_app,
+                R.color.color0099FF,
+                R.string.iconIPC,
+                listOf(R.string.label_wifi_p2p_app)
             )
         )
     }
