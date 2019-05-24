@@ -4,13 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
+import com.googlecode.protobuf.format.JsonFormat
 import engineer.echo.oneactivity.annotation.Configuration
 import engineer.echo.oneactivity.core.MasterFragment
 import engineer.echo.oneactivity.core.Request
 import engineer.echo.proto.UserEntity
+import engineer.echo.study.C
 import engineer.echo.study.R
 import engineer.echo.study.databinding.ProtoBufBinding
+import net.cryptobrewery.syntaxview.SyntaxView
 
 @Configuration(theme = R.style.Theme_AppCompat_Light)
 class ProtoBufFragment : MasterFragment() {
@@ -19,6 +23,23 @@ class ProtoBufFragment : MasterFragment() {
         fun goto(fragment: MasterFragment) {
             Request(ProtoBufFragment::class.java).also {
                 fragment.startFragment(it)
+            }
+        }
+
+        @JvmStatic
+        @BindingAdapter("syntaxCode")
+        fun bindSyntaxCode(syntaxView: SyntaxView, syntaxCode: String) {
+            syntaxView.code.isEnabled = false
+            syntaxView.code.setText(syntaxCode)
+        }
+
+        fun String.toUser(): UserEntity.User? {
+            return try {
+                val builder = UserEntity.User.newBuilder()
+                JsonFormat.merge(this, builder)
+                builder.build()
+            } catch (e: Exception) {
+                null
             }
         }
     }
@@ -32,22 +53,19 @@ class ProtoBufFragment : MasterFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        UserEntity.User.newBuilder().apply {
-            email = "plucky@echo.engineer"
-            id = 1
-            name = "Plucky"
-            val phone1 = UserEntity.User.PhoneNumber.newBuilder()
-                .setNumber("10086")
-                .setType(UserEntity.User.PhoneType.HOME)
-                .build()
-            val phone2 = UserEntity.User.PhoneNumber.newBuilder()
-                .setNumber("10010")
-                .setType(UserEntity.User.PhoneType.WORK)
-                .build()
-            addPhone(phone1)
-            addPhone(phone2)
-        }.build().also {
-            mBinding.user = it.toString()
+        mBinding.apply {
+            code = JsonFormat.printToString(C.USER.value)
+            tvToStringProtobuf.setOnClickListener {
+                code = C.USER.value.toString()
+            }
+            tvToJsonProtobuf.setOnClickListener {
+                code = JsonFormat.printToString(C.USER.value)
+            }
+            tvToEntityProtobuf.setOnClickListener {
+                val user = syntaxProtobufApp.code.text.toString().toUser()
+                code = user?.phoneList?.toString() ?: "Convert Failed."
+            }
         }
+
     }
 }

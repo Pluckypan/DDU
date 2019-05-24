@@ -2,21 +2,56 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
     <data class="ProtoBufBinding">
 
-        <variable name="user" type="String"/>
+        <variable name="code" type="String"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:padding="15dp">
-        <TextView
-                android:id="@+id/tv_protobuf_app"
-                android:layout_width="wrap_content"
+            android:layout_width="match_parent">
+        <net.cryptobrewery.syntaxview.SyntaxView
+                android:id="@+id/syntax_protobuf_app"
                 app:layout_constraintTop_toTopOf="parent"
-                android:textColor="@color/color333333"
-                android:textSize="18sp"
+                android:layout_height="match_parent"
+                app:syntaxCode="@{code}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:text="@{user}"
+                android:layout_width="0dp"/>
+        <TextView
+                android:id="@+id/tv_to_string_protobuf"
+                style="@style/TextItemStyle"
+                android:text="@string/label_string_protobuf"
+                app:layout_constraintBottom_toTopOf="@+id/tv_to_json_protobuf"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="wrap_content"
+                android:minWidth="120dp"
+                app:jiansong="@{true}"
+                android:gravity="center"
+                android:background="@color/color006633"
+                android:layout_height="wrap_content"/>
+        <TextView
+                android:id="@+id/tv_to_json_protobuf"
+                style="@style/TextItemStyle"
+                android:text="@string/label_json_protobuf"
+                app:layout_constraintBottom_toTopOf="@+id/tv_to_entity_protobuf"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="wrap_content"
+                android:minWidth="120dp"
+                android:gravity="center"
+                app:jiansong="@{true}"
+                android:background="@color/color009966"
+                android:layout_height="wrap_content"/>
+        <TextView
+                android:id="@+id/tv_to_entity_protobuf"
+                style="@style/TextItemStyle"
+                android:text="@string/label_entity_protobuf"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="wrap_content"
+                android:minWidth="120dp"
+                android:gravity="center"
+                app:jiansong="@{true}"
+                android:background="@color/color0099FF"
                 android:layout_height="wrap_content"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

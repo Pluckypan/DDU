@@ -51,6 +51,9 @@ dependencies {
     androidTestImplementation rootProject.ext.test.espresso
     // ProtocolBuffer
     implementation rootProject.ext.protoBuf.java
+    implementation rootProject.ext.protoBuf.javaFormat
+    // Widgets
+    implementation rootProject.ext.widget.syntaxView
 }
 
 

@@ -33,15 +33,21 @@ ext {
     ]
 
     protoBuf = [
-            java   : "com.google.protobuf:protobuf-java:3.6.1",
-            plugin : "com.google.protobuf",
-            gradle : "com.google.protobuf:protobuf-gradle-plugin:0.8.8",
-            compile: "com.google.protobuf:protoc:3.1.0"
+            java      : "com.google.protobuf:protobuf-java:3.6.1",
+            plugin    : "com.google.protobuf",
+            gradle    : "com.google.protobuf:protobuf-gradle-plugin:0.8.8",
+            compile   : "com.google.protobuf:protoc:3.1.0",
+            javaFormat: "com.googlecode.protobuf-java-format:protobuf-java-format:1.2",
+            javaUtil  : "com.google.protobuf:protobuf-java-util:3.6.0"
     ]
 
     framework = [
             oneActivity   : "engineer.echo.oneactivity:core:0.0.1",
             autoFlowLayout: "com.github.LRH1993:AutoFlowLayout:1.0.5"
+    ]
+
+    widget = [
+            syntaxView: "com.github.Badranh:Syntax-View-Android:0.1.5"
     ]
 
     test = [
