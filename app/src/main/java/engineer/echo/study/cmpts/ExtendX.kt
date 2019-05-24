@@ -17,6 +17,26 @@ object ExtendX {
             textView.typeface = null
         }
     }
+
+    @JvmStatic
+    @BindingAdapter("jiansong")
+    fun bindJianSong(textView: TextView, jiansong: Boolean) {
+        if (jiansong) {
+            textView.typeface = C.JIAN_SONG.value
+        } else {
+            textView.typeface = null
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("jianhei")
+    fun bindJianHei(textView: TextView, jianhei: Boolean) {
+        if (jianhei) {
+            textView.typeface = C.JIAN_HEI.value
+        } else {
+            textView.typeface = null
+        }
+    }
 }
 
 fun View.getColor(colorId: Int): Int = context.resources.getColor(colorId)
