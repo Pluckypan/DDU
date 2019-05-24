@@ -1,5 +1,6 @@
 package engineer.echo.study.ui.ipc
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -13,7 +14,7 @@ class WifiListAdapter() : RecyclerView.Adapter<WifiListAdapter.WifiHolder>() {
     private val mDataSet = arrayListOf<WhisperDevice>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WifiHolder {
-        val view = View.inflate(parent.context, R.layout.item_p2p_ipc, parent)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_p2p_ipc, parent, false)
         return WifiHolder(view)
     }
 

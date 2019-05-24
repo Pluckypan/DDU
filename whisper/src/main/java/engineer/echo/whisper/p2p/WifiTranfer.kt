@@ -6,8 +6,21 @@ import android.content.Context
 import android.content.IntentFilter
 import android.net.wifi.p2p.*
 import android.os.Looper
+import engineer.echo.whisper.WhisperDevice
 
 class WifiTranfer(val app: Application) : WifiReceiverListener {
+
+    companion object {
+        fun WifiP2pDevice.toWhisperDevice(): WhisperDevice {
+            return WhisperDevice(deviceName, deviceAddress)
+        }
+
+        fun WifiP2pDeviceList.toWhisperDeviceList(): List<WhisperDevice> {
+            return this.deviceList.map {
+                WhisperDevice(it.deviceName, it.deviceAddress)
+            }
+        }
+    }
 
     private val manager: WifiP2pManager? by lazy(LazyThreadSafetyMode.NONE) {
         app.getSystemService(Context.WIFI_P2P_SERVICE) as WifiP2pManager?
@@ -15,8 +28,9 @@ class WifiTranfer(val app: Application) : WifiReceiverListener {
 
     var channel: WifiP2pManager.Channel? = null
     var receiver: BroadcastReceiver? = null
+    private var listener: WifiTransferListener? = null
 
-    val intentFilter = IntentFilter().apply {
+    private val intentFilter = IntentFilter().apply {
         addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION)
         addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION)
         addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION)
@@ -39,11 +53,11 @@ class WifiTranfer(val app: Application) : WifiReceiverListener {
     }
 
     override fun onThisDeviceChanged(device: WifiP2pDevice) {
-
+        listener?.onThisDeviceChanged(device.toWhisperDevice())
     }
 
     override fun onDeviceListChanged(peers: WifiP2pDeviceList) {
-
+        listener?.onDeviceListChanged(peers.toWhisperDeviceList())
     }
 
     override fun onConnectionInfoChanged(info: WifiP2pInfo) {
@@ -58,7 +72,11 @@ class WifiTranfer(val app: Application) : WifiReceiverListener {
 
     fun unregister() {
         receiver?.let {
-            app.unregisterReceiver(it)
+            try {
+                app.unregisterReceiver(it)
+            } catch (e: Exception) {
+
+            }
         }
     }
 
@@ -88,5 +106,9 @@ class WifiTranfer(val app: Application) : WifiReceiverListener {
                 }
             })
         }
+    }
+
+    fun setListener(listener: WifiTransferListener? = null) {
+        this.listener = listener
     }
 }
