@@ -6,6 +6,7 @@
         <variable name="searchState" type="Integer"/>
         <import type="engineer.echo.whisper.WhisperDevice"/>
         <variable name="selectDevice" type="WhisperDevice"/>
+        <variable name="connected" type="Boolean"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +26,16 @@
                 android:text="@{currentDevice}"
                 tools:text="HUAWEI P20 - 12:34:56:AB"
                 android:textColor="@color/color666666"
-                android:layout_height="60dp"/>
+                android:layout_height="80dp"/>
+        <View
+                app:layout_constraintTop_toTopOf="@+id/tv_self_device_ipc"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_self_device_ipc"
+                android:background="@drawable/selector_connection_ipc"
+                app:connected="@{connected}"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="20dp"
+                android:layout_height="20dp"/>
         <View
                 android:id="@+id/splitter_wifi_ipc"
                 app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +104,7 @@
                     style="@style/TextItemStyle"
                     tools:text="连接"
                     android:layout_marginBottom="4dp"
-                    app:searchState="@{searchState}"
+                    app:connected="@{connected}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"

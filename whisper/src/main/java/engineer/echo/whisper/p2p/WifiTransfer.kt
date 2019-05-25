@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.net.wifi.p2p.*
 import android.os.Looper
 import android.util.Log
+import engineer.echo.whisper.WhisperConnectionInfo
 import engineer.echo.whisper.WhisperDevice
 
 class WifiTransfer(val app: Application) : WifiReceiverListener {
@@ -33,6 +34,14 @@ class WifiTransfer(val app: Application) : WifiReceiverListener {
                     it.isGroupOwner
                 )
             }
+        }
+
+        fun WifiP2pInfo.toWhisperConnectionInfo(): WhisperConnectionInfo {
+            return WhisperConnectionInfo(
+                groupFormed,
+                isGroupOwner,
+                groupOwnerAddress
+            )
         }
 
         fun print(format: String, vararg args: Any) {
@@ -64,16 +73,18 @@ class WifiTransfer(val app: Application) : WifiReceiverListener {
     }
 
     override fun onStateChanged(enable: Boolean) {
-        print("onStateChanged %s", enable, "XXX")
+        print("onStateChanged %s", enable)
+        listener?.onDeviceAvailable(enable)
     }
 
     override fun onConnectionChanged(connected: Boolean) {
         print("onConnectionChanged %s", connected)
+        listener?.onDeviceConnectionChanged(connected)
     }
 
     override fun onThisDeviceChanged(device: WifiP2pDevice) {
-        print("onThisDeviceChanged %s", device.deviceAddress)
-        listener?.onThisDeviceChanged(device.toWhisperDevice())
+        print("onDeviceInfoChanged %s", device.deviceAddress)
+        listener?.onDeviceInfoChanged(device.toWhisperDevice())
     }
 
     override fun onDeviceListChanged(peers: WifiP2pDeviceList) {
@@ -82,7 +93,8 @@ class WifiTransfer(val app: Application) : WifiReceiverListener {
     }
 
     override fun onConnectionInfoChanged(info: WifiP2pInfo) {
-        print("onConnectionInfoChanged %s", info.groupOwnerAddress.address)
+        print("onConnectionInfoChanged %s", info.groupOwnerAddress.hostAddress)
+        listener?.onDeviceConnectionInfoChanged(info.toWhisperConnectionInfo())
     }
 
     fun register() {
@@ -129,15 +141,45 @@ class WifiTransfer(val app: Application) : WifiReceiverListener {
         }
     }
 
-    fun connect(config: WifiP2pConfig) {
+    fun connect(address: String) {
         channel?.let {
-            manager?.connect(it, config, object : WifiP2pManager.ActionListener {
+            manager?.connect(it, WifiP2pConfig().apply {
+                deviceAddress = address
+            }, object : WifiP2pManager.ActionListener {
                 override fun onSuccess() {
-
+                    print("connect %s %s", "init onSuccess", address)
                 }
 
                 override fun onFailure(reason: Int) {
+                    print("connect %s %s", "init onSuccess", address)
+                }
+            })
+        }
+    }
 
+    fun cancelConnect() {
+        channel?.let {
+            manager?.cancelConnect(it, object : WifiP2pManager.ActionListener {
+                override fun onSuccess() {
+                    print("cancelConnect %s", "onSuccess")
+                }
+
+                override fun onFailure(reason: Int) {
+                    print("cancelConnect %s %d", "onFailure", reason)
+                }
+            })
+        }
+    }
+
+    fun disConnect() {
+        channel?.let {
+            manager?.removeGroup(it, object : WifiP2pManager.ActionListener {
+                override fun onSuccess() {
+                    print("disConnect %s", "onSuccess")
+                }
+
+                override fun onFailure(reason: Int) {
+                    print("disConnect %s %d", "onFailure", reason)
                 }
             })
         }

@@ -16,7 +16,9 @@ import engineer.echo.study.App
 import engineer.echo.study.R
 import engineer.echo.study.cmpts.bottomIn
 import engineer.echo.study.cmpts.bottomOut
+import engineer.echo.study.cmpts.getColor
 import engineer.echo.study.databinding.WifiP2pBinding
+import engineer.echo.whisper.WhisperConnectionInfo
 import engineer.echo.whisper.WhisperDevice
 import engineer.echo.whisper.p2p.WifiTransfer
 import engineer.echo.whisper.p2p.WifiTransferListener
@@ -55,6 +57,22 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.
                 textView.text = toString()
             }
         }
+
+        @JvmStatic
+        @BindingAdapter("connected")
+        fun bindConnection(view: View, connected: Boolean? = null) {
+            if (connected == true) {
+                view.isSelected = true
+                R.string.label_disconnect_ipc
+            } else {
+                view.isSelected = false
+                R.string.label_connect_ipc
+            }.also {
+                if (view is TextView) {
+                    view.setText(it)
+                }
+            }
+        }
     }
 
     private lateinit var mBinding: WifiP2pBinding
@@ -89,7 +107,15 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.
             searchState = 0
 
             tvConnectP2p.setOnClickListener {
-
+                mBinding.selectDevice?.let {
+                    requirePermission {
+                        if (connected == true) {
+                            mWifiTransfer.disConnect()
+                        } else {
+                            mWifiTransfer.connect(it.address)
+                        }
+                    }
+                }
             }
             layoutDetailIpc.setOnClickListener {
                 it.bottomOut()
@@ -121,8 +147,26 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.
         }
     }
 
-    override fun onThisDeviceChanged(device: WhisperDevice) {
-        mBinding.currentDevice = "${device.name}\n${device.address}"
+    override fun onDeviceInfoChanged(device: WhisperDevice) {
+        mBinding.currentDevice = "${device.name}\n${device.address}\n${device.statusDesc()}"
+    }
+
+    override fun onDeviceAvailable(enable: Boolean) {
+        mBinding.tvSelfDeviceIpc.apply {
+            if (enable) {
+                setTextColor(getColor(R.color.color333333))
+            } else {
+                setTextColor(getColor(R.color.colorCC0033))
+            }
+        }
+    }
+
+    override fun onDeviceConnectionChanged(connected: Boolean) {
+        mBinding.connected = connected
+    }
+
+    override fun onDeviceConnectionInfoChanged(info: WhisperConnectionInfo) {
+
     }
 
     override fun onItemClick(device: WhisperDevice) {

@@ -25,4 +25,6 @@
     <string name="label_search_ipc">扫描</string>
     <string name="label_stop_ipc">停止</string>
     <string name="label_searching_ipc">扫描中…</string>
+    <string name="label_connect_ipc">连接</string>
+    <string name="label_disconnect_ipc">断开连接</string>
 </resources>
