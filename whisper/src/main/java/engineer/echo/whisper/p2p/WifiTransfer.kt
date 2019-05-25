@@ -14,12 +14,24 @@ class WifiTransfer(val app: Application) : WifiReceiverListener {
     companion object {
 
         fun WifiP2pDevice.toWhisperDevice(): WhisperDevice {
-            return WhisperDevice(deviceName, deviceAddress)
+            return WhisperDevice(
+                deviceName,
+                deviceAddress,
+                primaryDeviceType,
+                status,
+                isGroupOwner
+            )
         }
 
         fun WifiP2pDeviceList.toWhisperDeviceList(): List<WhisperDevice> {
             return this.deviceList.map {
-                WhisperDevice(it.deviceName, it.deviceAddress)
+                WhisperDevice(
+                    it.deviceName,
+                    it.deviceAddress,
+                    it.primaryDeviceType,
+                    it.status,
+                    it.isGroupOwner
+                )
             }
         }
 

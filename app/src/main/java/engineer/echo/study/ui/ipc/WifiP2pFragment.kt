@@ -52,9 +52,7 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.
         @BindingAdapter("selectDevice")
         fun bindSelectDevice(textView: TextView, device: WhisperDevice? = null) {
             device?.apply {
-                "$name\n$address".also {
-                    textView.text = it
-                }
+                textView.text = toString()
             }
         }
     }
