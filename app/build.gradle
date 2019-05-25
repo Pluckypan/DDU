@@ -45,6 +45,7 @@ dependencies {
     // framework
     implementation rootProject.ext.framework.oneActivity
     implementation rootProject.ext.framework.autoFlowLayout
+    implementation rootProject.ext.framework.easyPermissions
     // test
     testImplementation rootProject.ext.test.junit
     androidTestImplementation rootProject.ext.test.runner

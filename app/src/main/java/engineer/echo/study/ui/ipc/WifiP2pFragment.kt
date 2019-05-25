@@ -1,5 +1,6 @@
 package engineer.echo.study.ui.ipc
 
+import android.Manifest
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,11 +18,16 @@ import engineer.echo.study.databinding.WifiP2pBinding
 import engineer.echo.whisper.WhisperDevice
 import engineer.echo.whisper.p2p.WifiTransfer
 import engineer.echo.whisper.p2p.WifiTransferListener
+import pub.devrel.easypermissions.AfterPermissionGranted
+import pub.devrel.easypermissions.EasyPermissions
 
 @Configuration(theme = R.style.Theme_AppCompat_Light)
 class WifiP2pFragment : MasterFragment(), WifiTransferListener {
 
     companion object {
+
+        private const val REQ_WIFI = 10010
+
         fun goto(fragment: MasterFragment) {
             Request(WifiP2pFragment::class.java).also {
                 fragment.startFragment(it)
@@ -58,13 +64,7 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener {
             rcvPeersIpc.layoutManager = LinearLayoutManager(context)
             rcvPeersIpc.adapter = WifiListAdapter()
             tvSearchP2p.setOnClickListener {
-                if (searchState == 1) {
-                    searchState = 0
-                    mWifiTransfer.cancelDiscover()
-                } else {
-                    searchState = 1
-                    mWifiTransfer.discover()
-                }
+                requirePermission()
             }
             searchState = 0
         }
@@ -96,5 +96,27 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener {
 
     override fun onThisDeviceChanged(device: WhisperDevice) {
         mBinding.currentDevice = "${device.name}\n${device.address}"
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+    @AfterPermissionGranted(REQ_WIFI)
+    private fun requirePermission() {
+        if (EasyPermissions.hasPermissions(context!!, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            mBinding.apply {
+                if (searchState == 1) {
+                    searchState = 0
+                    mWifiTransfer.cancelDiscover()
+                } else {
+                    searchState = 1
+                    mWifiTransfer.discover()
+                }
+            }
+        } else {
+            EasyPermissions.requestPermissions(this, "WiFi P2P", REQ_WIFI, Manifest.permission.ACCESS_COARSE_LOCATION)
+        }
     }
 }
