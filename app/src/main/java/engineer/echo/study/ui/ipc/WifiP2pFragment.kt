@@ -120,6 +120,19 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.
             layoutDetailIpc.setOnClickListener {
                 it.bottomOut()
             }
+
+            tvSelfDeviceIpc.setOnClickListener {
+                if (selectDevice != null) {
+                    layoutDetailIpc.bottomIn()
+                } else {
+                    if (connected == true) {
+                        mWifiTransfer.requestGroupInfo {
+                            selectDevice = it.owner
+                            layoutDetailIpc.bottomIn()
+                        }
+                    }
+                }
+            }
         }
     }
 

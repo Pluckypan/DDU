@@ -9,6 +9,7 @@ import android.os.Looper
 import android.util.Log
 import engineer.echo.whisper.WhisperConnectionInfo
 import engineer.echo.whisper.WhisperDevice
+import engineer.echo.whisper.WhisperGroup
 
 class WifiTransfer(val app: Application) : WifiReceiverListener {
 
@@ -42,6 +43,16 @@ class WifiTransfer(val app: Application) : WifiReceiverListener {
                 isGroupOwner,
                 groupOwnerAddress
             )
+        }
+
+        fun WifiP2pGroup.toWhisperGroup(): WhisperGroup {
+            return WhisperGroup(networkName,
+                passphrase,
+                isGroupOwner,
+                owner.toWhisperDevice(),
+                clientList.map {
+                    it.toWhisperDevice()
+                })
         }
 
         fun print(format: String, vararg args: Any) {
@@ -93,7 +104,12 @@ class WifiTransfer(val app: Application) : WifiReceiverListener {
     }
 
     override fun onConnectionInfoChanged(info: WifiP2pInfo) {
-        print("onConnectionInfoChanged %s", info.groupOwnerAddress.hostAddress)
+        print(
+            "onConnectionInfoChanged %s %s %s",
+            info.groupOwnerAddress.hostAddress,
+            info.isGroupOwner,
+            info.groupFormed
+        )
         listener?.onDeviceConnectionInfoChanged(info.toWhisperConnectionInfo())
     }
 
@@ -113,75 +129,95 @@ class WifiTransfer(val app: Application) : WifiReceiverListener {
         }
     }
 
-    fun discover() {
+    fun discover(action: ((result: Boolean) -> Unit)? = null) {
         channel?.let {
             manager?.discoverPeers(it, object : WifiP2pManager.ActionListener {
                 override fun onSuccess() {
+                    action?.invoke(true)
                     print("discover %s", "init onSuccess")
                 }
 
                 override fun onFailure(reason: Int) {
+                    action?.invoke(false)
                     print("discover %s %d", "init onFailure", reason)
                 }
             })
         }
     }
 
-    fun cancelDiscover() {
+    fun cancelDiscover(action: ((result: Boolean) -> Unit)? = null) {
         channel?.let {
             manager?.stopPeerDiscovery(it, object : WifiP2pManager.ActionListener {
                 override fun onSuccess() {
+                    action?.invoke(true)
                     print("cancel discover %s", "init onSuccess")
                 }
 
                 override fun onFailure(reason: Int) {
+                    action?.invoke(false)
                     print("cancel discover %s %d", "init onFailure", reason)
                 }
             })
         }
     }
 
-    fun connect(address: String) {
+    fun connect(address: String, action: ((result: Boolean) -> Unit)? = null) {
         channel?.let {
             manager?.connect(it, WifiP2pConfig().apply {
                 deviceAddress = address
             }, object : WifiP2pManager.ActionListener {
                 override fun onSuccess() {
+                    action?.invoke(true)
                     print("connect %s %s", "init onSuccess", address)
                 }
 
                 override fun onFailure(reason: Int) {
+                    action?.invoke(false)
                     print("connect %s %s", "init onSuccess", address)
                 }
             })
         }
     }
 
-    fun cancelConnect() {
+    fun cancelConnect(action: ((result: Boolean) -> Unit)? = null) {
         channel?.let {
             manager?.cancelConnect(it, object : WifiP2pManager.ActionListener {
                 override fun onSuccess() {
+                    action?.invoke(true)
                     print("cancelConnect %s", "onSuccess")
                 }
 
                 override fun onFailure(reason: Int) {
+                    action?.invoke(false)
                     print("cancelConnect %s %d", "onFailure", reason)
                 }
             })
         }
     }
 
-    fun disConnect() {
+    fun disConnect(action: ((result: Boolean) -> Unit)? = null) {
         channel?.let {
             manager?.removeGroup(it, object : WifiP2pManager.ActionListener {
                 override fun onSuccess() {
+                    action?.invoke(true)
                     print("disConnect %s", "onSuccess")
                 }
 
                 override fun onFailure(reason: Int) {
+                    action?.invoke(false)
                     print("disConnect %s %d", "onFailure", reason)
                 }
             })
+        }
+    }
+
+    fun requestGroupInfo(action: ((group: WhisperGroup) -> Unit)?) {
+        channel?.let { c ->
+            manager?.requestGroupInfo(c) { grp ->
+                action?.invoke(grp.toWhisperGroup().also {
+                    print("requestGroupInfo %s", it.toString())
+                })
+            }
         }
     }
 
