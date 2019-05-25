@@ -14,6 +14,8 @@ import engineer.echo.oneactivity.core.MasterFragment
 import engineer.echo.oneactivity.core.Request
 import engineer.echo.study.App
 import engineer.echo.study.R
+import engineer.echo.study.cmpts.bottomIn
+import engineer.echo.study.cmpts.bottomOut
 import engineer.echo.study.databinding.WifiP2pBinding
 import engineer.echo.whisper.WhisperDevice
 import engineer.echo.whisper.p2p.WifiTransfer
@@ -22,7 +24,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 
 @Configuration(theme = R.style.Theme_AppCompat_Light)
-class WifiP2pFragment : MasterFragment(), WifiTransferListener {
+class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.WifiListAdapterListener {
 
     companion object {
 
@@ -45,6 +47,16 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener {
                 textView.setText(it)
             }
         }
+
+        @JvmStatic
+        @BindingAdapter("selectDevice")
+        fun bindSelectDevice(textView: TextView, device: WhisperDevice? = null) {
+            device?.apply {
+                "$name\n$address".also {
+                    textView.text = it
+                }
+            }
+        }
     }
 
     private lateinit var mBinding: WifiP2pBinding
@@ -62,11 +74,28 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener {
         super.onViewCreated(view, savedInstanceState)
         mBinding.apply {
             rcvPeersIpc.layoutManager = LinearLayoutManager(context)
-            rcvPeersIpc.adapter = WifiListAdapter()
+            rcvPeersIpc.adapter = WifiListAdapter().also {
+                it.setListener(this@WifiP2pFragment)
+            }
             tvSearchP2p.setOnClickListener {
-                requirePermission()
+                requirePermission {
+                    if (searchState == 1) {
+                        searchState = 0
+                        mWifiTransfer.cancelDiscover()
+                    } else {
+                        searchState = 1
+                        mWifiTransfer.discover()
+                    }
+                }
             }
             searchState = 0
+
+            tvConnectP2p.setOnClickListener {
+
+            }
+            layoutDetailIpc.setOnClickListener {
+                it.bottomOut()
+            }
         }
     }
 
@@ -98,23 +127,20 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener {
         mBinding.currentDevice = "${device.name}\n${device.address}"
     }
 
+    override fun onItemClick(device: WhisperDevice) {
+        mBinding.selectDevice = device
+        mBinding.layoutDetailIpc.bottomIn()
+    }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
     @AfterPermissionGranted(REQ_WIFI)
-    private fun requirePermission() {
+    private fun requirePermission(action: (() -> Unit)? = null) {
         if (EasyPermissions.hasPermissions(context!!, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            mBinding.apply {
-                if (searchState == 1) {
-                    searchState = 0
-                    mWifiTransfer.cancelDiscover()
-                } else {
-                    searchState = 1
-                    mWifiTransfer.discover()
-                }
-            }
+            action?.invoke()
         } else {
             EasyPermissions.requestPermissions(this, "WiFi P2P", REQ_WIFI, Manifest.permission.ACCESS_COARSE_LOCATION)
         }

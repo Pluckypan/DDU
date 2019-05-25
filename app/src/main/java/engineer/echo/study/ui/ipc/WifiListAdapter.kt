@@ -12,18 +12,31 @@ import engineer.echo.whisper.WhisperDevice
 class WifiListAdapter() : RecyclerView.Adapter<WifiListAdapter.WifiHolder>() {
 
     private val mDataSet = arrayListOf<WhisperDevice>()
+    private var mListener: WifiListAdapterListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WifiHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_p2p_ipc, parent, false)
-        return WifiHolder(view)
+        return WifiHolder(view).apply {
+            itemView.setOnClickListener {
+                mListener?.onItemClick(getItem(adapterPosition))
+            }
+        }
     }
 
     override fun getItemCount(): Int {
         return mDataSet.size
     }
 
+    private fun getItem(position: Int): WhisperDevice {
+        return mDataSet[position]
+    }
+
+    fun setListener(listener: WifiListAdapterListener?) {
+        this.mListener = listener
+    }
+
     override fun onBindViewHolder(holder: WifiHolder, position: Int) {
-        val item = mDataSet[position]
+        val item = getItem(position)
         holder.apply {
             tvIcon.setText(R.string.iconWifi)
             tvIcon.typeface = C.ICON.value
@@ -44,5 +57,9 @@ class WifiListAdapter() : RecyclerView.Adapter<WifiListAdapter.WifiHolder>() {
         val tvIcon = itemView.findViewById<TextView>(R.id.tv_icon_ipc)!!
         val tvName = itemView.findViewById<TextView>(R.id.tv_name_ipc)!!
         val tvAddr = itemView.findViewById<TextView>(R.id.tv_address_ipc)!!
+    }
+
+    interface WifiListAdapterListener {
+        fun onItemClick(device: WhisperDevice)
     }
 }
