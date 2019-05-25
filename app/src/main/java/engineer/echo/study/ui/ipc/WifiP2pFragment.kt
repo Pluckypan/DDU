@@ -51,11 +51,20 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.
         }
 
         @JvmStatic
-        @BindingAdapter("selectDevice")
-        fun bindSelectDevice(textView: TextView, device: WhisperDevice? = null) {
+        @BindingAdapter("selectDevice", "connection")
+        fun bindSelectDevice(
+            textView: TextView,
+            device: WhisperDevice? = null,
+            connection: WhisperConnectionInfo? = null
+        ) {
+            val sb = StringBuilder()
             device?.apply {
-                textView.text = toString()
+                sb.appendln(toString())
             }
+            connection?.apply {
+                sb.appendln(toString())
+            }
+            textView.text = sb.toString()
         }
 
         @JvmStatic
@@ -179,7 +188,7 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.
     }
 
     override fun onDeviceConnectionInfoChanged(info: WhisperConnectionInfo) {
-
+        mBinding.connection = info
     }
 
     override fun onItemClick(device: WhisperDevice) {
