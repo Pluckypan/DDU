@@ -95,6 +95,6 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener {
     }
 
     override fun onThisDeviceChanged(device: WhisperDevice) {
-        mBinding.currentDevice = "${device.name} & ${device.address}"
+        mBinding.currentDevice = "${device.name}\n${device.address}"
     }
 }

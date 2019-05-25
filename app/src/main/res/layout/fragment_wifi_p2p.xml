@@ -16,6 +16,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_width="match_parent"
                 android:padding="10dp"
+                android:textStyle="bold"
+                android:lineSpacingExtra="1.2dp"
                 android:textSize="14sp"
                 android:letterSpacing="0.1"
                 android:text="@{currentDevice}"
