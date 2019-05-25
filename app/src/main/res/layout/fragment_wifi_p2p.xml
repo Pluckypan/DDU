@@ -3,11 +3,13 @@
         xmlns:tools="http://schemas.android.com/tools">
     <data class="WifiP2pBinding">
         <variable name="currentDevice" type="String"/>
+        <variable name="searchState" type="Integer"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
         <TextView
                 android:id="@+id/tv_self_device_ipc"
                 app:layout_constraintTop_toTopOf="parent"
@@ -15,22 +17,32 @@
                 android:layout_width="match_parent"
                 android:padding="10dp"
                 android:textSize="14sp"
+                android:letterSpacing="0.1"
                 android:text="@{currentDevice}"
                 tools:text="HUAWEI P20 - 12:34:56:AB"
-                android:textColor="@color/color333333"
+                android:textColor="@color/color666666"
                 android:layout_height="60dp"/>
+        <View
+                android:id="@+id/splitter_wifi_ipc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_self_device_ipc"
+                android:layout_width="0dp"
+                style="@style/Line"/>
+
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcv_peers_ipc"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_width="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_self_device_ipc"
+                app:layout_constraintTop_toBottomOf="@+id/splitter_wifi_ipc"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_height="0dp"/>
         <TextView
                 android:id="@+id/tv_search_p2p"
                 style="@style/TextItemStyle"
-                android:text="扫描"
+                tools:text="搜索"
+                app:searchState="@{searchState}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="wrap_content"

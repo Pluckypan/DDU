@@ -6,11 +6,13 @@ import android.content.Context
 import android.content.IntentFilter
 import android.net.wifi.p2p.*
 import android.os.Looper
+import android.util.Log
 import engineer.echo.whisper.WhisperDevice
 
-class WifiTranfer(val app: Application) : WifiReceiverListener {
+class WifiTransfer(val app: Application) : WifiReceiverListener {
 
     companion object {
+
         fun WifiP2pDevice.toWhisperDevice(): WhisperDevice {
             return WhisperDevice(deviceName, deviceAddress)
         }
@@ -19,6 +21,11 @@ class WifiTranfer(val app: Application) : WifiReceiverListener {
             return this.deviceList.map {
                 WhisperDevice(it.deviceName, it.deviceAddress)
             }
+        }
+
+        fun print(format: String, vararg args: Any) {
+            val msg = format.format(*args)
+            Log.d("Whisper", msg)
         }
     }
 
@@ -45,23 +52,25 @@ class WifiTranfer(val app: Application) : WifiReceiverListener {
     }
 
     override fun onStateChanged(enable: Boolean) {
-
+        print("onStateChanged %s", enable, "XXX")
     }
 
     override fun onConnectionChanged(connected: Boolean) {
-
+        print("onConnectionChanged %s", connected)
     }
 
     override fun onThisDeviceChanged(device: WifiP2pDevice) {
+        print("onThisDeviceChanged %s", device.deviceAddress)
         listener?.onThisDeviceChanged(device.toWhisperDevice())
     }
 
     override fun onDeviceListChanged(peers: WifiP2pDeviceList) {
+        print("onDeviceListChanged %s", peers.deviceList.size)
         listener?.onDeviceListChanged(peers.toWhisperDeviceList())
     }
 
     override fun onConnectionInfoChanged(info: WifiP2pInfo) {
-
+        print("onConnectionInfoChanged %s", info.groupOwnerAddress.address)
     }
 
     fun register() {
@@ -84,11 +93,25 @@ class WifiTranfer(val app: Application) : WifiReceiverListener {
         channel?.let {
             manager?.discoverPeers(it, object : WifiP2pManager.ActionListener {
                 override fun onSuccess() {
-
+                    print("discover %s", "init onSuccess")
                 }
 
                 override fun onFailure(reason: Int) {
+                    print("discover %s %d", "init onFailure", reason)
+                }
+            })
+        }
+    }
 
+    fun cancelDiscover() {
+        channel?.let {
+            manager?.stopPeerDiscovery(it, object : WifiP2pManager.ActionListener {
+                override fun onSuccess() {
+                    print("cancel discover %s", "init onSuccess")
+                }
+
+                override fun onFailure(reason: Int) {
+                    print("cancel discover %s %d", "init onFailure", reason)
                 }
             })
         }
