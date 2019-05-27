@@ -17,6 +17,7 @@ import engineer.echo.study.R
 import engineer.echo.study.cmpts.bottomIn
 import engineer.echo.study.cmpts.bottomOut
 import engineer.echo.study.cmpts.getColor
+import engineer.echo.study.cmpts.toPx
 import engineer.echo.study.databinding.WifiP2pBinding
 import engineer.echo.whisper.WhisperConnectionInfo
 import engineer.echo.whisper.WhisperDevice
@@ -142,6 +143,11 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.
                     }
                 }
             }
+            syntaxTransferApp.code.apply {
+                layoutParams.height = 60f.toPx()
+                textSize = 14f
+            }
+            transferInfo = "idle"
         }
     }
 
