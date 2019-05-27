@@ -12,7 +12,7 @@ class WifiClientTask(
     private val port: Int,
     private val timeout: Int = 500,
     private val inputStream: InputStream
-) : AsyncTask<Void, Void, Boolean>() {
+) : AsyncTask<Void, Int, Boolean>() {
 
     override fun doInBackground(vararg params: Void): Boolean {
         val socket = Socket()
@@ -31,8 +31,13 @@ class WifiClientTask(
              * of the socket. This data will be retrieved by the server device.
              */
             val outputStream = socket.getOutputStream()
+            val total = inputStream.available()
+            var process = 0
             while (inputStream.read(buf).also { len = it } != -1) {
                 outputStream.write(buf, 0, len)
+                process += len
+                val pro = if (total <= 0) 0 else (process * 100f / total).toInt()
+                publishProgress(pro)
             }
             outputStream.close()
             inputStream.close()
@@ -50,6 +55,18 @@ class WifiClientTask(
             }
         }
         return true
+    }
+
+    override fun onPreExecute() {
+        super.onPreExecute()
+    }
+
+    override fun onProgressUpdate(vararg values: Int?) {
+        values.let {
+            if (it.isNotEmpty()) {
+                val progress = it[0]
+            }
+        }
     }
 
     /**
