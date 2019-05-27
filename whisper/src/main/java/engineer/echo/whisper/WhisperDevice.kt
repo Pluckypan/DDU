@@ -5,7 +5,7 @@ import android.net.wifi.p2p.WifiP2pDevice
 class WhisperDevice(
     val name: String,
     val address: String,
-    val type: String,
+    val type: String? = null,
     val status: Int,
     val groupOwner: Boolean
 ) {
