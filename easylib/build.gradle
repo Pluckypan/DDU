@@ -24,7 +24,8 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     // androidx
     implementation rootProject.ext.androidx.appcompat
     implementation rootProject.ext.androidx.ktx
@@ -32,6 +33,4 @@ dependencies {
     testImplementation rootProject.ext.test.junit
     androidTestImplementation rootProject.ext.test.runner
     androidTestImplementation rootProject.ext.test.espresso
-    // module
-    api project(':easylib')
 }

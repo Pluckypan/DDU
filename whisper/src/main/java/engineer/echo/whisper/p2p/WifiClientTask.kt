@@ -1,6 +1,9 @@
 package engineer.echo.whisper.p2p
 
 import android.os.AsyncTask
+import engineer.echo.easylib.Core.formatLog
+import engineer.echo.easylib.Core.printLine
+import engineer.echo.whisper.WhisperConst.TAG
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStream
@@ -9,16 +12,16 @@ import java.net.Socket
 
 class WifiClientTask(
     private val host: String,
-    private val port: Int,
-    private val timeout: Int = 500,
-    private val inputStream: InputStream
-) : AsyncTask<Void, Int, Boolean>() {
+    private val port: Int = 8888,
+    private val timeout: Int = 500
+) : AsyncTask<InputStream, Int, Boolean>() {
 
-    override fun doInBackground(vararg params: Void): Boolean {
+    override fun doInBackground(vararg params: InputStream): Boolean {
         val socket = Socket()
         val buf = ByteArray(1024)
         var len: Int
         try {
+            val inputStream = params[0]
             /**
              * Create a client socket with the host,
              * port, and timeout information.
@@ -59,12 +62,14 @@ class WifiClientTask(
 
     override fun onPreExecute() {
         super.onPreExecute()
+        "onPreExecute".printLine(TAG)
     }
 
     override fun onProgressUpdate(vararg values: Int?) {
         values.let {
             if (it.isNotEmpty()) {
                 val progress = it[0]
+                "onProgressUpdate %d".formatLog(TAG, progress)
             }
         }
     }
@@ -74,5 +79,6 @@ class WifiClientTask(
      */
     override fun onPostExecute(result: Boolean?) {
         super.onPostExecute(result)
+        "onPostExecute %s".formatLog(TAG, result)
     }
 }

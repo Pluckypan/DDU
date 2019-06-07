@@ -13,6 +13,7 @@ import engineer.echo.oneactivity.annotation.Configuration
 import engineer.echo.oneactivity.core.MasterFragment
 import engineer.echo.oneactivity.core.Request
 import engineer.echo.study.App
+import engineer.echo.study.C
 import engineer.echo.study.R
 import engineer.echo.study.cmpts.bottomIn
 import engineer.echo.study.cmpts.bottomOut
@@ -21,10 +22,12 @@ import engineer.echo.study.cmpts.toPx
 import engineer.echo.study.databinding.WifiP2pBinding
 import engineer.echo.whisper.WhisperConnectionInfo
 import engineer.echo.whisper.WhisperDevice
+import engineer.echo.whisper.p2p.WifiClientTask
 import engineer.echo.whisper.p2p.WifiTransfer
 import engineer.echo.whisper.p2p.WifiTransferListener
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
+import java.io.ByteArrayInputStream
 
 @Configuration(theme = R.style.Theme_AppCompat_Light)
 class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.WifiListAdapterListener {
@@ -148,6 +151,13 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.
                 textSize = 14f
             }
             transferInfo = "idle"
+
+            tvSendP2p.setOnClickListener {
+                connection?.let {
+                    val stream = C.USER.value.toByteArray()
+                    WifiClientTask(it.groupAddress.hostAddress).execute(ByteArrayInputStream(stream))
+                }
+            }
         }
     }
 

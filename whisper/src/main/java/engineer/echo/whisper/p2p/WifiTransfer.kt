@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.IntentFilter
 import android.net.wifi.p2p.*
 import android.os.Looper
-import android.util.Log
+import engineer.echo.easylib.Core.formatLog
 import engineer.echo.whisper.WhisperConnectionInfo
 import engineer.echo.whisper.WhisperDevice
 import engineer.echo.whisper.WhisperGroup
@@ -56,8 +56,7 @@ class WifiTransfer(val app: Application) : WifiReceiverListener {
         }
 
         fun print(format: String, vararg args: Any) {
-            val msg = format.format(*args)
-            Log.d("Whisper", msg)
+            format.formatLog("Whisper", *args)
         }
     }
 
