@@ -25,4 +25,5 @@ message User {
 
     // 可以有多个电话号码
     repeated PhoneNumber phone = 4;
+    optional string extra = 5; // 额外字段
 }

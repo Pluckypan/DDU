@@ -321,6 +321,18 @@ class User : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
   const ::google::protobuf::RepeatedPtrField< ::engineer::echo::User_PhoneNumber >&
       phone() const;
 
+  // optional string extra = 5;
+  bool has_extra() const;
+  void clear_extra();
+  static const int kExtraFieldNumber = 5;
+  const ::std::string& extra() const;
+  void set_extra(const ::std::string& value);
+  void set_extra(const char* value);
+  void set_extra(const char* value, size_t size);
+  ::std::string* mutable_extra();
+  ::std::string* release_extra();
+  void set_allocated_extra(::std::string* extra);
+
   // @@protoc_insertion_point(class_scope:engineer.echo.User)
  private:
   inline void set_has_name();
@@ -329,6 +341,8 @@ class User : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
   inline void clear_has_id();
   inline void set_has_email();
   inline void clear_has_email();
+  inline void set_has_extra();
+  inline void clear_has_extra();
 
   // helper for ByteSizeLong()
   size_t RequiredFieldsByteSizeFallback() const;
@@ -339,6 +353,7 @@ class User : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
   ::google::protobuf::RepeatedPtrField< ::engineer::echo::User_PhoneNumber > phone_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::internal::ArenaStringPtr email_;
+  ::google::protobuf::internal::ArenaStringPtr extra_;
   ::google::protobuf::int32 id_;
   friend void  protobuf_InitDefaults_User_2eproto_impl();
   friend void  protobuf_AddDesc_User_2eproto_impl();
@@ -603,6 +618,60 @@ inline const ::google::protobuf::RepeatedPtrField< ::engineer::echo::User_PhoneN
 User::phone() const {
   // @@protoc_insertion_point(field_list:engineer.echo.User.phone)
   return phone_;
+}
+
+// optional string extra = 5;
+inline bool User::has_extra() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void User::set_has_extra() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void User::clear_has_extra() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void User::clear_extra() {
+  extra_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_extra();
+}
+inline const ::std::string& User::extra() const {
+  // @@protoc_insertion_point(field_get:engineer.echo.User.extra)
+  return extra_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void User::set_extra(const ::std::string& value) {
+  set_has_extra();
+  extra_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:engineer.echo.User.extra)
+}
+inline void User::set_extra(const char* value) {
+  set_has_extra();
+  extra_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:engineer.echo.User.extra)
+}
+inline void User::set_extra(const char* value, size_t size) {
+  set_has_extra();
+  extra_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:engineer.echo.User.extra)
+}
+inline ::std::string* User::mutable_extra() {
+  set_has_extra();
+  // @@protoc_insertion_point(field_mutable:engineer.echo.User.extra)
+  return extra_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* User::release_extra() {
+  // @@protoc_insertion_point(field_release:engineer.echo.User.extra)
+  clear_has_extra();
+  return extra_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void User::set_allocated_extra(::std::string* extra) {
+  if (extra != NULL) {
+    set_has_extra();
+  } else {
+    clear_has_extra();
+  }
+  extra_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), extra);
+  // @@protoc_insertion_point(field_set_allocated:engineer.echo.User.extra)
 }
 
 inline const User* User::internal_default_instance() {

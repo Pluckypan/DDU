@@ -20,9 +20,11 @@ import engineer.echo.study.cmpts.bottomOut
 import engineer.echo.study.cmpts.getColor
 import engineer.echo.study.cmpts.toPx
 import engineer.echo.study.databinding.WifiP2pBinding
+import engineer.echo.study.ui.ProtoBufFragment.Companion.toUser
 import engineer.echo.whisper.WhisperConnectionInfo
 import engineer.echo.whisper.WhisperDevice
 import engineer.echo.whisper.p2p.WifiClientTask
+import engineer.echo.whisper.p2p.WifiServerTask
 import engineer.echo.whisper.p2p.WifiTransfer
 import engineer.echo.whisper.p2p.WifiTransferListener
 import pub.devrel.easypermissions.AfterPermissionGranted
@@ -67,6 +69,11 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.
             }
             connection?.apply {
                 sb.appendln(toString())
+                if (groupOwner && groupFormed) {
+                    sb.appendln("as server")
+                } else if (groupFormed) {
+                    sb.appendln("as client")
+                }
             }
             textView.text = sb.toString()
         }
@@ -83,6 +90,18 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.
             }.also {
                 if (view is TextView) {
                     view.setText(it)
+                }
+            }
+        }
+
+        @JvmStatic
+        @BindingAdapter("connection")
+        fun bindClientServer(view: View, connection: WhisperConnectionInfo? = null) {
+            connection?.let {
+                if (it.groupOwner && it.groupFormed) {
+                    view.visibility = View.INVISIBLE
+                } else {
+                    view.visibility = View.VISIBLE
                 }
             }
         }
@@ -153,9 +172,15 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.
             transferInfo = "idle"
 
             tvSendP2p.setOnClickListener {
-                connection?.let {
-                    val stream = C.USER.value.toByteArray()
-                    WifiClientTask(it.groupAddress.hostAddress).execute(ByteArrayInputStream(stream))
+                connection?.let { info ->
+                    val stream = C.newUser().toByteArray()
+                    WifiClientTask(info.groupAddress.hostAddress, onBegin = {
+                        transferInfo = "sending..."
+                    }, onProgress = {
+                        transferInfo = "sending...(%$it)"
+                    }, onResult = {
+                        transferInfo = "sending ${if (it) "success" else "failed"}"
+                    }).execute(ByteArrayInputStream(stream))
                 }
             }
         }
@@ -205,6 +230,14 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.
 
     override fun onDeviceConnectionInfoChanged(info: WhisperConnectionInfo) {
         mBinding.connection = info
+        if (info.groupOwner && info.groupFormed) {
+            WifiServerTask(onResult = {
+                val user = it?.toUser()
+                mBinding.transferInfo = "received ${user?.name} ${user?.extra}"
+            }, onBegin = {
+                mBinding.transferInfo = "receiving..."
+            }).execute()
+        }
     }
 
     override fun onItemClick(device: WhisperDevice) {

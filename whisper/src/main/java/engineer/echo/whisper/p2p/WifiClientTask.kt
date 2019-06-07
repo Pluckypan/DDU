@@ -4,8 +4,6 @@ import android.os.AsyncTask
 import engineer.echo.easylib.Core.formatLog
 import engineer.echo.easylib.Core.printLine
 import engineer.echo.whisper.WhisperConst.TAG
-import java.io.FileNotFoundException
-import java.io.IOException
 import java.io.InputStream
 import java.net.InetSocketAddress
 import java.net.Socket
@@ -13,7 +11,10 @@ import java.net.Socket
 class WifiClientTask(
     private val host: String,
     private val port: Int = 8888,
-    private val timeout: Int = 500
+    private val timeout: Int = 500,
+    private val onBegin: (() -> Unit)? = null,
+    private val onResult: ((result: Boolean) -> Unit)? = null,
+    private val onProgress: ((progress: Int) -> Unit)? = null
 ) : AsyncTask<InputStream, Int, Boolean>() {
 
     override fun doInBackground(vararg params: InputStream): Boolean {
@@ -44,9 +45,8 @@ class WifiClientTask(
             }
             outputStream.close()
             inputStream.close()
-        } catch (e: FileNotFoundException) {
-            return false
-        } catch (e: IOException) {
+        } catch (e: Exception) {
+            "Exception %s".formatLog(TAG, e.message)
             return false
         } finally {
             /**
@@ -63,6 +63,7 @@ class WifiClientTask(
     override fun onPreExecute() {
         super.onPreExecute()
         "onPreExecute".printLine(TAG)
+        onBegin?.invoke()
     }
 
     override fun onProgressUpdate(vararg values: Int?) {
@@ -70,6 +71,7 @@ class WifiClientTask(
             if (it.isNotEmpty()) {
                 val progress = it[0]
                 "onProgressUpdate %d".formatLog(TAG, progress)
+                onProgress?.invoke(progress ?: 0)
             }
         }
     }
@@ -80,5 +82,6 @@ class WifiClientTask(
     override fun onPostExecute(result: Boolean?) {
         super.onPostExecute(result)
         "onPostExecute %s".formatLog(TAG, result)
+        onResult?.invoke(result ?: false)
     }
 }

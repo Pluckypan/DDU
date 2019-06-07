@@ -92,7 +92,7 @@
                     android:layout_width="0dp"/>
             <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/line_center_ipc"
-                    app:layout_constraintGuide_percent="0.65"
+                    app:layout_constraintGuide_percent="0.55"
                     android:layout_width="match_parent"
                     android:orientation="horizontal"
                     android:layout_height="0dp"/>
@@ -138,6 +138,7 @@
                     android:layout_width="wrap_content"
                     android:minWidth="120dp"
                     android:gravity="center"
+                    app:connection="@{connection}"
                     app:jiansong="@{true}"
                     android:background="@color/color0099FF"
                     android:layout_height="wrap_content"/>

@@ -1,6 +1,7 @@
 package engineer.echo.study
 
 import android.graphics.Typeface
+import android.os.SystemClock
 import engineer.echo.proto.UserEntity
 import engineer.echo.study.entity.Subject
 
@@ -38,6 +39,13 @@ class C {
                 addPhone(phone1)
                 addPhone(phone2)
             }.build()
+        }
+
+        fun newUser(): UserEntity.User {
+            return UserEntity.User.newBuilder()
+                .mergeFrom(USER.value)
+                .setExtra("${SystemClock.uptimeMillis()}")
+                .build()
         }
 
         var SUBJECTS = listOf(

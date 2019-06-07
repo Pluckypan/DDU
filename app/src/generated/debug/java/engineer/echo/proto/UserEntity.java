@@ -130,6 +130,32 @@ public final class UserEntity {
      */
     engineer.echo.proto.UserEntity.User.PhoneNumberOrBuilder getPhoneOrBuilder(
         int index);
+
+    /**
+     * <pre>
+     * 额外字段
+     * </pre>
+     *
+     * <code>optional string extra = 5;</code>
+     */
+    boolean hasExtra();
+    /**
+     * <pre>
+     * 额外字段
+     * </pre>
+     *
+     * <code>optional string extra = 5;</code>
+     */
+    java.lang.String getExtra();
+    /**
+     * <pre>
+     * 额外字段
+     * </pre>
+     *
+     * <code>optional string extra = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getExtraBytes();
   }
   /**
    * Protobuf type {@code engineer.echo.User}
@@ -147,6 +173,7 @@ public final class UserEntity {
       id_ = 0;
       email_ = "";
       phone_ = java.util.Collections.emptyList();
+      extra_ = "";
     }
 
     @java.lang.Override
@@ -201,6 +228,12 @@ public final class UserEntity {
               }
               phone_.add(
                   input.readMessage(engineer.echo.proto.UserEntity.User.PhoneNumber.PARSER, extensionRegistry));
+              break;
+            }
+            case 42: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000008;
+              extra_ = bs;
               break;
             }
           }
@@ -1176,6 +1209,60 @@ public final class UserEntity {
       return phone_.get(index);
     }
 
+    public static final int EXTRA_FIELD_NUMBER = 5;
+    private volatile java.lang.Object extra_;
+    /**
+     * <pre>
+     * 额外字段
+     * </pre>
+     *
+     * <code>optional string extra = 5;</code>
+     */
+    public boolean hasExtra() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <pre>
+     * 额外字段
+     * </pre>
+     *
+     * <code>optional string extra = 5;</code>
+     */
+    public java.lang.String getExtra() {
+      java.lang.Object ref = extra_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          extra_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * 额外字段
+     * </pre>
+     *
+     * <code>optional string extra = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getExtraBytes() {
+      java.lang.Object ref = extra_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        extra_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -1214,6 +1301,9 @@ public final class UserEntity {
       for (int i = 0; i < phone_.size(); i++) {
         output.writeMessage(4, phone_.get(i));
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, extra_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -1235,6 +1325,9 @@ public final class UserEntity {
       for (int i = 0; i < phone_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, phone_.get(i));
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, extra_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1270,6 +1363,11 @@ public final class UserEntity {
       }
       result = result && getPhoneList()
           .equals(other.getPhoneList());
+      result = result && (hasExtra() == other.hasExtra());
+      if (hasExtra()) {
+        result = result && getExtra()
+            .equals(other.getExtra());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -1296,6 +1394,10 @@ public final class UserEntity {
       if (getPhoneCount() > 0) {
         hash = (37 * hash) + PHONE_FIELD_NUMBER;
         hash = (53 * hash) + getPhoneList().hashCode();
+      }
+      if (hasExtra()) {
+        hash = (37 * hash) + EXTRA_FIELD_NUMBER;
+        hash = (53 * hash) + getExtra().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -1428,6 +1530,8 @@ public final class UserEntity {
         } else {
           phoneBuilder_.clear();
         }
+        extra_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -1473,6 +1577,10 @@ public final class UserEntity {
         } else {
           result.phone_ = phoneBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.extra_ = extra_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1553,6 +1661,11 @@ public final class UserEntity {
               phoneBuilder_.addAllMessages(other.phone_);
             }
           }
+        }
+        if (other.hasExtra()) {
+          bitField0_ |= 0x00000010;
+          extra_ = other.extra_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2152,6 +2265,106 @@ public final class UserEntity {
         }
         return phoneBuilder_;
       }
+
+      private java.lang.Object extra_ = "";
+      /**
+       * <pre>
+       * 额外字段
+       * </pre>
+       *
+       * <code>optional string extra = 5;</code>
+       */
+      public boolean hasExtra() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <pre>
+       * 额外字段
+       * </pre>
+       *
+       * <code>optional string extra = 5;</code>
+       */
+      public java.lang.String getExtra() {
+        java.lang.Object ref = extra_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            extra_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * 额外字段
+       * </pre>
+       *
+       * <code>optional string extra = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getExtraBytes() {
+        java.lang.Object ref = extra_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          extra_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * 额外字段
+       * </pre>
+       *
+       * <code>optional string extra = 5;</code>
+       */
+      public Builder setExtra(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        extra_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 额外字段
+       * </pre>
+       *
+       * <code>optional string extra = 5;</code>
+       */
+      public Builder clearExtra() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        extra_ = getDefaultInstance().getExtra();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 额外字段
+       * </pre>
+       *
+       * <code>optional string extra = 5;</code>
+       */
+      public Builder setExtraBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        extra_ = value;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
@@ -2220,14 +2433,14 @@ public final class UserEntity {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\nUser.proto\022\rengineer.echo\"\336\001\n\004User\022\014\n\004" +
+      "\n\nUser.proto\022\rengineer.echo\"\355\001\n\004User\022\014\n\004" +
       "name\030\001 \002(\t\022\n\n\002id\030\002 \002(\005\022\r\n\005email\030\003 \001(\t\022.\n" +
       "\005phone\030\004 \003(\0132\037.engineer.echo.User.PhoneN" +
-      "umber\032P\n\013PhoneNumber\022\016\n\006number\030\001 \002(\t\0221\n\004" +
-      "type\030\002 \001(\0162\035.engineer.echo.User.PhoneTyp" +
-      "e:\004HOME\"+\n\tPhoneType\022\n\n\006MOBILE\020\000\022\010\n\004HOME" +
-      "\020\001\022\010\n\004WORK\020\002B!\n\023engineer.echo.protoB\nUse" +
-      "rEntity"
+      "umber\022\r\n\005extra\030\005 \001(\t\032P\n\013PhoneNumber\022\016\n\006n" +
+      "umber\030\001 \002(\t\0221\n\004type\030\002 \001(\0162\035.engineer.ech" +
+      "o.User.PhoneType:\004HOME\"+\n\tPhoneType\022\n\n\006M" +
+      "OBILE\020\000\022\010\n\004HOME\020\001\022\010\n\004WORK\020\002B!\n\023engineer." +
+      "echo.protoB\nUserEntity"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2246,7 +2459,7 @@ public final class UserEntity {
     internal_static_engineer_echo_User_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_engineer_echo_User_descriptor,
-        new java.lang.String[] { "Name", "Id", "Email", "Phone", });
+        new java.lang.String[] { "Name", "Id", "Email", "Phone", "Extra", });
     internal_static_engineer_echo_User_PhoneNumber_descriptor =
       internal_static_engineer_echo_User_descriptor.getNestedTypes().get(0);
     internal_static_engineer_echo_User_PhoneNumber_fieldAccessorTable = new

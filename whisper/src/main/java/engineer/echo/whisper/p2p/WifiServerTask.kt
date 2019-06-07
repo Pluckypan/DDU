@@ -1,12 +1,18 @@
 package engineer.echo.whisper.p2p
 
 import android.os.AsyncTask
+import engineer.echo.easylib.Core.formatLog
+import engineer.echo.easylib.Core.printLine
+import engineer.echo.whisper.WhisperConst.TAG
 import java.net.ServerSocket
 
 /**
  * 服务端只能接收文件
  */
-class WifiServerTask(private val action: ((bytes: ByteArray?) -> Unit)? = null) : AsyncTask<Void, Void, ByteArray?>() {
+class WifiServerTask(
+    private val onBegin: (() -> Unit)? = null,
+    private val onResult: ((bytes: ByteArray?) -> Unit)? = null
+) : AsyncTask<Void, Void, ByteArray?>() {
 
     override fun doInBackground(vararg params: Void): ByteArray? {
         /**
@@ -29,11 +35,18 @@ class WifiServerTask(private val action: ((bytes: ByteArray?) -> Unit)? = null) 
         }
     }
 
+    override fun onPreExecute() {
+        super.onPreExecute()
+        "onPreExecute".printLine()
+        onBegin?.invoke()
+    }
+
     /**
      * Start activity that can handle the JPEG image
      */
     override fun onPostExecute(result: ByteArray?) {
         super.onPostExecute(result)
-        action?.invoke(result)
+        "onPostExecute %s".formatLog(TAG, (result?.size ?: 0))
+        onResult?.invoke(result)
     }
 }
