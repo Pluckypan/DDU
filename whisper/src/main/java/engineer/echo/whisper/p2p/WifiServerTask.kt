@@ -31,7 +31,9 @@ class WifiServerTask(
              */
             val input = client.getInputStream()
             serverSocket.close()
-            input.readBytes()
+            val bytes = input.readBytes()
+            input.close()
+            bytes
         }
     }
 

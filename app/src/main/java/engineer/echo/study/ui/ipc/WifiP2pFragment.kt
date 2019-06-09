@@ -23,10 +23,7 @@ import engineer.echo.study.databinding.WifiP2pBinding
 import engineer.echo.study.ui.ProtoBufFragment.Companion.toUser
 import engineer.echo.whisper.WhisperConnectionInfo
 import engineer.echo.whisper.WhisperDevice
-import engineer.echo.whisper.p2p.WifiClientTask
-import engineer.echo.whisper.p2p.WifiServerTask
-import engineer.echo.whisper.p2p.WifiTransfer
-import engineer.echo.whisper.p2p.WifiTransferListener
+import engineer.echo.whisper.p2p.*
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.ByteArrayInputStream
@@ -108,6 +105,7 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.
     }
 
     private lateinit var mBinding: WifiP2pBinding
+    private var mReceiver: WhisperBroadcastReceiver? = null
 
     private val mWifiTransfer = WifiTransfer(App.getApp()).apply {
         setListener(this@WifiP2pFragment)
@@ -115,6 +113,9 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_wifi_p2p, container, false)
+        if (mReceiver == null) {
+            mReceiver = ServerReceiver(mBinding)
+        }
         return mBinding.root
     }
 
@@ -184,6 +185,17 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.
                 }
             }
         }
+
+        mReceiver?.let {
+            WhisperBroadcastReceiver.register(context!!, it)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mReceiver?.let {
+            WhisperBroadcastReceiver.unregister(context!!, it)
+        }
     }
 
     override fun onPause() {
@@ -198,6 +210,7 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.
 
     override fun onDestroy() {
         super.onDestroy()
+        WhisperServer.stop(context!!)
         mWifiTransfer.setListener(null)
     }
 
@@ -231,12 +244,7 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.
     override fun onDeviceConnectionInfoChanged(info: WhisperConnectionInfo) {
         mBinding.connection = info
         if (info.groupOwner && info.groupFormed) {
-            WifiServerTask(onResult = {
-                val user = it?.toUser()
-                mBinding.transferInfo = "received ${user?.name} ${user?.extra}"
-            }, onBegin = {
-                mBinding.transferInfo = "receiving..."
-            }).execute()
+            startByService()
         }
     }
 
@@ -256,6 +264,28 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.
             action?.invoke()
         } else {
             EasyPermissions.requestPermissions(this, "WiFi P2P", REQ_WIFI, Manifest.permission.ACCESS_COARSE_LOCATION)
+        }
+    }
+
+    private fun startByService() {
+        activity?.let {
+            WhisperServer.start(it)
+        }
+    }
+
+    private fun startByTask() {
+        WifiServerTask(onResult = {
+            val user = it?.toUser()
+            mBinding.transferInfo = "received ${user?.name} ${user?.extra}"
+        }, onBegin = {
+            mBinding.transferInfo = "receiving..."
+        }).execute()
+    }
+
+    private class ServerReceiver(val binding: WifiP2pBinding) : WhisperBroadcastReceiver() {
+        override fun onReceiveData(bytes: ByteArray?) {
+            val user = bytes?.toUser()
+            binding.transferInfo = "received ${user?.name} ${user?.extra}"
         }
     }
 }
