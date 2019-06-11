@@ -14,13 +14,13 @@ import engineer.echo.oneactivity.core.MasterFragment
 import engineer.echo.oneactivity.core.Request
 import engineer.echo.study.App
 import engineer.echo.study.C
+import engineer.echo.study.C.Companion.toUser
 import engineer.echo.study.R
 import engineer.echo.study.cmpts.bottomIn
 import engineer.echo.study.cmpts.bottomOut
 import engineer.echo.study.cmpts.getColor
 import engineer.echo.study.cmpts.toPx
 import engineer.echo.study.databinding.WifiP2pBinding
-import engineer.echo.study.ui.ProtoBufFragment.Companion.toUser
 import engineer.echo.whisper.WhisperConnectionInfo
 import engineer.echo.whisper.WhisperDevice
 import engineer.echo.whisper.p2p.*

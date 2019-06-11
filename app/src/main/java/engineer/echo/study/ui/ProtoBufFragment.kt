@@ -42,16 +42,6 @@ class ProtoBufFragment : MasterFragment() {
                 null
             }
         }
-
-        fun ByteArray.toUser(): UserEntity.User? {
-            return try {
-                val builder = UserEntity.User.newBuilder()
-                builder.mergeFrom(this)
-                builder.build()
-            } catch (e: Exception) {
-                null
-            }
-        }
     }
 
     private lateinit var mBinding: ProtoBufBinding

@@ -48,6 +48,16 @@ class C {
                 .build()
         }
 
+        fun ByteArray.toUser(): UserEntity.User? {
+            return try {
+                val builder = UserEntity.User.newBuilder()
+                builder.mergeFrom(this)
+                builder.build()
+            } catch (e: Exception) {
+                null
+            }
+        }
+
         var SUBJECTS = listOf(
             Subject(
                 R.string.title_subject_bezier_app,

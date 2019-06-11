@@ -32,8 +32,8 @@ abstract class SendManager : Service(), ServiceConnection {
             }
         }
 
-        fun register(context: Context) {
-            Intent(context, SendManager::class.java).also {
+        fun <T> register(context: Context,clazz: Class<T>) {
+            Intent(context, clazz).also {
                 context.bindService(it, sConnection, Context.BIND_AUTO_CREATE)
                 "register".printLine(TAG)
             }

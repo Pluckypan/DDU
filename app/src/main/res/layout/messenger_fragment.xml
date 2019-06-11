@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+    <data class="MessengerBinding">
+        <variable name="receiveInfo" type="String"/>
+        <variable name="sendInfo" type="String"/>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <TextView
+                android:id="@+id/tv_receive_info_messenger"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:lineSpacingExtra="1.2dp"
+                android:textSize="14sp"
+                android:letterSpacing="0.1"
+                tools:text="HUAWEI P20 - 12:34:56:AB"
+                android:text="@{receiveInfo}"
+                android:textColor="@color/color666666"
+                android:layout_height="120dp"/>
+        <View android:layout_width="match_parent"
+              app:layout_constraintTop_toBottomOf="@+id/tv_receive_info_messenger"
+              style="@style/Line"/>
+        <TextView
+                android:id="@+id/tv_send_info_messenger"
+                app:layout_constraintTop_toBottomOf="@+id/tv_receive_info_messenger"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:lineSpacingExtra="1.2dp"
+                android:textSize="14sp"
+                android:letterSpacing="0.1"
+                tools:text="HUAWEI P20 - 12:34:56:AB"
+                android:text="@{sendInfo}"
+                android:textColor="@color/color666666"
+                android:layout_height="120dp"/>
+        <TextView
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/label_send_ipc"
+                android:background="@color/colorPrimary"
+                android:id="@+id/tv_send_messenger"
+                style="@style/TextItemStyle"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
