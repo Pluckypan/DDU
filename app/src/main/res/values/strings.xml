@@ -22,6 +22,7 @@
     <!--IPC-->
     <string name="title_subject_ipc_app">IPC</string>
     <string name="label_wifi_p2p_app">WiFi-P2P</string>
+    <string name="label_messenger_app">Messenger</string>
     <string name="label_search_ipc">扫描</string>
     <string name="label_stop_ipc">停止</string>
     <string name="label_searching_ipc">扫描中…</string>

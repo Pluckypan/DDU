@@ -58,6 +58,7 @@ dependencies {
     implementation rootProject.ext.widget.syntaxView
     // module
     implementation project(':whisper')
+    implementation project(':imessenger')
 }
 
 

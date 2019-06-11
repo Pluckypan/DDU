@@ -75,7 +75,7 @@ abstract class SendManager : Service(), ServiceConnection {
         super.onRebind(intent)
     }
 
-    inner class SenderBinder : Binder() {
+    private inner class SenderBinder : Binder() {
 
         fun getService(): SendManager {
             return this@SendManager

@@ -1,10 +1,11 @@
 package engineer.echo.study
 
 import android.os.Bundle
-import engineer.echo.oneactivity.core.MasterCompatActivity
 import engineer.echo.oneactivity.core.FragmentMaster
+import engineer.echo.oneactivity.core.MasterCompatActivity
 import engineer.echo.oneactivity.core.Request
 import engineer.echo.study.ui.main.MainFragment
+import engineer.echo.study.ui.messenger.ReceiverService
 
 
 class MainActivity : MasterCompatActivity() {
@@ -16,5 +17,11 @@ class MainActivity : MasterCompatActivity() {
         setContentView(R.layout.activity_main)
         mMaster = fragmentMaster
         mMaster.install(R.id.app_main_container, Request(MainFragment::class.java), true)
+        ReceiverService.start(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ReceiverService.stop(this)
     }
 }

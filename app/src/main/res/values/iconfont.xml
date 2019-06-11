@@ -4,4 +4,5 @@
     <string name="iconProtoBuf">&#xe880;</string>
     <string name="iconIPC">&#xec4a;</string>
     <string name="iconWifi">&#xec4c;</string>
+    <string name="iconMessage">&#xe79d;</string>
 </resources>

@@ -72,7 +72,10 @@ class C {
                 R.string.title_subject_ipc_app,
                 R.color.color0099FF,
                 R.string.iconIPC,
-                listOf(R.string.label_wifi_p2p_app)
+                listOf(
+                    R.string.label_wifi_p2p_app,
+                    R.string.label_messenger_app
+                )
             )
         )
     }
