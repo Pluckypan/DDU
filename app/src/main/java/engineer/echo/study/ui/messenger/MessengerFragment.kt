@@ -36,7 +36,7 @@ class MessengerFragment : MasterFragment() {
     private lateinit var mBinding: MessengerBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.messenger_fragment, container, false)
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_messenger, container, false)
         return mBinding.root
     }
 
@@ -44,7 +44,7 @@ class MessengerFragment : MasterFragment() {
         super.onViewCreated(view, savedInstanceState)
         ReceiverService.observeReceive().observe(this, Observer {
             val user = it.getByteArray(KEY_USER)?.toUser()
-            mBinding.receiveInfo = user?.toString() ?: "failed"
+            mBinding.info = "Receive:\n${user?.toString() ?: "failed"}"
 
         })
         SenderService.observeReply().observe(this, Observer {
@@ -53,7 +53,7 @@ class MessengerFragment : MasterFragment() {
         mBinding.tvSendMessenger.setOnClickListener {
             SenderService.getSenderManager()?.apply {
                 val user = C.newUser()
-                mBinding.sendInfo = user.toString()
+                mBinding.info = "Send:\n$user"
                 sendMessage(Bundle().apply {
                     putByteArray(KEY_USER, user.toByteArray())
                 })

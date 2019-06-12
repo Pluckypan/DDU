@@ -40,7 +40,7 @@ class SenderService : SendManager() {
     }
 
     override fun obtainPackageName(): String {
-        return "engineer.echo.study.ui.messenger"
+        return "engineer.echo.study"
     }
 
     override fun obtainServiceName(): String {

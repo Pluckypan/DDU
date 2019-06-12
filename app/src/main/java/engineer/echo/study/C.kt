@@ -2,8 +2,11 @@ package engineer.echo.study
 
 import android.graphics.Typeface
 import android.os.SystemClock
+import androidx.databinding.BindingAdapter
+import com.googlecode.protobuf.format.JsonFormat
 import engineer.echo.proto.UserEntity
 import engineer.echo.study.entity.Subject
+import net.cryptobrewery.syntaxview.SyntaxView
 
 class C {
 
@@ -52,6 +55,24 @@ class C {
             return try {
                 val builder = UserEntity.User.newBuilder()
                 builder.mergeFrom(this)
+                builder.build()
+            } catch (e: Exception) {
+                null
+            }
+        }
+
+        @JvmStatic
+        @BindingAdapter("syntaxCode")
+        fun bindSyntaxCode(syntaxView: SyntaxView, syntaxCode: String?) {
+            syntaxView.code.isEnabled = false
+            syntaxView.code.setLines(50)
+            syntaxView.code.setText(syntaxCode)
+        }
+
+        fun String.toUser(): UserEntity.User? {
+            return try {
+                val builder = UserEntity.User.newBuilder()
+                JsonFormat.merge(this, builder)
                 builder.build()
             } catch (e: Exception) {
                 null
