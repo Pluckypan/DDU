@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import com.jeremyliao.liveeventbus.LiveEventBus
-import engineer.echo.easylib.Core.formatLog
+import engineer.echo.easylib.formatLog
 import engineer.echo.imessenger.send.SendManager
 
 class SenderService : SendManager() {

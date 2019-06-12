@@ -2,6 +2,7 @@ package engineer.echo.study
 
 import android.app.Application
 import android.util.DisplayMetrics
+import com.jeremyliao.liveeventbus.LiveEventBus
 import engineer.echo.study.cmpts.MMKVUtils
 
 class App : Application() {
@@ -18,5 +19,6 @@ class App : Application() {
         mApp = this
         mDisplayMetrics = resources.displayMetrics
         MMKVUtils.init(mApp)
+        LiveEventBus.get().config().supportBroadcast(this)
     }
 }

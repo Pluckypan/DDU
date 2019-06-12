@@ -44,10 +44,15 @@ class C {
             }.build()
         }
 
-        fun newUser(): UserEntity.User {
+        fun newUser(name: String? = null): UserEntity.User {
             return UserEntity.User.newBuilder()
                 .mergeFrom(USER.value)
                 .setExtra("${SystemClock.uptimeMillis()}")
+                .apply {
+                    if (name != null && name.isNotEmpty()) {
+                        setName(name)
+                    }
+                }
                 .build()
         }
 

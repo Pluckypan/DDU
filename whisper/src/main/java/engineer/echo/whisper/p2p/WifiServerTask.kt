@@ -1,8 +1,8 @@
 package engineer.echo.whisper.p2p
 
 import android.os.AsyncTask
-import engineer.echo.easylib.Core.formatLog
-import engineer.echo.easylib.Core.printLine
+import engineer.echo.easylib.formatLog
+import engineer.echo.easylib.printLine
 import engineer.echo.whisper.WhisperConst.TAG
 import java.net.ServerSocket
 

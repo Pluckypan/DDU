@@ -5,8 +5,8 @@ import android.content.Intent
 import android.os.Handler
 import android.os.IBinder
 import android.os.Messenger
-import engineer.echo.easylib.Core.formatLog
-import engineer.echo.easylib.Core.printLine
+import engineer.echo.easylib.formatLog
+import engineer.echo.easylib.printLine
 
 /**
  *  ReceiveManager.kt

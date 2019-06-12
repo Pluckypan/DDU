@@ -43,6 +43,13 @@
                 style="@style/TextItemStyle"/>
         <TextView
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tv_send_messenger"
+                android:text="@string/label_livebus_messenger"
+                android:background="@color/colorPrimary"
+                android:id="@+id/tv_livebus_messenger"
+                style="@style/TextItemStyle"/>
+        <TextView
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:text="@string/label_send_ipc"
                 android:background="@color/colorPrimary"

@@ -6,8 +6,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.*
-import engineer.echo.easylib.Core.formatLog
-import engineer.echo.easylib.Core.printLine
+import engineer.echo.easylib.formatLog
+import engineer.echo.easylib.memInfo
+import engineer.echo.easylib.printLine
 
 /**
  *  SendManager.ktr.kt
@@ -19,6 +20,7 @@ abstract class SendManager : Service(), ServiceConnection {
 
     companion object {
         private const val TAG = "SendManager"
+        const val KEY_FOR_MESSENGER_MEM = "key_for_messenger_mem_info"
         private var sBinder: SenderBinder? = null
         private val sConnection = object : ServiceConnection {
             override fun onServiceDisconnected(name: ComponentName?) {
@@ -32,7 +34,7 @@ abstract class SendManager : Service(), ServiceConnection {
             }
         }
 
-        fun <T> register(context: Context,clazz: Class<T>) {
+        fun <T> register(context: Context, clazz: Class<T>) {
             Intent(context, clazz).also {
                 context.bindService(it, sConnection, Context.BIND_AUTO_CREATE)
                 "register".printLine(TAG)
@@ -133,6 +135,7 @@ abstract class SendManager : Service(), ServiceConnection {
         mSender?.let { messenger ->
             Message.obtain().apply {
                 data = bundle
+                bundle.putString(KEY_FOR_MESSENGER_MEM, "${messenger.memInfo()}")
                 replyTo = mReplyMessenger
             }.also {
                 try {

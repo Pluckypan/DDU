@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.IntentFilter
 import android.net.wifi.p2p.*
 import android.os.Looper
-import engineer.echo.easylib.Core.formatLog
+import engineer.echo.easylib.formatLog
 import engineer.echo.whisper.WhisperConnectionInfo
 import engineer.echo.whisper.WhisperDevice
 import engineer.echo.whisper.WhisperGroup

@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.jeremyliao.liveeventbus.LiveEventBus
+import engineer.echo.imessenger.send.SendManager.Companion.KEY_FOR_MESSENGER_MEM
 import engineer.echo.oneactivity.annotation.Configuration
 import engineer.echo.oneactivity.core.MasterFragment
 import engineer.echo.oneactivity.core.Request
@@ -17,6 +19,7 @@ import engineer.echo.study.cmpts.MMKVUtils
 import engineer.echo.study.cmpts.bottomIn
 import engineer.echo.study.cmpts.bottomOut
 import engineer.echo.study.databinding.MessengerBinding
+import engineer.echo.study.ui.messenger.ReceiverService.Companion.KEY_REPLY
 
 /**
  *  MessengerFragment.kt
@@ -31,6 +34,7 @@ class MessengerFragment : MasterFragment() {
         private const val TAG = "MessengerFragment"
         private const val KEY_PROCESS = "key_for_process"
         private const val KEY_USER = "key_for_user"
+        private const val KEY_FOR_LIVE_BUS = "key_for_livebus"
         fun goto(fragment: MasterFragment) {
             fragment.startFragment(Request(MessengerFragment::class.java).apply {
 
@@ -53,15 +57,20 @@ class MessengerFragment : MasterFragment() {
         super.onViewCreated(view, savedInstanceState)
         ReceiverService.observeReceive().observe(this, Observer {
             val user = it.getByteArray(KEY_USER)?.toUser()
-            mBinding.info = "Receive:\n${user?.toString() ?: "failed"}"
+            val mem = it.getString(KEY_FOR_MESSENGER_MEM)
+            val cur = mBinding.info ?: "..."
+            mBinding.info = "$cur\nReceive($mem):\n${user?.toString() ?: "failed"}"
 
         })
         SenderService.observeReply().observe(this, Observer {
+            val cur = mBinding.info ?: ""
+            val reply = it.getString(KEY_REPLY)
+            mBinding.info = "$cur\nReply:$reply"
 
         })
         mBinding.tvSendMessenger.setOnClickListener {
             SenderService.getSenderManager()?.apply {
-                val user = C.newUser()
+                val user = C.newUser("Plucky@Messenger")
                 mBinding.info = "Send:\n$user"
                 sendMessage(Bundle().apply {
                     putByteArray(KEY_USER, user.toByteArray())
@@ -81,6 +90,16 @@ class MessengerFragment : MasterFragment() {
                 }
             }
         }
+        mBinding.tvLivebusMessenger.setOnClickListener {
+            val user = C.newUser("Plucky@LiveEventBus")
+            mBinding.info = "Send:\n$user"
+            LiveEventBus.get().with(KEY_FOR_LIVE_BUS, ByteArray::class.java).post(user.toByteArray())
+        }
+        LiveEventBus.get().with(KEY_FOR_LIVE_BUS, ByteArray::class.java).observe(this, Observer {
+            val user = it.toUser()
+            val cur = mBinding.info ?: ""
+            mBinding.info = "$cur\nReceive:\n${user?.toString() ?: "failed"}"
+        })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
