@@ -92,13 +92,11 @@ class MessengerFragment : MasterFragment() {
         }
         mBinding.tvLivebusMessenger.setOnClickListener {
             val user = C.newUser("Plucky@LiveEventBus")
-            mBinding.info = "Send:\n$user"
-            LiveEventBus.get().with(KEY_FOR_LIVE_BUS, ByteArray::class.java).post(user.toByteArray())
+            LiveEventBus.get().with(KEY_FOR_LIVE_BUS, ByteArray::class.java).broadcast(user.toByteArray())
         }
         LiveEventBus.get().with(KEY_FOR_LIVE_BUS, ByteArray::class.java).observe(this, Observer {
             val user = it.toUser()
-            val cur = mBinding.info ?: ""
-            mBinding.info = "$cur\nReceive:\n${user?.toString() ?: "failed"}"
+            mBinding.info = "Receive:\n${user?.toString() ?: "failed"}"
         })
     }
 
