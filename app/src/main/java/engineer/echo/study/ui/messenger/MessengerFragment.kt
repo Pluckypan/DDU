@@ -13,6 +13,9 @@ import engineer.echo.study.App
 import engineer.echo.study.C
 import engineer.echo.study.C.Companion.toUser
 import engineer.echo.study.R
+import engineer.echo.study.cmpts.MMKVUtils
+import engineer.echo.study.cmpts.bottomIn
+import engineer.echo.study.cmpts.bottomOut
 import engineer.echo.study.databinding.MessengerBinding
 
 /**
@@ -25,11 +28,17 @@ import engineer.echo.study.databinding.MessengerBinding
 class MessengerFragment : MasterFragment() {
 
     companion object {
+        private const val TAG = "MessengerFragment"
+        private const val KEY_PROCESS = "key_for_process"
         private const val KEY_USER = "key_for_user"
         fun goto(fragment: MasterFragment) {
             fragment.startFragment(Request(MessengerFragment::class.java).apply {
 
             })
+        }
+
+        fun getPackageName(): String {
+            return MMKVUtils.getSharedPreferencesValue(TAG, KEY_PROCESS, App.getApp().packageName)
         }
     }
 
@@ -57,6 +66,19 @@ class MessengerFragment : MasterFragment() {
                 sendMessage(Bundle().apply {
                     putByteArray(KEY_USER, user.toByteArray())
                 })
+            }
+        }
+        getPackageName().also {
+            mBinding.etServerProcessApp.setText(it)
+        }
+        mBinding.tvEditServerMessenger.setOnClickListener {
+            mBinding.etServerProcessApp.apply {
+                if (translationY == 0f) {
+                    bottomOut()
+                    MMKVUtils.setSharedPreferences(TAG, KEY_PROCESS, text.toString())
+                } else {
+                    bottomIn()
+                }
             }
         }
     }

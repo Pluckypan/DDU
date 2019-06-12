@@ -46,7 +46,8 @@ ext {
             autoFlowLayout : "com.github.LRH1993:AutoFlowLayout:1.0.5",
             easyPermissions: "pub.devrel:easypermissions:3.0.0",
             viewAnimator   : "com.github.florent37:viewanimator:1.1.0",
-            liveBus        : "com.jeremyliao:live-event-bus-x:1.4.4"
+            liveBus        : "com.jeremyliao:live-event-bus-x:1.4.4",
+            mmkv           : "com.tencent:mmkv:1.0.22"
     ]
 
     widget = [

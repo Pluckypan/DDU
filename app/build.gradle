@@ -48,6 +48,7 @@ dependencies {
     implementation rootProject.ext.framework.easyPermissions
     implementation rootProject.ext.framework.viewAnimator
     implementation rootProject.ext.framework.liveBus
+    implementation rootProject.ext.framework.mmkv
     // test
     testImplementation rootProject.ext.test.junit
     androidTestImplementation rootProject.ext.test.runner

@@ -19,6 +19,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
+        <EditText
+                android:id="@+id/et_server_process_app"
+                android:hint="engineer.echo.study"
+                app:layout_constraintStart_toStartOf="@+id/tv_edit_server_messenger"
+                app:layout_constraintBottom_toTopOf="@+id/tv_edit_server_messenger"
+                android:gravity="start"
+                android:layout_marginBottom="10dp"
+                android:layout_width="180dp"
+                android:singleLine="true"
+                android:translationY="100dp"
+                tools:translationY="0dp"
+                android:padding="5dp"
+                android:background="@drawable/shape_gray_stroke"
+                android:layout_height="0dp"
+                tools:ignore="HardcodedText"/>
+        <TextView
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="@string/label_edit_process_messenger"
+                android:background="@color/colorPrimary"
+                android:id="@+id/tv_edit_server_messenger"
+                style="@style/TextItemStyle"/>
         <TextView
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

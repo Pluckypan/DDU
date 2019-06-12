@@ -2,6 +2,7 @@ package engineer.echo.study
 
 import android.app.Application
 import android.util.DisplayMetrics
+import engineer.echo.study.cmpts.MMKVUtils
 
 class App : Application() {
 
@@ -16,5 +17,6 @@ class App : Application() {
         super.onCreate()
         mApp = this
         mDisplayMetrics = resources.displayMetrics
+        MMKVUtils.init(mApp)
     }
 }

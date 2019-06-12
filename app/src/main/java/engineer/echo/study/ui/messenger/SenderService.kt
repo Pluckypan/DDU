@@ -40,7 +40,7 @@ class SenderService : SendManager() {
     }
 
     override fun obtainPackageName(): String {
-        return packageName.also {
+        return MessengerFragment.getPackageName().also {
             "obtainPackageName %s".formatLog(TAG, it)
         }
     }
