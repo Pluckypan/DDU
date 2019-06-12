@@ -40,11 +40,15 @@ class SenderService : SendManager() {
     }
 
     override fun obtainPackageName(): String {
-        return "engineer.echo.study"
+        return packageName.also {
+            "obtainPackageName %s".formatLog(TAG, it)
+        }
     }
 
     override fun obtainServiceName(): String {
-        return "engineer.echo.study.ui.messenger.ReceiverService"
+        return ReceiverService::class.java.name.also {
+            "obtainServiceName %s".formatLog(TAG, it)
+        }
     }
 
     private class SenderHandler : Handler() {
