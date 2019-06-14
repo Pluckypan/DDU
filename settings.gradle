@@ -1,1 +1,1 @@
-include ':app', ':whisper', ':easylib', ':imessenger'
+include ':app', ':whisper', ':easylib', ':imessenger', ':easyprinter'
