@@ -35,8 +35,6 @@ class EasyPrinter private constructor() {
             addAction(BluetoothDevice.ACTION_FOUND)
             // 蓝牙绑定状态
             addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED)
-            // 配对请求结果
-            addAction(BluetoothDevice.ACTION_PAIRING_REQUEST)
         }
 
         fun get(): EasyPrinter {
@@ -45,11 +43,27 @@ class EasyPrinter private constructor() {
     }
 
     private val mBlueAdapter = BluetoothAdapter.getDefaultAdapter()
+    private val mMonitor = Monitor()
     private lateinit var mConfig: Config
 
+    /**
+     * 初始化
+     */
     fun setup(config: Config): EasyPrinter {
         this.mConfig = config
+        mConfig.apply {
+            application.registerReceiver(mMonitor, sFilter)
+        }
         return this
+    }
+
+    /**
+     * 释放
+     */
+    fun release() {
+        mConfig.apply {
+            application.unregisterReceiver(mMonitor)
+        }
     }
 
     fun enable(): Boolean {
