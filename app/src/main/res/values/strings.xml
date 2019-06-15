@@ -33,4 +33,8 @@
     <string name="label_livebus_messenger">LiveEventBus</string>
     <string name="fmt_send_ipc">发送状态:%s</string>
     <string name="fmt_receive_ipc">接收状态:%s</string>
+    <string name="label_bluetooth_printer_app">蓝牙打印机</string>
+    <string name="label_open_app">打开</string>
+    <string name="label_close_app">关闭</string>
+    <string name="label_clear_app">清除</string>
 </resources>

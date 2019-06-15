@@ -71,7 +71,7 @@ interface IMonitor {
      * Requires {@link android.Manifest.permission#BLUETOOTH} and
      * {@link android.Manifest.permission#ACCESS_COARSE_LOCATION} to receive.
      */
-    fun onDeviceFound(device: BluetoothDevice, name: String, rssi: Short)
+    fun onDeviceFound(device: BluetoothDevice, name: String? = null, rssi: Short)
 
     /**
      * 蓝牙绑定状态

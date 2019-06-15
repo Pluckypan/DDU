@@ -14,6 +14,7 @@ import engineer.echo.study.ui.BezierViewFragment
 import engineer.echo.study.ui.ProtoBufFragment
 import engineer.echo.study.ui.ipc.WifiP2pFragment
 import engineer.echo.study.ui.messenger.MessengerFragment
+import engineer.echo.study.ui.printer.PrinterFragment
 
 @Configuration(theme = R.style.Theme_AppCompat_Light)
 class MainFragment : MasterFragment(), MainAdapter.MainAdapterCallback {
@@ -40,6 +41,7 @@ class MainFragment : MasterFragment(), MainAdapter.MainAdapterCallback {
             R.string.label_entry_level_protobuf_app -> ProtoBufFragment.goto(this)
             R.string.label_wifi_p2p_app -> WifiP2pFragment.goto(this)
             R.string.label_messenger_app -> MessengerFragment.goto(this)
+            R.string.label_bluetooth_printer_app -> PrinterFragment.goto(this)
         }
     }
 }

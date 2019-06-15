@@ -3,6 +3,7 @@ package engineer.echo.study
 import android.app.Application
 import android.util.DisplayMetrics
 import com.jeremyliao.liveeventbus.LiveEventBus
+import engineer.echo.easyprinter.EasyPrinter
 import engineer.echo.study.cmpts.MMKVUtils
 
 class App : Application() {
@@ -20,5 +21,6 @@ class App : Application() {
         mDisplayMetrics = resources.displayMetrics
         MMKVUtils.init(mApp)
         LiveEventBus.get().config().supportBroadcast(this)
+        EasyPrinter.get().setup(this)
     }
 }

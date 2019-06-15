@@ -1,10 +1,13 @@
 package engineer.echo.easyprinter
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.content.Intent
 import android.content.IntentFilter
+import engineer.echo.easyprinter.strategy.DefaultFactory
+import engineer.echo.easyprinter.strategy.StrategyFactory
 
 /**
  *  EasyPrinter.kt
@@ -43,16 +46,18 @@ class EasyPrinter private constructor() {
     }
 
     private val mBlueAdapter = BluetoothAdapter.getDefaultAdapter()
-    private val mMonitor = Monitor()
+    private lateinit var mMonitor: Monitor
     private lateinit var mConfig: Config
 
     /**
      * 初始化
      */
-    fun setup(config: Config): EasyPrinter {
-        this.mConfig = config
-        mConfig.apply {
-            application.registerReceiver(mMonitor, sFilter)
+    fun setup(application: Application, factory: StrategyFactory? = null): EasyPrinter {
+        mConfig = Config(application).apply {
+            strategy = factory?.create() ?: DefaultFactory().create()
+        }.also {
+            mMonitor = Monitor(it.strategy)
+            it.application.registerReceiver(mMonitor, sFilter)
         }
         return this
     }
@@ -68,6 +73,10 @@ class EasyPrinter private constructor() {
 
     fun enable(): Boolean {
         return mBlueAdapter.enable()
+    }
+
+    fun disable(): Boolean {
+        return mBlueAdapter.disable()
     }
 
     fun open(): Boolean {
@@ -96,7 +105,7 @@ class EasyPrinter private constructor() {
         return mBlueAdapter.cancelDiscovery()
     }
 
-    fun connectTo(device: BluetoothDevice): Boolean {
+    fun createBondTo(device: BluetoothDevice): Boolean {
         return device.createBond()
     }
 

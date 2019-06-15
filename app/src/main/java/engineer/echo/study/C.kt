@@ -110,7 +110,8 @@ class C {
                 R.string.iconIPC,
                 listOf(
                     R.string.label_wifi_p2p_app,
-                    R.string.label_messenger_app
+                    R.string.label_messenger_app,
+                    R.string.label_bluetooth_printer_app
                 )
             )
         )

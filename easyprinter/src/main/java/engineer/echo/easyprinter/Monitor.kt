@@ -5,6 +5,14 @@ import android.bluetooth.BluetoothDevice
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.text.TextUtils
+import engineer.echo.easylib.formatLog
+import engineer.echo.easylib.printLine
+import engineer.echo.easyprinter.Config.Companion.TAG
+import engineer.echo.easyprinter.Config.Companion.bondState
+import engineer.echo.easyprinter.Config.Companion.connectionState
+import engineer.echo.easyprinter.Config.Companion.localState
+import engineer.echo.easyprinter.strategy.PrintStrategy
 
 /**
  *  Monitor.kt
@@ -12,7 +20,11 @@ import android.content.Intent
  *  Created by Plucky(plucky@echo.engineer) on 2019/6/14 - 10:05 AM
  *  more about me: http://www.1991th.com
  */
-class Monitor(private val listener: IMonitor? = null) : BroadcastReceiver(), IMonitor {
+class Monitor(
+    private val strategy: PrintStrategy,
+    private val listener: IMonitor? = null
+) : BroadcastReceiver(),
+    IMonitor {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent != null && context != null) {
@@ -44,7 +56,7 @@ class Monitor(private val listener: IMonitor? = null) : BroadcastReceiver(), IMo
                 }
                 BluetoothDevice.ACTION_FOUND -> {
                     val device: BluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
-                    val name = intent.getStringExtra(BluetoothDevice.EXTRA_NAME)
+                    val name: String? = intent.getStringExtra(BluetoothDevice.EXTRA_NAME)
                     val rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, 0)
                     onDeviceFound(device, name, rssi)
                 }
@@ -60,30 +72,56 @@ class Monitor(private val listener: IMonitor? = null) : BroadcastReceiver(), IMo
     }
 
     override fun onStartDiscovery(intent: Intent) {
+        "onStartDiscovery".printLine(TAG)
         listener?.onStartDiscovery(intent)
     }
 
     override fun onFinishDiscovery(intent: Intent) {
+        "onFinishDiscovery".printLine(TAG)
         listener?.onFinishDiscovery(intent)
     }
 
     override fun onLocalStateChanged(state: Int, previousState: Int) {
+        "onLocalStateChanged current=%s previous=%s".formatLog(TAG, state.localState(), previousState.localState())
         listener?.onLocalStateChanged(state, previousState)
     }
 
     override fun onConnectionStateChanged(device: BluetoothDevice?, state: Int, previousState: Int) {
+        "onConnectionStateChanged (%s,%s),current=%s previous=%s".formatLog(
+            TAG,
+            device?.name,
+            device?.address,
+            state.connectionState(),
+            previousState.connectionState()
+        )
         listener?.onConnectionStateChanged(device, state, previousState)
     }
 
     override fun onLocalDeviceNameChanged(name: String) {
+        "onLocalDeviceNameChanged %s".formatLog(TAG, name)
         listener?.onLocalDeviceNameChanged(name)
     }
 
-    override fun onDeviceFound(device: BluetoothDevice, name: String, rssi: Short) {
-        listener?.onDeviceFound(device, name, rssi)
+    override fun onDeviceFound(device: BluetoothDevice, name: String?, rssi: Short) {
+        if (strategy.removeDeviceOfEmptyName()) {
+            if (!TextUtils.isEmpty(device.name) || (name != null && name.isNotEmpty())) {
+                "onDeviceFound (%s,%s) name=%s rssi=%s".formatLog(TAG, device.name, device.address, name, rssi)
+                listener?.onDeviceFound(device, name, rssi)
+            }
+        } else {
+            "onDeviceFound (%s,%s) name=%s rssi=%s".formatLog(TAG, device.name, device.address, name, rssi)
+            listener?.onDeviceFound(device, name, rssi)
+        }
     }
 
     override fun onBondStateChanged(device: BluetoothDevice?, state: Int, previousState: Int) {
+        "onBondStateChanged (%s,%s) current=%s previous=%s".formatLog(
+            TAG,
+            device?.name,
+            device?.address,
+            state.bondState(),
+            previousState.bondState()
+        )
         listener?.onBondStateChanged(device, state, previousState)
     }
 }
