@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
     <data class="PrinterBinding">
         <variable name="code" type="String"/>
     </data>
@@ -79,6 +79,22 @@
                 app:jiansong="@{true}"
                 android:background="@color/color0099FF"
                 android:layout_height="wrap_content"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_popup_printer_app"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0"
+                android:translationY="1000dp"
+                tools:translationY="0dp"
+                tools:alpha="1">
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcv_device_printer"
+                    android:background="@android:color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintHeight_percent="0.5"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
