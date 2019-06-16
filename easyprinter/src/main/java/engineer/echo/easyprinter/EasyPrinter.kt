@@ -188,6 +188,14 @@ class EasyPrinter private constructor() {
         return device.createBond()
     }
 
+    fun isBonded(device: BluetoothDevice): Boolean {
+        return device.bondState == BluetoothDevice.BOND_BONDED
+    }
+
+    fun isBonding(device: BluetoothDevice):Boolean{
+        return device.bondState == BluetoothDevice.BOND_BONDING
+    }
+
     fun getBondedDevices(): Set<BluetoothDevice> {
         return mBlueAdapter.bondedDevices
     }

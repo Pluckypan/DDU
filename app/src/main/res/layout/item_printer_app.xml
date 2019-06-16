@@ -2,24 +2,28 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
+
     <data class="DeviceItemBinding">
         <variable name="device" type="android.bluetooth.BluetoothDevice"/>
+        <variable name="iView" type="engineer.echo.study.ui.printer.PrinterContract.IView"/>
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:padding="10dp"
+            android:onClick="@{() -> iView.onDeviceItemClick(device) }"
             android:background="@drawable/shape_gray_stroke"
-            android:layout_height="120dp">
-
+            android:layout_height="90dp">
 
         <TextView
                 android:id="@+id/tv_icon_printer_app"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_width="100dp"
+                android:layout_width="70dp"
                 app:layout_constraintTop_toTopOf="parent"
                 android:textSize="30sp"
                 android:gravity="center"
-                android:text="@string/iconLaptop"
+                android:text="@string/iconBluetooth"
+                app:deviceIcon="@{device}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_height="0dp"/>
         <TextView
@@ -28,7 +32,7 @@
                 android:id="@+id/tv_name_printer_app"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/color333333"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -37,8 +41,7 @@
                 tools:text="iMac"/>
         <TextView
                 app:layout_constraintTop_toBottomOf="@+id/tv_name_printer_app"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="40dp"
+                android:layout_marginBottom="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tv_icon_printer_app"
                 android:id="@+id/tv_address_printer_app"
@@ -57,6 +60,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:background="@drawable/selector_bond_printer"
+                app:deviceBond="@{device}"
                 android:layout_height="20dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

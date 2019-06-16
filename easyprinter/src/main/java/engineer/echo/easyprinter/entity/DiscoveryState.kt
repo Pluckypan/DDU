@@ -6,8 +6,8 @@ package engineer.echo.easyprinter.entity
  *  Created by Plucky(plucky@echo.engineer) on 2019/6/16 - 1:01 PM
  *  more about me: http://www.1991th.com
  */
-enum class DiscoveryState {
-    Start,
-    Ing,
-    Finish
+enum class DiscoveryState(val state: String) {
+    Start("StartDiscovery"),
+    Ing("Discovering"),
+    Finish("onFinishDiscovery")
 }
