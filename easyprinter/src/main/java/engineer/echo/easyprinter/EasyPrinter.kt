@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothSocket
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Looper
@@ -168,12 +169,20 @@ class EasyPrinter private constructor() {
         mBondLiveData.observe(owner, observer)
     }
 
-    fun print(data: ByteArray) {
-        PrinterService.start(mConfig.application, data)
+    fun print(device: BluetoothDevice, data: ByteArray) {
+        PrinterService.print(mConfig.application, device, data)
     }
 
-    fun cancelPrint() {
+    fun stopService() {
         PrinterService.stop(mConfig.application)
+    }
+
+    fun createSocket(device: BluetoothDevice): BluetoothSocket? {
+        return try {
+            device.createRfcommSocketToServiceRecord(Config.UNIQUE_ID)
+        } catch (e: Exception) {
+            null
+        }
     }
 
     fun isEnabled(): Boolean {

@@ -1,11 +1,14 @@
 package engineer.echo.study.ui.printer
 
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothClass
 import android.bluetooth.BluetoothDevice
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -41,6 +44,20 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
                 BluetoothClass.Device.Major.PHONE -> R.string.iconMobile
                 BluetoothClass.Device.Major.COMPUTER -> R.string.iconLaptop
                 else -> R.string.iconBluetooth
+            }
+        }
+
+        @SuppressLint("SetTextI18n")
+        @BindingAdapter("deviceShow")
+        @JvmStatic
+        fun onDeviceSelectShow(textView: TextView, device: BluetoothDevice?) {
+            device?.apply {
+                val hint = if (bluetoothClass.majorDeviceClass != BluetoothClass.Device.Major.IMAGING) {
+                    "Not a Printer"
+                } else {
+                    ""
+                }
+                textView.text = "Name=%s\nAddress=%s\n%s".format(name, address, hint)
             }
         }
     }
@@ -82,6 +99,10 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
                 }
             }
             layoutPopupPrinterApp.setOnClickListener {
+                if (layoutActionPrinter.alphaVisible()) {
+                    layoutActionPrinter.bottomOut()
+                    return@setOnClickListener
+                }
                 layoutPopupPrinterApp.bottomOut()
             }
             tvClearPrinter.setOnClickListener {
@@ -93,9 +114,15 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
             }
 
             tvPrintPrinter.setOnClickListener {
-                val user = C.newUser("Printer")
-                mBinding.code = user.toString()
-                EasyPrinter.get().print(user.toByteArray())
+                if (EasyPrinter.get().isDiscovering()) {
+                    EasyPrinter.get().cancelDiscovery()
+                    return@setOnClickListener
+                }
+                device?.apply {
+                    val user = C.newUser("Printer")
+                    mBinding.code = user.toString()
+                    EasyPrinter.get().print(this, user.toByteArray())
+                }
             }
         }
 
@@ -129,11 +156,15 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
         if (EasyPrinter.get().isDiscovering()) {
             EasyPrinter.get().cancelDiscovery()
         }
-        EasyPrinter.get().cancelPrint()
+        EasyPrinter.get().stopService()
         super.onDestroy()
     }
 
     override fun onBackPressed() {
+        if (mBinding.layoutActionPrinter.alphaVisible()) {
+            mBinding.layoutActionPrinter.bottomOut()
+            return
+        }
         if (mBinding.layoutPopupPrinterApp.alphaVisible()) {
             mBinding.layoutPopupPrinterApp.bottomOut()
             return
@@ -144,8 +175,13 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
 
     override fun onDeviceItemClick(device: BluetoothDevice?) {
         device?.let {
-            if (!EasyPrinter.get().isBonded(device) && !EasyPrinter.get().isBonding(it)) {
-                EasyPrinter.get().createBondTo(it)
+            if (EasyPrinter.get().isBonded(it)) {
+                mBinding.device = it
+                mBinding.layoutActionPrinter.bottomIn()
+            } else {
+                if (!EasyPrinter.get().isBonding(it)) {
+                    EasyPrinter.get().createBondTo(it)
+                }
             }
         }
     }

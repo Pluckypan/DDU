@@ -2,6 +2,7 @@ package engineer.echo.easyprinter
 
 import android.app.Application
 import android.app.IntentService
+import android.bluetooth.BluetoothDevice
 import android.content.Intent
 import android.os.IBinder
 import engineer.echo.easylib.formatLog
@@ -18,10 +19,19 @@ class PrinterService @JvmOverloads constructor(name: String = TAG) : IntentServi
 
     companion object {
 
+        private const val KEY_TASK_TYPE = "key_for_task_type"
+        private const val TASK_PRINT = 1
+        private const val KEY_DEVICE = "key_for_print_device"
         private const val KEY_DATA = "key_for_print_data"
 
-        fun start(application: Application, data: ByteArray) {
+        fun print(
+            application: Application,
+            device: BluetoothDevice,
+            data: ByteArray
+        ) {
             Intent(application, PrinterService::class.java).apply {
+                putExtra(KEY_TASK_TYPE, TASK_PRINT)
+                putExtra(KEY_DEVICE, device)
                 putExtra(KEY_DATA, data)
             }.also {
                 application.startService(it)
@@ -36,9 +46,15 @@ class PrinterService @JvmOverloads constructor(name: String = TAG) : IntentServi
     override fun onHandleIntent(intent: Intent?) {
         intent?.apply {
             // IntentService 会顺序执行完发送过来的任务
-            val data = intent.getByteArrayExtra(KEY_DATA)
-            "onHandleIntent thread=%s size=%d".formatLog(TAG, Thread.currentThread().name, data.size)
-            Thread.sleep(3000)
+            val task = getIntExtra(KEY_TASK_TYPE, 0)
+            "onHandleIntent thread=%s task=%d".formatLog(TAG, Thread.currentThread().name, task)
+            when (task) {
+                TASK_PRINT -> {
+                    val data = getByteArrayExtra(KEY_DATA)
+                    val device = getParcelableExtra<BluetoothDevice>(KEY_DEVICE)
+                    print(device, data)
+                }
+            }
         }
     }
 
@@ -75,6 +91,28 @@ class PrinterService @JvmOverloads constructor(name: String = TAG) : IntentServi
     override fun onTaskRemoved(rootIntent: Intent?) {
         super.onTaskRemoved(rootIntent)
         "onTaskRemoved".printLine(TAG)
+    }
+
+    private fun print(device: BluetoothDevice, data: ByteArray) {
+        EasyPrinter.get().createSocket(device)?.use {
+            if (!it.isConnected) {
+                try {
+                    it.connect()
+                } catch (e: Exception) {
+                    "print connect failed.%s".formatLog(TAG, e.message)
+                    return
+                }
+            }
+            try {
+                it.outputStream.use { os ->
+                    os.write(data)
+                    os.write(Config.print)
+                    os.flush()
+                }
+            } catch (e: Exception) {
+                "print write failed.%s".formatLog(TAG, e.message)
+            }
+        }
     }
 
 }

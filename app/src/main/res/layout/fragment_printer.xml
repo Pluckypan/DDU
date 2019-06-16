@@ -3,6 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
     <data class="PrinterBinding">
         <variable name="code" type="String"/>
+        <variable name="device" type="android.bluetooth.BluetoothDevice"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -72,7 +73,6 @@
                 style="@style/TextItemStyle"
                 android:text="@string/label_clear_app"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_print_printer"
                 app:layout_constraintBottom_toTopOf="@+id/tv_open_printer"
                 android:layout_width="0dp"
                 android:gravity="center"
@@ -80,18 +80,6 @@
                 android:background="@color/color0099FF"
                 android:layout_height="wrap_content"/>
 
-        <TextView
-                android:id="@+id/tv_print_printer"
-                style="@style/TextItemStyle"
-                app:layout_constraintStart_toStartOf="@+id/tv_close_printer"
-                android:text="@string/label_print_app"
-                app:layout_constraintEnd_toStartOf="@+id/tv_clear_printer"
-                app:layout_constraintBottom_toTopOf="@+id/tv_open_printer"
-                android:layout_width="0dp"
-                android:gravity="center"
-                app:jiansong="@{true}"
-                android:background="@color/color0099FF"
-                android:layout_height="wrap_content"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_popup_printer_app"
@@ -99,7 +87,7 @@
                 android:layout_height="match_parent"
                 android:alpha="0"
                 android:translationY="1000dp"
-                tools:translationY="1000dp"
+                tools:translationY="0dp"
                 tools:alpha="1">
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcv_device_printer"
@@ -108,6 +96,57 @@
                     android:layout_height="0dp"
                     app:layout_constraintHeight_percent="0.5"
                     app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_action_printer"
+                    android:layout_width="match_parent"
+                    app:layout_constraintHeight_percent="0.5"
+                    android:background="@android:color/white"
+                    android:alpha="0"
+                    android:translationY="1000dp"
+                    tools:translationY="0dp"
+                    tools:alpha="1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_height="0dp">
+
+                <TextView
+                        android:padding="10dp"
+                        app:jiansong="@{true}"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:deviceShow="@{device}"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                <TextView
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:id="@+id/tv_print_printer"
+                        style="@style/TextItemStyle"
+                        android:width="100dp"
+                        android:text="@string/label_print_app"
+                        android:layout_width="0dp"
+                        android:gravity="center"
+                        app:jiansong="@{true}"
+                        android:background="@color/color0099FF"
+                        android:layout_height="wrap_content"/>
+                <TextView
+                        app:layout_constraintStart_toEndOf="@+id/tv_print_printer"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:id="@+id/tv_connect_printer"
+                        style="@style/TextItemStyle"
+                        android:width="100dp"
+                        android:text="@string/label_connect_ipc"
+                        android:layout_width="0dp"
+                        android:gravity="center"
+                        app:jiansong="@{true}"
+                        android:background="@color/color0099FF"
+                        android:layout_height="wrap_content"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
