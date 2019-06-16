@@ -25,6 +25,17 @@ interface IMonitor {
     fun onFinishDiscovery(intent: Intent)
 
     /**
+     * @param device {@link BluetoothDevice#EXTRA_DEVICE} Used as a Parcelable
+     * @param name {@link BluetoothDevice#EXTRA_NAME} Used as a String extra field
+     * @param rssi {@link BluetoothDevice#EXTRA_RSSI} Used as an optional short extra field
+     *
+     * BluetoothDevice.ACTION_FOUND
+     * Requires {@link android.Manifest.permission#BLUETOOTH} and
+     * {@link android.Manifest.permission#ACCESS_COARSE_LOCATION} to receive.
+     */
+    fun onDeviceFound(device: BluetoothDevice, name: String? = null, rssi: Short)
+
+    /**
      * @param state  当前状态 {@link BluetoothAdapter#EXTRA_STATE}
      * @param previousState 上一次状态 {@link BluetoothAdapter#EXTRA_PREVIOUS_STATE}
      * int extra field in：
@@ -61,17 +72,6 @@ interface IMonitor {
      * Requires {@link android.Manifest.permission#BLUETOOTH} to receive.
      */
     fun onLocalDeviceNameChanged(name: String)
-
-    /**
-     * @param device {@link BluetoothDevice#EXTRA_DEVICE} Used as a Parcelable
-     * @param name {@link BluetoothDevice#EXTRA_NAME} Used as a String extra field
-     * @param rssi {@link BluetoothDevice#EXTRA_RSSI} Used as an optional short extra field
-     *
-     * BluetoothDevice.ACTION_FOUND
-     * Requires {@link android.Manifest.permission#BLUETOOTH} and
-     * {@link android.Manifest.permission#ACCESS_COARSE_LOCATION} to receive.
-     */
-    fun onDeviceFound(device: BluetoothDevice, name: String? = null, rssi: Short)
 
     /**
      * 蓝牙绑定状态

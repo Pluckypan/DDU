@@ -6,6 +6,15 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Looper
+import androidx.annotation.MainThread
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import engineer.echo.easyprinter.entity.BondEntity
+import engineer.echo.easyprinter.entity.ConnectionEntity
+import engineer.echo.easyprinter.entity.DiscoveryEntity
+import engineer.echo.easyprinter.entity.LocalStateEntity
 import engineer.echo.easyprinter.strategy.DefaultFactory
 import engineer.echo.easyprinter.strategy.StrategyFactory
 
@@ -48,6 +57,11 @@ class EasyPrinter private constructor() {
     private val mBlueAdapter = BluetoothAdapter.getDefaultAdapter()
     private lateinit var mMonitor: Monitor
     private lateinit var mConfig: Config
+    private val mDiscoveryLiveData = MutableLiveData<DiscoveryEntity>()
+    private val mLocalStateLiveData = MutableLiveData<LocalStateEntity>()
+    private val mLocalNameLiveData = MutableLiveData<String>()
+    private val mConnectionLiveData = MutableLiveData<ConnectionEntity>()
+    private val mBondLiveData = MutableLiveData<BondEntity>()
 
     /**
      * 初始化
@@ -87,6 +101,71 @@ class EasyPrinter private constructor() {
             mConfig.application.startActivity(it)
         }
         return false
+    }
+
+    fun postDiscovery(entity: DiscoveryEntity) {
+        if (Looper.getMainLooper() == Looper.myLooper()) {
+            mDiscoveryLiveData.value = entity
+        } else {
+            mDiscoveryLiveData.postValue(entity)
+        }
+    }
+
+    @MainThread
+    fun observeDiscovery(owner: LifecycleOwner, observer: Observer<DiscoveryEntity>) {
+        mDiscoveryLiveData.observe(owner, observer)
+    }
+
+    fun postLocalState(state: LocalStateEntity) {
+        if (Looper.getMainLooper() == Looper.myLooper()) {
+            mLocalStateLiveData.value = state
+        } else {
+            mLocalStateLiveData.postValue(state)
+        }
+    }
+
+    @MainThread
+    fun observeLocalState(owner: LifecycleOwner, observer: Observer<LocalStateEntity>) {
+        mLocalStateLiveData.observe(owner, observer)
+    }
+
+    fun postLocalName(name: String) {
+        if (Looper.getMainLooper() == Looper.myLooper()) {
+            mLocalNameLiveData.value = name
+        } else {
+            mLocalNameLiveData.postValue(name)
+        }
+    }
+
+    @MainThread
+    fun observeLocalName(owner: LifecycleOwner, observer: Observer<String>) {
+        mLocalNameLiveData.observe(owner, observer)
+    }
+
+    fun postConnection(entity: ConnectionEntity) {
+        if (Looper.getMainLooper() == Looper.myLooper()) {
+            mConnectionLiveData.value = entity
+        } else {
+            mConnectionLiveData.postValue(entity)
+        }
+    }
+
+    @MainThread
+    fun observeConnection(owner: LifecycleOwner, observer: Observer<ConnectionEntity>) {
+        mConnectionLiveData.observe(owner, observer)
+    }
+
+    fun postBond(entity: BondEntity) {
+        if (Looper.getMainLooper() == Looper.myLooper()) {
+            mBondLiveData.value = entity
+        } else {
+            mBondLiveData.postValue(entity)
+        }
+    }
+
+    @MainThread
+    fun observeBond(owner: LifecycleOwner, observer: Observer<BondEntity>) {
+        mBondLiveData.observe(owner, observer)
     }
 
     fun isEnabled(): Boolean {

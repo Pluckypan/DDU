@@ -1,5 +1,7 @@
 package engineer.echo.easyprinter.strategy
 
+import engineer.echo.easyprinter.IMonitor
+
 /**
  *  DefaultStrategy.kt
  *  Info: 默认策略
@@ -14,5 +16,13 @@ class DefaultStrategy : PrintStrategy {
 
     override fun targetName(): String? {
         return null
+    }
+
+    override fun getGlobalMonitor(): IMonitor? {
+        return null
+    }
+
+    override fun enableLiveData(): Boolean {
+        return true
     }
 }

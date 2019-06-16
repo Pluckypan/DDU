@@ -11,7 +11,10 @@ import engineer.echo.easylib.printLine
 import engineer.echo.easyprinter.Config.Companion.TAG
 import engineer.echo.easyprinter.Config.Companion.bondState
 import engineer.echo.easyprinter.Config.Companion.connectionState
+import engineer.echo.easyprinter.Config.Companion.deviceType
 import engineer.echo.easyprinter.Config.Companion.localState
+import engineer.echo.easyprinter.Config.Companion.majorClass
+import engineer.echo.easyprinter.entity.*
 import engineer.echo.easyprinter.strategy.PrintStrategy
 
 /**
@@ -21,10 +24,11 @@ import engineer.echo.easyprinter.strategy.PrintStrategy
  *  more about me: http://www.1991th.com
  */
 class Monitor(
-    private val strategy: PrintStrategy,
-    private val listener: IMonitor? = null
+    private val strategy: PrintStrategy
 ) : BroadcastReceiver(),
     IMonitor {
+
+    private val listener: IMonitor? = strategy.getGlobalMonitor()
 
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent != null && context != null) {
@@ -74,16 +78,49 @@ class Monitor(
     override fun onStartDiscovery(intent: Intent) {
         "onStartDiscovery".printLine(TAG)
         listener?.onStartDiscovery(intent)
+        if (strategy.enableLiveData()) {
+            EasyPrinter.get().postDiscovery(DiscoveryEntity(DiscoveryState.Start))
+        }
     }
 
     override fun onFinishDiscovery(intent: Intent) {
         "onFinishDiscovery".printLine(TAG)
         listener?.onFinishDiscovery(intent)
+        if (strategy.enableLiveData()) {
+            EasyPrinter.get().postDiscovery(DiscoveryEntity(DiscoveryState.Finish))
+        }
+    }
+
+    override fun onDeviceFound(device: BluetoothDevice, name: String?, rssi: Short) {
+        if (strategy.removeDeviceOfEmptyName()) {
+            if (!TextUtils.isEmpty(device.name) || (name != null && name.isNotEmpty())) {
+                "onDeviceFound (%s,%s,%s,%s,%s) name=%s rssi=%s".formatLog(
+                    TAG,
+                    device.name, device.address,
+                    device.type.deviceType(), device.bondState.bondState(),
+                    device.bluetoothClass?.majorDeviceClass?.majorClass(),
+                    name, rssi
+                )
+                listener?.onDeviceFound(device, name, rssi)
+                if (strategy.enableLiveData()) {
+                    EasyPrinter.get().postDiscovery(DiscoveryEntity(DiscoveryState.Ing, device, name, rssi))
+                }
+            }
+        } else {
+            "onDeviceFound (%s,%s) name=%s rssi=%s".formatLog(TAG, device.name, device.address, name, rssi)
+            listener?.onDeviceFound(device, name, rssi)
+            if (strategy.enableLiveData()) {
+                EasyPrinter.get().postDiscovery(DiscoveryEntity(DiscoveryState.Ing, device, name, rssi))
+            }
+        }
     }
 
     override fun onLocalStateChanged(state: Int, previousState: Int) {
         "onLocalStateChanged current=%s previous=%s".formatLog(TAG, state.localState(), previousState.localState())
         listener?.onLocalStateChanged(state, previousState)
+        if (strategy.enableLiveData()) {
+            EasyPrinter.get().postLocalState(LocalStateEntity(state, previousState))
+        }
     }
 
     override fun onConnectionStateChanged(device: BluetoothDevice?, state: Int, previousState: Int) {
@@ -95,22 +132,16 @@ class Monitor(
             previousState.connectionState()
         )
         listener?.onConnectionStateChanged(device, state, previousState)
+        if (strategy.enableLiveData()) {
+            EasyPrinter.get().postConnection(ConnectionEntity(device, state, previousState))
+        }
     }
 
     override fun onLocalDeviceNameChanged(name: String) {
         "onLocalDeviceNameChanged %s".formatLog(TAG, name)
         listener?.onLocalDeviceNameChanged(name)
-    }
-
-    override fun onDeviceFound(device: BluetoothDevice, name: String?, rssi: Short) {
-        if (strategy.removeDeviceOfEmptyName()) {
-            if (!TextUtils.isEmpty(device.name) || (name != null && name.isNotEmpty())) {
-                "onDeviceFound (%s,%s) name=%s rssi=%s".formatLog(TAG, device.name, device.address, name, rssi)
-                listener?.onDeviceFound(device, name, rssi)
-            }
-        } else {
-            "onDeviceFound (%s,%s) name=%s rssi=%s".formatLog(TAG, device.name, device.address, name, rssi)
-            listener?.onDeviceFound(device, name, rssi)
+        if (strategy.enableLiveData()) {
+            EasyPrinter.get().postLocalName(name)
         }
     }
 
@@ -123,5 +154,8 @@ class Monitor(
             previousState.bondState()
         )
         listener?.onBondStateChanged(device, state, previousState)
+        if (strategy.enableLiveData()) {
+            EasyPrinter.get().postBond(BondEntity(device, state, previousState))
+        }
     }
 }

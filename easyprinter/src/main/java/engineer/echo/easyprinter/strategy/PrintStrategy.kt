@@ -1,5 +1,7 @@
 package engineer.echo.easyprinter.strategy
 
+import engineer.echo.easyprinter.IMonitor
+
 /**
  *  PrintStrategy.kt
  *  Info: 蓝牙打印机策略
@@ -16,4 +18,14 @@ interface PrintStrategy {
      * 寻找目标 如果为空 则一直寻找
      */
     fun targetName(): String?
+
+    /**
+     * 全局监听
+     */
+    fun getGlobalMonitor(): IMonitor?
+
+    /**
+     * 是否开启LiveData
+     */
+    fun enableLiveData(): Boolean
 }
