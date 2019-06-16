@@ -37,4 +37,6 @@
     <string name="label_open_app">打开</string>
     <string name="label_close_app">关闭</string>
     <string name="label_clear_app">清除</string>
+    <string name="label_print_app">打印</string>
+
 </resources>

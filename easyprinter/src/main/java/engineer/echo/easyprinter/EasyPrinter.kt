@@ -168,6 +168,14 @@ class EasyPrinter private constructor() {
         mBondLiveData.observe(owner, observer)
     }
 
+    fun print(data: ByteArray) {
+        PrinterService.start(mConfig.application, data)
+    }
+
+    fun cancelPrint() {
+        PrinterService.stop(mConfig.application)
+    }
+
     fun isEnabled(): Boolean {
         return mBlueAdapter.isEnabled
     }
@@ -192,7 +200,7 @@ class EasyPrinter private constructor() {
         return device.bondState == BluetoothDevice.BOND_BONDED
     }
 
-    fun isBonding(device: BluetoothDevice):Boolean{
+    fun isBonding(device: BluetoothDevice): Boolean {
         return device.bondState == BluetoothDevice.BOND_BONDING
     }
 

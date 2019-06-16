@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import engineer.echo.easylib.alphaVisible
+import engineer.echo.easyprinter.Config
 import engineer.echo.easyprinter.Config.Companion.bondState
 import engineer.echo.easyprinter.Config.Companion.connectionState
 import engineer.echo.easyprinter.Config.Companion.localState
@@ -18,6 +19,7 @@ import engineer.echo.easyprinter.EasyPrinter
 import engineer.echo.oneactivity.annotation.Configuration
 import engineer.echo.oneactivity.core.MasterFragment
 import engineer.echo.oneactivity.core.Request
+import engineer.echo.study.C
 import engineer.echo.study.R
 import engineer.echo.study.cmpts.bottomIn
 import engineer.echo.study.cmpts.bottomOut
@@ -61,7 +63,7 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mBinding.apply {
-            code = "Welcome to EasyPrinter."
+            code = "Welcome to EasyPrinter.\nUUID=${Config.UNIQUE_ID}"
             tvOpenPrinter.setOnClickListener {
                 EasyPrinter.get().enable()
             }
@@ -89,6 +91,12 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
                 layoutManager = LinearLayoutManager(context)
                 adapter = mAdapter
             }
+
+            tvPrintPrinter.setOnClickListener {
+                val user = C.newUser("Printer")
+                mBinding.code = user.toString()
+                EasyPrinter.get().print(user.toByteArray())
+            }
         }
 
         mViewModel.observeDeviceList(this, Observer {
@@ -110,16 +118,18 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
 
     private fun appendCode(content: String) {
         if (mBinding.syntaxProtobufApp.code.lineCount > 25) {
-            mBinding.code = "------ clear ------"
+            mBinding.code = content
+        } else {
+            val before = mBinding.code
+            mBinding.code = "$before\n$content"
         }
-        val before = mBinding.code
-        mBinding.code = "$before\n$content"
     }
 
     override fun onDestroy() {
         if (EasyPrinter.get().isDiscovering()) {
             EasyPrinter.get().cancelDiscovery()
         }
+        EasyPrinter.get().cancelPrint()
         super.onDestroy()
     }
 

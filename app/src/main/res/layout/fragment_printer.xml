@@ -72,20 +72,34 @@
                 style="@style/TextItemStyle"
                 android:text="@string/label_clear_app"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_close_printer"
+                app:layout_constraintStart_toEndOf="@+id/tv_print_printer"
                 app:layout_constraintBottom_toTopOf="@+id/tv_open_printer"
                 android:layout_width="0dp"
                 android:gravity="center"
                 app:jiansong="@{true}"
                 android:background="@color/color0099FF"
                 android:layout_height="wrap_content"/>
+
+        <TextView
+                android:id="@+id/tv_print_printer"
+                style="@style/TextItemStyle"
+                app:layout_constraintStart_toStartOf="@+id/tv_close_printer"
+                android:text="@string/label_print_app"
+                app:layout_constraintEnd_toStartOf="@+id/tv_clear_printer"
+                app:layout_constraintBottom_toTopOf="@+id/tv_open_printer"
+                android:layout_width="0dp"
+                android:gravity="center"
+                app:jiansong="@{true}"
+                android:background="@color/color0099FF"
+                android:layout_height="wrap_content"/>
+
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_popup_printer_app"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:alpha="0"
                 android:translationY="1000dp"
-                tools:translationY="0dp"
+                tools:translationY="1000dp"
                 tools:alpha="1">
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcv_device_printer"

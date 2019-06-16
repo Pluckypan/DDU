@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothClass
 import android.bluetooth.BluetoothDevice
 import engineer.echo.easyprinter.strategy.PrintStrategy
+import java.util.*
 
 /**
  *  Config.kt
@@ -16,7 +17,10 @@ class Config(
     val application: Application
 ) {
     companion object {
+
         const val TAG = "EasyPrinter"
+        val UNIQUE_ID: UUID = UUID.fromString("ec6c651e-84ed-4348-b024-f6eb097a46da")
+
         fun Int.localState(): String {
             return when (this) {
                 BluetoothAdapter.STATE_ON -> "on"
