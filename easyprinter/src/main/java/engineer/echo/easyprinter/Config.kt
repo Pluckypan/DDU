@@ -4,6 +4,9 @@ import android.app.Application
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothClass
 import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothSocket
+import android.os.SystemClock
+import engineer.echo.easylib.formatLog
 import engineer.echo.easyprinter.strategy.PrintStrategy
 import java.util.*
 
@@ -77,6 +80,21 @@ class Config(
                 BluetoothClass.Device.Major.UNCATEGORIZED -> "uncategorized"
                 else -> "*uncategorized"
 
+            }
+        }
+
+        fun BluetoothSocket.writeData(vararg dataList: ByteArray) {
+            try {
+                val before = SystemClock.uptimeMillis()
+                this.outputStream.let { os ->
+                    dataList.forEach { data ->
+                        os.write(data)
+                    }
+                    os.flush()
+                }
+                "writeData cost=%s".formatLog(TAG, (SystemClock.uptimeMillis() - before))
+            } catch (e: Exception) {
+                "writeData failed.%s".formatLog(TAG, e.message)
             }
         }
     }

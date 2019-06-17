@@ -5,9 +5,12 @@ import android.app.IntentService
 import android.bluetooth.BluetoothDevice
 import android.content.Intent
 import android.os.IBinder
+import android.os.SystemClock
 import engineer.echo.easylib.formatLog
+import engineer.echo.easylib.memInfo
 import engineer.echo.easylib.printLine
 import engineer.echo.easyprinter.Config.Companion.TAG
+import engineer.echo.easyprinter.Config.Companion.writeData
 
 /**
  *  PrinterService.kt
@@ -23,6 +26,7 @@ class PrinterService @JvmOverloads constructor(name: String = TAG) : IntentServi
         private const val TASK_PRINT = 1
         private const val KEY_DEVICE = "key_for_print_device"
         private const val KEY_DATA = "key_for_print_data"
+        private const val TASK_CONNECT = 2
 
         fun print(
             application: Application,
@@ -38,6 +42,18 @@ class PrinterService @JvmOverloads constructor(name: String = TAG) : IntentServi
             }
         }
 
+        fun connect(
+            application: Application,
+            device: BluetoothDevice
+        ) {
+            Intent(application, PrinterService::class.java).apply {
+                putExtra(KEY_TASK_TYPE, TASK_CONNECT)
+                putExtra(KEY_DEVICE, device)
+            }.also {
+                application.startService(it)
+            }
+        }
+
         fun stop(application: Application) {
             application.stopService(Intent(application, PrinterService::class.java))
         }
@@ -47,12 +63,21 @@ class PrinterService @JvmOverloads constructor(name: String = TAG) : IntentServi
         intent?.apply {
             // IntentService 会顺序执行完发送过来的任务
             val task = getIntExtra(KEY_TASK_TYPE, 0)
-            "onHandleIntent thread=%s task=%d".formatLog(TAG, Thread.currentThread().name, task)
+            "onHandleIntent thread=(%s,%s) task=%d".formatLog(
+                TAG,
+                Thread.currentThread().name,
+                Thread.currentThread().id,
+                task
+            )
             when (task) {
                 TASK_PRINT -> {
                     val data = getByteArrayExtra(KEY_DATA)
                     val device = getParcelableExtra<BluetoothDevice>(KEY_DEVICE)
                     print(device, data)
+                }
+                TASK_CONNECT -> {
+                    val device = getParcelableExtra<BluetoothDevice>(KEY_DEVICE)
+                    connectTo(device)
                 }
             }
         }
@@ -94,25 +119,19 @@ class PrinterService @JvmOverloads constructor(name: String = TAG) : IntentServi
     }
 
     private fun print(device: BluetoothDevice, data: ByteArray) {
-        EasyPrinter.get().createSocket(device)?.use {
+        val before = SystemClock.uptimeMillis()
+        EasyPrinter.get().createSocket(device)?.let {
+            "print createSocket %s %s".formatLog(TAG, it.memInfo(), it.isConnected)
             if (!it.isConnected) {
-                try {
-                    it.connect()
-                } catch (e: Exception) {
-                    "print connect failed.%s".formatLog(TAG, e.message)
-                    return
-                }
+                EasyPrinter.get().connectTo(device)
             }
-            try {
-                it.outputStream.use { os ->
-                    os.write(data)
-                    os.write(CommandBox.walkPaper(3))
-                    os.flush()
-                }
-            } catch (e: Exception) {
-                "print write failed.%s".formatLog(TAG, e.message)
-            }
+            it.writeData(data, CommandBox.walkPaper(3))
         }
+        "print(%s) size=%s cost=%s".formatLog(TAG, device.address, data.size, (SystemClock.uptimeMillis() - before))
+    }
+
+    private fun connectTo(device: BluetoothDevice) {
+        EasyPrinter.get().connectTo(device)
     }
 
 }

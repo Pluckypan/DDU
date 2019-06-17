@@ -8,10 +8,15 @@ import android.bluetooth.BluetoothSocket
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Looper
+import android.os.SystemClock
+import android.text.TextUtils
 import androidx.annotation.MainThread
+import androidx.annotation.WorkerThread
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import engineer.echo.easylib.formatLog
+import engineer.echo.easyprinter.Config.Companion.TAG
 import engineer.echo.easyprinter.entity.BondEntity
 import engineer.echo.easyprinter.entity.ConnectionEntity
 import engineer.echo.easyprinter.entity.DiscoveryEntity
@@ -56,6 +61,8 @@ class EasyPrinter private constructor() {
     }
 
     private val mBlueAdapter = BluetoothAdapter.getDefaultAdapter()
+    @Volatile
+    private var mClientSocket: BluetoothSocket? = null
     private lateinit var mMonitor: Monitor
     private lateinit var mConfig: Config
     private val mDiscoveryLiveData = MutableLiveData<DiscoveryEntity>()
@@ -84,6 +91,8 @@ class EasyPrinter private constructor() {
         mConfig.apply {
             application.unregisterReceiver(mMonitor)
         }
+        stopService()
+        closeSocket()
     }
 
     fun enable(): Boolean {
@@ -169,20 +178,72 @@ class EasyPrinter private constructor() {
         mBondLiveData.observe(owner, observer)
     }
 
-    fun print(device: BluetoothDevice, data: ByteArray) {
+    fun printTask(device: BluetoothDevice, data: ByteArray) {
         PrinterService.print(mConfig.application, device, data)
+    }
+
+    fun connectTask(device: BluetoothDevice) {
+        PrinterService.connect(mConfig.application, device)
     }
 
     fun stopService() {
         PrinterService.stop(mConfig.application)
     }
 
-    fun createSocket(device: BluetoothDevice): BluetoothSocket? {
-        return try {
-            device.createRfcommSocketToServiceRecord(Config.UNIQUE_ID)
+    fun closeSocket() {
+        try {
+            val before = SystemClock.uptimeMillis()
+            mClientSocket?.close()
+            "closeSocket cost=%s".formatLog(TAG, (SystemClock.uptimeMillis() - before))
         } catch (e: Exception) {
-            null
+            "closeSocket %s".formatLog(TAG, e.message)
         }
+    }
+
+    fun createSocket(device: BluetoothDevice): BluetoothSocket? {
+        val before = SystemClock.uptimeMillis()
+        return mClientSocket.let {
+            val action = {
+                try {
+                    device.createRfcommSocketToServiceRecord(Config.UNIQUE_ID)
+                } catch (e: Exception) {
+                    null
+                }
+            }
+            if (it != null) {
+                if (TextUtils.equals(it.remoteDevice?.address, device.address)) {
+                    it
+                } else {
+                    closeSocket()
+                    action.invoke()
+                }
+            } else {
+                action.invoke()
+            }
+        }.also {
+            mClientSocket = it
+            "createSocket(%s) cost=%s".formatLog(TAG, device.address, (SystemClock.uptimeMillis() - before))
+        }
+    }
+
+    @WorkerThread
+    fun connectTo(device: BluetoothDevice) {
+        val before = SystemClock.uptimeMillis()
+        createSocket(device)?.let {
+            if (!it.isConnected) {
+                try {
+                    it.connect()
+                } catch (e: Exception) {
+                    "connectTo failed.%s".formatLog(TAG, e.message)
+                    return
+                }
+            }
+        }
+        "connectTo(%s) cost=%s".formatLog(TAG, device.address, (SystemClock.uptimeMillis() - before))
+    }
+
+    fun isConnected(device: BluetoothDevice): Boolean {
+        return createSocket(device)?.isConnected ?: false
     }
 
     fun isEnabled(): Boolean {

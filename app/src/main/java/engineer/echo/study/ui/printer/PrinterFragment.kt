@@ -118,12 +118,27 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
             tvPrintPrinter.setOnClickListener {
                 if (EasyPrinter.get().isDiscovering()) {
                     EasyPrinter.get().cancelDiscovery()
+                    appendCode("cancelDiscovery First.")
                     return@setOnClickListener
                 }
                 device?.apply {
                     val user = C.newUser("Printer打印机")
                     mBinding.code = JsonFormat.printToString(user).also {
-                        EasyPrinter.get().print(this, it.toByteArray(Charset.forName("GB2312")))
+                        EasyPrinter.get().printTask(this, it.toByteArray(Charset.forName("GB2312")))
+                    }
+                }
+            }
+            tvConnectPrinter.setOnClickListener {
+                if (EasyPrinter.get().isDiscovering()) {
+                    EasyPrinter.get().cancelDiscovery()
+                    appendCode("cancelDiscovery First.")
+                    return@setOnClickListener
+                }
+                device?.apply {
+                    if (!EasyPrinter.get().isConnected(this)) {
+                        EasyPrinter.get().connectTask(this)
+                    } else {
+                        appendCode("Printer is connected.")
                     }
                 }
             }
