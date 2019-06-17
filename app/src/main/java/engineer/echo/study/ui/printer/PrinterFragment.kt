@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.googlecode.protobuf.format.JsonFormat
 import engineer.echo.easylib.alphaVisible
 import engineer.echo.easyprinter.Config
 import engineer.echo.easyprinter.Config.Companion.bondState
@@ -27,6 +28,7 @@ import engineer.echo.study.R
 import engineer.echo.study.cmpts.bottomIn
 import engineer.echo.study.cmpts.bottomOut
 import engineer.echo.study.databinding.PrinterBinding
+import java.nio.charset.Charset
 
 @Configuration(theme = R.style.Theme_AppCompat_Light)
 class PrinterFragment : MasterFragment(), PrinterContract.IView {
@@ -119,9 +121,10 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
                     return@setOnClickListener
                 }
                 device?.apply {
-                    val user = C.newUser("Printer")
-                    mBinding.code = user.toString()
-                    EasyPrinter.get().print(this, user.toByteArray())
+                    val user = C.newUser("Printer打印机")
+                    mBinding.code = JsonFormat.printToString(user).also {
+                        EasyPrinter.get().print(this, it.toByteArray(Charset.forName("GB2312")))
+                    }
                 }
             }
         }

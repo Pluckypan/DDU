@@ -106,7 +106,7 @@ class PrinterService @JvmOverloads constructor(name: String = TAG) : IntentServi
             try {
                 it.outputStream.use { os ->
                     os.write(data)
-                    os.write(Config.print)
+                    os.write(CommandBox.walkPaper(3))
                     os.flush()
                 }
             } catch (e: Exception) {
