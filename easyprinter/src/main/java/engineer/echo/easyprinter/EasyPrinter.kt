@@ -11,6 +11,7 @@ import android.os.Looper
 import android.os.SystemClock
 import android.text.TextUtils
 import androidx.annotation.MainThread
+import androidx.annotation.RestrictTo
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
@@ -91,7 +92,7 @@ class EasyPrinter private constructor() {
         mConfig.apply {
             application.unregisterReceiver(mMonitor)
         }
-        stopService()
+        stopAllTask()
         closeSocket()
     }
 
@@ -178,15 +179,15 @@ class EasyPrinter private constructor() {
         mBondLiveData.observe(owner, observer)
     }
 
-    fun printTask(device: BluetoothDevice, data: ByteArray) {
+    fun startPrintTask(device: BluetoothDevice, data: ByteArray) {
         PrinterService.print(mConfig.application, device, data)
     }
 
-    fun connectTask(device: BluetoothDevice) {
+    fun startConnectTask(device: BluetoothDevice) {
         PrinterService.connect(mConfig.application, device)
     }
 
-    fun stopService() {
+    fun stopAllTask() {
         PrinterService.stop(mConfig.application)
     }
 
@@ -227,6 +228,7 @@ class EasyPrinter private constructor() {
     }
 
     @WorkerThread
+    @RestrictTo(value = [RestrictTo.Scope.LIBRARY])
     fun connectTo(device: BluetoothDevice) {
         val before = SystemClock.uptimeMillis()
         createSocket(device)?.let {

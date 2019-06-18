@@ -124,7 +124,7 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
                 device?.apply {
                     val user = C.newUser("Printer打印机")
                     mBinding.code = JsonFormat.printToString(user).also {
-                        EasyPrinter.get().printTask(this, it.toByteArray(Charset.forName("GB2312")))
+                        EasyPrinter.get().startPrintTask(this, it.toByteArray(Charset.forName("GB2312")))
                     }
                 }
             }
@@ -136,7 +136,7 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
                 }
                 device?.apply {
                     if (!EasyPrinter.get().isConnected(this)) {
-                        EasyPrinter.get().connectTask(this)
+                        EasyPrinter.get().startConnectTask(this)
                     } else {
                         appendCode("Printer is connected.")
                     }
@@ -174,7 +174,7 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
         if (EasyPrinter.get().isDiscovering()) {
             EasyPrinter.get().cancelDiscovery()
         }
-        EasyPrinter.get().stopService()
+        EasyPrinter.get().stopAllTask()
         super.onDestroy()
     }
 
