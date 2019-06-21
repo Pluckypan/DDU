@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.googlecode.protobuf.format.JsonFormat
 import engineer.echo.easylib.alphaVisible
+import engineer.echo.easyprinter.CommandBox.toBarcode
 import engineer.echo.easyprinter.Config
 import engineer.echo.easyprinter.Config.Companion.bondState
 import engineer.echo.easyprinter.Config.Companion.connectionState
@@ -125,6 +126,7 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
                     val user = C.newUser("Printer打印机")
                     mBinding.code = JsonFormat.printToString(user).also {
                         EasyPrinter.get().startPrintTask(this, it.toByteArray(Charset.forName("GB2312")))
+                        EasyPrinter.get().startPrintTask(this, "12345678".toBarcode())
                     }
                 }
             }
