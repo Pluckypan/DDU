@@ -145,6 +145,19 @@
                         android:background="@color/color0099FF"
                         android:layout_height="wrap_content"/>
 
+                <TextView
+                        app:layout_constraintStart_toEndOf="@+id/tv_connect_printer"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:id="@+id/tv_print_bitmap_printer"
+                        style="@style/TextItemStyle"
+                        android:width="100dp"
+                        android:text="@string/label_print_bitmap_app"
+                        android:layout_width="0dp"
+                        android:gravity="center"
+                        app:jiansong="@{true}"
+                        android:background="@color/color0099FF"
+                        android:layout_height="wrap_content"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
