@@ -39,5 +39,7 @@
     <string name="label_clear_app">清除</string>
     <string name="label_print_app">打印</string>
     <string name="label_print_bitmap_app">打印图片</string>
+    <string name="label_print_barcode_app">打印条码</string>
+    <string name="label_print_qrcode_app">打印二维码</string>
 
 </resources>

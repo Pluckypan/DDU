@@ -16,6 +16,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.googlecode.protobuf.format.JsonFormat
 import engineer.echo.easylib.alphaVisible
+import engineer.echo.easyprinter.CommandBox.epsonQrcode
+import engineer.echo.easyprinter.CommandBox.toBarcode
 import engineer.echo.easyprinter.CommandBox.toPrintByte
 import engineer.echo.easyprinter.Config
 import engineer.echo.easyprinter.Config.Companion.bondState
@@ -118,23 +120,25 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
             }
 
             tvPrintPrinter.setOnClickListener {
-                if (EasyPrinter.get().isDiscovering()) {
-                    EasyPrinter.get().cancelDiscovery()
-                    appendCode("cancelDiscovery First.")
-                    return@setOnClickListener
-                }
-                device?.apply {
+                print {
                     val user = C.newUser("Printer打印机")
-                    mBinding.code = JsonFormat.printToString(user).also {
-                        EasyPrinter.get().startPrintTask(this, it.toByteArray(Charset.forName("GB2312")))
-                    }
+                    mBinding.code = JsonFormat.printToString(user)
+                    mBinding.code!!.toByteArray(Charset.forName("GB2312"))
                 }
             }
             tvPrintBitmapPrinter.setOnClickListener {
-                device?.apply {
-                    resources.getDrawable(R.drawable.android).toBitmap().toPrintByte().also {
-                        EasyPrinter.get().startPrintTask(this, it)
-                    }
+                print {
+                    resources.getDrawable(R.drawable.android).toBitmap().toPrintByte()
+                }
+            }
+            tvPrintBarcodePrinter.setOnClickListener {
+                print {
+                    "HH20190621200".toBarcode()
+                }
+            }
+            tvPrintQrcodePrinter.setOnClickListener {
+                print {
+                    "http://www.echo.engineer".epsonQrcode()
                 }
             }
             tvConnectPrinter.setOnClickListener {
@@ -210,6 +214,18 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
                     EasyPrinter.get().createBondTo(it)
                 }
             }
+        }
+    }
+
+    private fun print(action: (() -> ByteArray)) {
+        if (EasyPrinter.get().isDiscovering()) {
+            EasyPrinter.get().cancelDiscovery()
+            appendCode("cancelDiscovery First.")
+            return
+        }
+        mBinding.device?.apply {
+            action.invoke()
+            EasyPrinter.get().startPrintTask(this, action.invoke())
         }
     }
 }

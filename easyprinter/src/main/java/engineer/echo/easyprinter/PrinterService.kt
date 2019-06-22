@@ -125,7 +125,9 @@ class PrinterService @JvmOverloads constructor(name: String = TAG) : IntentServi
             if (!it.isConnected) {
                 EasyPrinter.get().connectTo(device)
             }
-            it.writeData(data, CommandBox.walkPaper(3))
+            it.writeData(CommandBox.RESET)
+            it.writeData(data)
+            it.writeData(CommandBox.walkPaper(1))
         }
         "print(%s) size=%s cost=%s".formatLog(TAG, device.address, data.size, (SystemClock.uptimeMillis() - before))
     }

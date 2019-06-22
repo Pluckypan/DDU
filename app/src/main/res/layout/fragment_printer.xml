@@ -158,6 +158,32 @@
                         android:background="@color/color0099FF"
                         android:layout_height="wrap_content"/>
 
+                <TextView
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_print_printer"
+                        android:id="@+id/tv_print_barcode_printer"
+                        style="@style/TextItemStyle"
+                        android:width="100dp"
+                        android:text="@string/label_print_barcode_app"
+                        android:layout_width="0dp"
+                        android:gravity="center"
+                        app:jiansong="@{true}"
+                        android:background="@color/color0099FF"
+                        android:layout_height="wrap_content"/>
+
+                <TextView
+                        app:layout_constraintStart_toEndOf="@+id/tv_print_printer"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_print_printer"
+                        android:id="@+id/tv_print_qrcode_printer"
+                        style="@style/TextItemStyle"
+                        android:width="100dp"
+                        android:text="@string/label_print_qrcode_app"
+                        android:layout_width="0dp"
+                        android:gravity="center"
+                        app:jiansong="@{true}"
+                        android:background="@color/color0099FF"
+                        android:layout_height="wrap_content"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
