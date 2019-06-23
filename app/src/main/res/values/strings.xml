@@ -41,5 +41,6 @@
     <string name="label_print_bitmap_app">打印图片</string>
     <string name="label_print_barcode_app">打印条码</string>
     <string name="label_print_qrcode_app">打印二维码</string>
+    <string name="label_print_order_app">打印订单</string>
 
 </resources>

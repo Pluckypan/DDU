@@ -32,12 +32,16 @@ import engineer.echo.study.R
 import engineer.echo.study.cmpts.bottomIn
 import engineer.echo.study.cmpts.bottomOut
 import engineer.echo.study.databinding.PrinterBinding
+import engineer.echo.study.ui.printer.Bill.Companion.toBytes
 import java.nio.charset.Charset
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Configuration(theme = R.style.Theme_AppCompat_Light)
 class PrinterFragment : MasterFragment(), PrinterContract.IView {
 
     companion object {
+        private val FMT_DATE = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         fun goto(fragment: MasterFragment) {
             Request(PrinterFragment::class.java).also {
                 fragment.startFragment(it)
@@ -139,6 +143,30 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
             tvPrintQrcodePrinter.setOnClickListener {
                 print {
                     "http://www.echo.engineer".epsonQrcode()
+                }
+            }
+            tvPrintOrderPrinter.setOnClickListener {
+                print {
+                    val logo = resources.getDrawable(R.mipmap.ic_launcher).toBitmap()
+                    Bill(
+                        null,
+                        "红火烧烤",
+                        "利郎分店",
+                        "0x201906222145",
+                        FMT_DATE.format(Date()),
+                        "13107800917",
+                        "晋江洪山创业园202号",
+                        "谢谢惠顾,欢迎再次光临!",
+                        arrayListOf(
+                            Product("鸡腿", 6.0f, 3),
+                            Product("鸡翅", 8.0f, 1),
+                            Product("生蚝", 10.0f, 2),
+                            Product("骨肉相连", 10.0f, 5),
+                            Product("雪津啤酒", 3.0f, 12),
+                            Product("大瓶可乐", 6.0f, 1),
+                            Product("灌装百威", 4.0f, 4)
+                        )
+                    ).toBytes()
                 }
             }
             tvConnectPrinter.setOnClickListener {

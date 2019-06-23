@@ -127,7 +127,6 @@ class PrinterService @JvmOverloads constructor(name: String = TAG) : IntentServi
             }
             it.writeData(CommandBox.RESET)
             it.writeData(data)
-            it.writeData(CommandBox.walkPaper(1))
         }
         "print(%s) size=%s cost=%s".formatLog(TAG, device.address, data.size, (SystemClock.uptimeMillis() - before))
     }

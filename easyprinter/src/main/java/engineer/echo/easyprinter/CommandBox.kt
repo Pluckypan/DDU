@@ -40,18 +40,7 @@ object CommandBox {
      * 取消加粗模式
      */
     val TEXT_BOLD_CANCEL = byteArrayOf(0x1b, 0x45, 0x00)
-    /**
-     * 字体不放大
-     */
-    val TEXT_NORMAL_SIZE = byteArrayOf(0x1d, 0x21, 0x00)
-    /**
-     * 宽高加倍
-     */
-    val TEXT_BIG_SIZE = byteArrayOf(0x1d, 0x21, 0x11)
-    /**
-     * 高加倍
-     */
-    val TEXT_BIG_HEIGHT = byteArrayOf(0x1b, 0x21, 0x10)
+
     /**
      * 下划线
      */
@@ -111,6 +100,70 @@ object CommandBox {
     }
 
     /**
+     * 计算Byte长度
+     */
+    fun String.byteLength(
+        charset: Charset = Charset.forName("GB2312")
+    ): Int {
+        return this.toByteArray(charset).size
+    }
+
+    /**
+     * @param max 超过max则以省略号结尾
+     */
+    fun String.ellipsizeEnd(max: Int): String {
+        return if (max in 1 until length) {
+            "${this.substring(0, max)}.."
+        } else {
+            this
+        }
+    }
+
+    /**
+     * 一行打印几个文字
+     * @param byteSizeLine 一行最大字节数
+     * @param text 需要打印的字符
+     */
+    fun textOneLine(
+        byteSizeLine: Int = 32,
+        charset: Charset = Charset.forName("GB2312"),
+        vararg text: String
+    ): String {
+        return if (text.isNotEmpty()) {
+            var result = ""
+            val colSize = byteSizeLine / text.size
+            val blank = " "
+            val blankSize = blank.byteLength(charset)
+            text.forEachIndexed { index, it ->
+                val iLen = it.byteLength(charset)
+                val item = if (iLen <= colSize) {
+                    if (index == text.size - 1) {
+                        // 最后一个不需要补空格
+                        it
+                    } else {
+                        // 需要补空格
+                        val num = ((colSize - iLen) * 1f / blankSize + 0.5f).toInt()
+                        var s = it
+                        for (i in 0..num) {
+                            s += blank
+                        }
+                        s
+                    }
+                } else {
+                    val num = (it.length * colSize * 1f / iLen).toInt()
+                    // 需要省略号
+                    val n = if (num < 0) 0 else if (num > it.length) it.length - 1 else num
+                    it.substring(0, n)
+                }
+                result += item
+            }
+            result
+        } else {
+            ""
+        }
+    }
+
+    /**
      * 放大字体到默认字体大小的N倍
      * @param scale 放大倍数
      */
@@ -131,6 +184,38 @@ object CommandBox {
         result[1] = 33
         result[2] = realSize
         return result
+    }
+
+    fun fontHeight(scale: Int): ByteArray {
+        val realSize: Byte = when (scale) {
+            1 -> 0
+            2 -> 1
+            3 -> 2
+            4 -> 3
+            5 -> 4
+            6 -> 5
+            7 -> 6
+            8 -> 7
+            else -> 0
+        }
+        val result = ByteArray(3)
+        result[0] = 29
+        result[1] = 33
+        result[2] = realSize
+        return result
+    }
+
+    /**
+     * @param paperWidth 58mm=16 80mm=24
+     */
+    fun dashLine(paperWidth: Int = 16): ByteArray {
+        var len = paperWidth
+        var result = ""
+        while (len > 0) {
+            result += "- "
+            len--
+        }
+        return result.toByteArray()
     }
 
     /**
