@@ -147,9 +147,9 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
             }
             tvPrintOrderPrinter.setOnClickListener {
                 print {
-                    val logo = resources.getDrawable(R.mipmap.ic_launcher).toBitmap()
+                    val logo = resources.getDrawable(R.drawable.android).toBitmap()
                     Bill(
-                        null,
+                        logo,
                         "红火烧烤",
                         "利郎分店",
                         "0x201906222145",

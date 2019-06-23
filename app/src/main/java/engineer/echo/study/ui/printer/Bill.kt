@@ -30,11 +30,10 @@ data class Bill(
         private val GB2312: Charset = Charset.forName("GB2312")
         fun Bill.toBytes(): ByteArray {
             val logoCode = if (logo != null) {
-                ALIGN_CENTER.plus(logo.toPrintByte(120)).plus(walkPaper(2))
+                ALIGN_CENTER.plus(logo.toPrintByte(120))
             } else {
                 byteArrayOf()
             }
-
             val titleCode =
                 ALIGN_CENTER.plus(fontSize(3)).plus(title.toByteArray(GB2312)).plus(walkPaper(1)).plus(PRINT)
             val subTitleCode =
@@ -68,7 +67,7 @@ data class Bill(
             )
             val phoneCode = ALIGN_LEFT.plus(TEXT_BOLD_CANCEL).plus("订餐电话: $phone".toByteArray(GB2312)).plus(PRINT)
             val addressCode = ALIGN_LEFT.plus("营业地址: $address".toByteArray(GB2312)).plus(PRINT)
-            val tipsCode = ALIGN_CENTER.plus(fontHeight(2)).plus(tips.toByteArray(GB2312)).plus(walkPaper(2)).plus(PRINT)
+            val tipsCode = ALIGN_CENTER.plus(fontHeight(2)).plus(tips.toByteArray(GB2312)).plus(walkPaper(4)).plus(PRINT)
             return prefix.plus(items.toByteArray(GB2312)).plus(dashCode).plus(moneyCode).plus(phoneCode)
                 .plus(addressCode).plus(dashCode).plus(tipsCode)
         }
