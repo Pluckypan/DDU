@@ -183,6 +183,22 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
                     }
                 }
             }
+            tvShowTablePrinter.setOnClickListener {
+                printerViewApp.bottomIn()
+            }
+            tvPrintTablePrinter.setOnClickListener {
+                if (EasyPrinter.get().isDiscovering()) {
+                    EasyPrinter.get().cancelDiscovery()
+                    appendCode("cancelDiscovery First.")
+                    return@setOnClickListener
+                }
+                device?.apply {
+                    printerViewApp.getTablePrinter().print(this, maxWidth = 130)
+                }
+            }
+            printerViewApp.setOnClickListener {
+                it.bottomOut()
+            }
         }
 
         mViewModel.observeDeviceList(this, Observer {

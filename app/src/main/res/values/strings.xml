@@ -42,5 +42,7 @@
     <string name="label_print_barcode_app">打印条码</string>
     <string name="label_print_qrcode_app">打印二维码</string>
     <string name="label_print_order_app">打印订单</string>
+    <string name="label_print_table_app">打印列表</string>
+    <string name="label_show_table_app">显示列表</string>
 
 </resources>

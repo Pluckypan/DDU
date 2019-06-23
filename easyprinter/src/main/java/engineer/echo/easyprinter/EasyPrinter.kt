@@ -85,6 +85,10 @@ class EasyPrinter private constructor() {
         return this
     }
 
+    fun getConfig():Config{
+        return mConfig
+    }
+
     /**
      * 释放
      */
