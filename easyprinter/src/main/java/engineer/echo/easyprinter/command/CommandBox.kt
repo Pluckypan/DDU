@@ -1,4 +1,4 @@
-package engineer.echo.easyprinter
+package engineer.echo.easyprinter.command
 
 import android.graphics.Bitmap
 import java.nio.charset.Charset
@@ -267,78 +267,9 @@ object CommandBox {
 
     /*--------------- Bitmap --------------*/
 
-    fun Bitmap.toPrintByte(maxWidth: Int = 360): ByteArray {
-        return if (width <= maxWidth) {
-            this
-        } else {
-            val dstHeight = (maxWidth * height * 1f / width + 0.5f).toInt()
-            Bitmap.createScaledBitmap(this, maxWidth, dstHeight, true)
-        }.toPrintBytes()
+    fun Bitmap.toPrintByte(maxWidth: Int = 360, mode: Int = 0): ByteArray {
+        return ImageCommand.covert(this, maxWidth, mode)
 
-    }
-
-    private fun Bitmap.pixelByte(x: Int, y: Int): Byte {
-        return if (x < width && y < height) {
-            val pixel = getPixel(x, y)
-            // 取高两位
-            val red = pixel and 0x00ff0000 shr 16
-            // 取中两位
-            val green = pixel and 0x0000ff00 shr 8
-            // 取低两位
-            val blue = pixel and 0x000000ff
-            val gray = 0.29900 * red + 0.58700 * green + 0.11400 * blue
-            if (gray < 128) {
-                1
-            } else {
-                0
-            }
-        } else {
-            0
-        }
-    }
-
-    private fun Bitmap.toPrintBytes(): ByteArray {
-        val pHeight = height / 24.0
-        val imageSize = Math.ceil(pHeight * (width * 3.0)).toInt()
-        val cmdSize = Math.ceil(pHeight * 6).toInt() + 5
-        val size = imageSize + cmdSize
-        val totalBuffer = ByteArray(size)
-        var k = 0
-        // 设置行距为0
-        totalBuffer[k++] = 0x1B
-        totalBuffer[k++] = 0x33
-        totalBuffer[k++] = 0x00
-        var j = 0
-        while (j < pHeight) {
-            // 0x1B 2A 表示图片打印指令
-            totalBuffer[k++] = 0x1B
-            totalBuffer[k++] = 0x2A
-            // m=33时，选择24点密度打印
-            totalBuffer[k++] = 33
-            // nL
-            totalBuffer[k++] = (width % 256).toByte()
-            // nH
-            totalBuffer[k++] = (width / 256).toByte()
-            for (i in 0 until width) {
-                for (m in 0..2) {
-                    for (n in 0..7) {
-                        val b = this.pixelByte(i, j * 24 + m * 8 + n)
-                        totalBuffer[k] = (2 * totalBuffer[k] + b).toByte()
-                    }
-                    k++
-                }
-            }
-            // 换行
-            totalBuffer[k++] = 10
-            j++
-        }
-        // 恢复默认行距
-        totalBuffer[k++] = 0x1B
-        totalBuffer[k++] = 0x32
-
-        val result = ByteArray(k)
-        System.arraycopy(totalBuffer, 0, result, 0, k)
-        return result
     }
 
     /* -------------- 条形码 ----------------*/
@@ -359,7 +290,7 @@ object CommandBox {
      * @param hriFontPos  [0,3] [48,51] 0,48不打印 1,49条码上方 2,50条码下方 3,51条码上、下方都打印
      */
     fun String.toBarcode(
-        barType: BarcodeType = BarcodeType.CODE128,
+        barType: BarcodeType = CommandBox.BarcodeType.CODE128,
         charset: Charset = Charsets.UTF_8,
         width: Int = 2,
         height: Int = 162,
