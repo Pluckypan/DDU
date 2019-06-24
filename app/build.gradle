@@ -49,8 +49,11 @@ dependencies {
     implementation rootProject.ext.framework.viewAnimator
     implementation rootProject.ext.framework.liveBus
     implementation rootProject.ext.framework.mmkv
-    implementation rootProject.ext.framework.workRuntime
-    implementation rootProject.ext.framework.workFirebase
+    implementation rootProject.ext.framework.workManager.runtime
+    implementation rootProject.ext.framework.workManager.firebase
+    kapt rootProject.ext.framework.room.compiler
+    implementation rootProject.ext.framework.room.runtime
+    implementation rootProject.ext.framework.room.rxjava2
     // test
     testImplementation rootProject.ext.test.junit
     androidTestImplementation rootProject.ext.test.runner

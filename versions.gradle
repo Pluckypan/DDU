@@ -41,6 +41,19 @@ ext {
             javaUtil  : "com.google.protobuf:protobuf-java-util:3.6.0"
     ]
 
+    workManager = [
+            runtime : "android.arch.work:work-runtime:1.0.0-alpha01",
+            firebase: "android.arch.work:work-firebase:1.0.0-alpha01",
+            testing : "android.arch.work:work-testing:1.0.0-alpha01"
+    ]
+
+    room = [
+            compiler: "android.arch.persistence.room:compiler:1.1.1",
+            runtime : "android.arch.persistence.room:runtime:1.1.1",
+            rxjava2 : "android.arch.persistence.room:rxjava2:1.1.1",
+            testing : "android.arch.persistence.room:testing:1.1.1"
+    ]
+
     framework = [
             oneActivity    : "engineer.echo.oneactivity:core:0.0.1",
             autoFlowLayout : "com.github.LRH1993:AutoFlowLayout:1.0.5",
@@ -48,8 +61,8 @@ ext {
             viewAnimator   : "com.github.florent37:viewanimator:1.1.0",
             liveBus        : "com.jeremyliao:live-event-bus-x:1.4.4",
             mmkv           : "com.tencent:mmkv:1.0.22",
-            workRuntime    : "android.arch.work:work-runtime:1.0.0-alpha01",
-            workFirebase   : "android.arch.work:work-firebase:1.0.0-alpha01"
+            workManager    : workManager,
+            room           : room
     ]
 
     widget = [
