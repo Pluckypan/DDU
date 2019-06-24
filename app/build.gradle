@@ -49,6 +49,8 @@ dependencies {
     implementation rootProject.ext.framework.viewAnimator
     implementation rootProject.ext.framework.liveBus
     implementation rootProject.ext.framework.mmkv
+    implementation rootProject.ext.framework.workRuntime
+    implementation rootProject.ext.framework.workFirebase
     // test
     testImplementation rootProject.ext.test.junit
     androidTestImplementation rootProject.ext.test.runner
