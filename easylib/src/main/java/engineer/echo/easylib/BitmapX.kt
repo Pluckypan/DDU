@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.Color
 import android.os.SystemClock
 import android.renderscript.*
 import android.util.Base64
@@ -158,4 +159,103 @@ fun Bitmap.gaussScale(scale: Float, radiusOffset: Float, app: Application): Bitm
     resizeScript.destroy()
     renderScriptEngine.destroy()
     return dstBitmap
+}
+
+/**
+ * 去除边缘透明像素 offset 均为正
+ * @param offsetL 左边预留像素
+ * @param offsetT 顶部预留像素
+ * @param offsetR 右边预留像素
+ * @param offsetB 底部预留像素
+ */
+fun Bitmap.clipTransparentEdge(offsetL: Int = 0,
+                               offsetT: Int = 0,
+                               offsetR: Int = 0,
+                               offsetB: Int = 0): Bitmap {
+    val before = SystemClock.uptimeMillis()
+    var left = 0
+    var top = 0
+    var right = width
+    var bottom = height
+
+    // 从边缘检测(比较快)
+    // LEFT
+    for (i in 0 until width) {
+        var find = false
+        for (j in 0 until height) {
+            val color = getPixel(i, j)
+            // 如果不是透明像素
+            if (Color.alpha(color) != 0) {
+                left = i
+                find = true
+                break
+            }
+        }
+        if (find) {
+            break
+        }
+    }
+    // TOP
+    for (i in 0 until height) {
+        var find = false
+        for (j in 0 until width) {
+            val color = getPixel(j, i)
+            if (Color.alpha(color) != 0) {
+                top = i
+                find = true
+                break
+            }
+        }
+        if (find) {
+            break
+        }
+    }
+
+    // RIGHT
+    for (i in width - 1 downTo 0) {
+        var find = false
+        for (j in 0 until height) {
+            val color = getPixel(i, j)
+            if (Color.alpha(color) != 0) {
+                right = i
+                find = true
+                break
+            }
+        }
+        if (find) {
+            break
+        }
+    }
+
+    // BOTTOM
+    for (i in height - 1 downTo 0) {
+        var find = false
+        for (j in 0 until width) {
+            val color = getPixel(j, i)
+            if (Color.alpha(color) != 0) {
+                bottom = i
+                find = true
+                break
+            }
+        }
+        if (find) {
+            break
+        }
+    }
+
+    left -= offsetL
+    top -= offsetT
+    right += offsetR
+    bottom += offsetB
+    if (left < 0) left = 0
+    if (top < 0) top = 0
+    if (right > width) right = width
+    if (bottom > height) bottom = height
+
+    return if (left == 0 && top == 0 && right == width && bottom == height) {
+        this
+    } else {
+        Log.d("BitmapX", "clipTransparentEdge {$width,$height},cut={$left,$top,${width - right},${height - bottom}} cost=${SystemClock.uptimeMillis() - before}")
+        Bitmap.createBitmap(this, left, top, right - left, bottom - top)
+    }
 }
