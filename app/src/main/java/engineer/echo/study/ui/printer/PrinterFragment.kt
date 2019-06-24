@@ -3,6 +3,8 @@ package engineer.echo.study.ui.printer
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothClass
 import android.bluetooth.BluetoothDevice
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -194,6 +196,23 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
                 }
                 device?.apply {
                     printerViewApp.getTablePrinter().print(this, maxWidth = 400)
+                }
+            }
+            tvOrientationPrinter.setOnClickListener {
+                if (resources.configuration.orientation == ORIENTATION_PORTRAIT) {
+                    activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                } else {
+                    activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                }
+            }
+            tvViewPrinter.setOnClickListener {
+                if (EasyPrinter.get().isDiscovering()) {
+                    EasyPrinter.get().cancelDiscovery()
+                    appendCode("cancelDiscovery First.")
+                    return@setOnClickListener
+                }
+                device?.apply {
+                    printerViewApp.print(this)
                 }
             }
             printerViewApp.setOnClickListener {

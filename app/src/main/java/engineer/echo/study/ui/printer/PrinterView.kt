@@ -1,10 +1,16 @@
 package engineer.echo.study.ui.printer
 
+import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.view.drawToBitmap
+import engineer.echo.easyprinter.EasyPrinter
+import engineer.echo.easyprinter.command.CommandBox.toPrintByte
+import engineer.echo.easyprinter.command.ImageCommand.scaleToFit
 import engineer.echo.easyprinter.template.TablePrinter
+import engineer.echo.study.R
 
 /**
  *  PrinterView.kt
@@ -22,6 +28,7 @@ class PrinterView @JvmOverloads constructor(
     View(context, attrs, defStyleAttr, defStyleRes) {
 
     private val painter = TablePrinter()
+    private val logo = resources.getDrawable(R.mipmap.ic_launcher)
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -34,6 +41,14 @@ class PrinterView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         painter.draw(canvas)
+        logo.setBounds(10, 10, logo.intrinsicWidth, logo.intrinsicHeight)
+        logo.draw(canvas)
+    }
+
+    fun print(device: BluetoothDevice) {
+        this.drawToBitmap().scaleToFit(400).toPrintByte(400).also {
+            EasyPrinter.get().startPrintTask(device, it)
+        }
     }
 
     fun getTablePrinter(): TablePrinter {

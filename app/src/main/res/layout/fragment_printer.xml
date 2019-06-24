@@ -223,6 +223,32 @@
                         android:background="@color/color0099FF"
                         android:layout_height="wrap_content"/>
 
+                <TextView
+                        app:layout_constraintEnd_toStartOf="@+id/tv_show_table_printer"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_print_order_printer"
+                        android:id="@+id/tv_orientation_printer"
+                        style="@style/TextItemStyle"
+                        android:width="100dp"
+                        android:text="@string/label_orientation_app"
+                        android:layout_width="0dp"
+                        android:gravity="center"
+                        app:jiansong="@{true}"
+                        android:background="@color/color0099FF"
+                        android:layout_height="wrap_content"/>
+
+                <TextView
+                        app:layout_constraintEnd_toStartOf="@+id/tv_show_table_printer"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_orientation_printer"
+                        android:id="@+id/tv_view_printer"
+                        style="@style/TextItemStyle"
+                        android:width="100dp"
+                        android:text="@string/label_print_view_app"
+                        android:layout_width="0dp"
+                        android:gravity="center"
+                        app:jiansong="@{true}"
+                        android:background="@color/color0099FF"
+                        android:layout_height="wrap_content"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <engineer.echo.study.ui.printer.PrinterView

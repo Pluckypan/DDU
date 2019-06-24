@@ -44,5 +44,7 @@
     <string name="label_print_order_app">打印订单</string>
     <string name="label_print_table_app">打印列表</string>
     <string name="label_show_table_app">显示列表</string>
+    <string name="label_orientation_app">旋转屏幕</string>
+    <string name="label_print_view_app">打印控件</string>
 
 </resources>
