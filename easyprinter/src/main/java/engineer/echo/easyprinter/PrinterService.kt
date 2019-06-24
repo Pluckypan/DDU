@@ -11,6 +11,7 @@ import engineer.echo.easylib.memInfo
 import engineer.echo.easylib.printLine
 import engineer.echo.easyprinter.Config.Companion.TAG
 import engineer.echo.easyprinter.Config.Companion.writeData
+import engineer.echo.easyprinter.command.CommandBox
 
 /**
  *  PrinterService.kt

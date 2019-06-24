@@ -4,10 +4,11 @@ import android.bluetooth.BluetoothDevice
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
-import engineer.echo.easyprinter.CommandBox
-import engineer.echo.easyprinter.CommandBox.PRINT
-import engineer.echo.easyprinter.CommandBox.toPrintByte
 import engineer.echo.easyprinter.EasyPrinter
+import engineer.echo.easyprinter.command.CommandBox
+import engineer.echo.easyprinter.command.CommandBox.PRINT
+import engineer.echo.easyprinter.command.CommandBox.toPrintByte
+import engineer.echo.easyprinter.command.ImageCommand.scaleToFit
 
 /**
  *  IPainter.kt
@@ -41,7 +42,7 @@ abstract class IPainter {
             Paint.Align.LEFT -> CommandBox.ALIGN_LEFT
             Paint.Align.RIGHT -> CommandBox.ALIGN_RIGHT
             else -> CommandBox.ALIGN_CENTER
-        }.plus(toBitmap().toPrintByte(maxWidth)).plus(PRINT)
+        }.plus(toBitmap().scaleToFit(maxWidth).toPrintByte(maxWidth)).plus(PRINT)
         EasyPrinter.get().startPrintTask(device, data)
     }
 }

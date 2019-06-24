@@ -29,6 +29,7 @@ class TablePrinter : IPainter() {
     }
 
     override fun draw(canvas: Canvas) {
+        canvas.drawColor(Color.WHITE)
         val cx = width / 2f
         val cy = height / 2f
         titlePaint().apply {

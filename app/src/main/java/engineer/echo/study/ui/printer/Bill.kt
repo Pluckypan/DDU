@@ -1,17 +1,17 @@
 package engineer.echo.study.ui.printer
 
 import android.graphics.Bitmap
-import engineer.echo.easyprinter.CommandBox
-import engineer.echo.easyprinter.CommandBox.ALIGN_CENTER
-import engineer.echo.easyprinter.CommandBox.ALIGN_LEFT
-import engineer.echo.easyprinter.CommandBox.PRINT
-import engineer.echo.easyprinter.CommandBox.TEXT_BOLD
-import engineer.echo.easyprinter.CommandBox.TEXT_BOLD_CANCEL
-import engineer.echo.easyprinter.CommandBox.dashLine
-import engineer.echo.easyprinter.CommandBox.fontHeight
-import engineer.echo.easyprinter.CommandBox.fontSize
-import engineer.echo.easyprinter.CommandBox.toPrintByte
-import engineer.echo.easyprinter.CommandBox.walkPaper
+import engineer.echo.easyprinter.command.CommandBox
+import engineer.echo.easyprinter.command.CommandBox.ALIGN_CENTER
+import engineer.echo.easyprinter.command.CommandBox.ALIGN_LEFT
+import engineer.echo.easyprinter.command.CommandBox.PRINT
+import engineer.echo.easyprinter.command.CommandBox.TEXT_BOLD
+import engineer.echo.easyprinter.command.CommandBox.TEXT_BOLD_CANCEL
+import engineer.echo.easyprinter.command.CommandBox.dashLine
+import engineer.echo.easyprinter.command.CommandBox.fontHeight
+import engineer.echo.easyprinter.command.CommandBox.fontSize
+import engineer.echo.easyprinter.command.CommandBox.toPrintByte
+import engineer.echo.easyprinter.command.CommandBox.walkPaper
 import java.nio.charset.Charset
 
 data class Bill(

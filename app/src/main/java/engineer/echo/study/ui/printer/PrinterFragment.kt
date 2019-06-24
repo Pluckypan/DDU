@@ -16,14 +16,14 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.googlecode.protobuf.format.JsonFormat
 import engineer.echo.easylib.alphaVisible
-import engineer.echo.easyprinter.CommandBox.epsonQrcode
-import engineer.echo.easyprinter.CommandBox.toBarcode
-import engineer.echo.easyprinter.CommandBox.toPrintByte
 import engineer.echo.easyprinter.Config
 import engineer.echo.easyprinter.Config.Companion.bondState
 import engineer.echo.easyprinter.Config.Companion.connectionState
 import engineer.echo.easyprinter.Config.Companion.localState
 import engineer.echo.easyprinter.EasyPrinter
+import engineer.echo.easyprinter.command.CommandBox.epsonQrcode
+import engineer.echo.easyprinter.command.CommandBox.toBarcode
+import engineer.echo.easyprinter.command.CommandBox.toPrintByte
 import engineer.echo.oneactivity.annotation.Configuration
 import engineer.echo.oneactivity.core.MasterFragment
 import engineer.echo.oneactivity.core.Request
@@ -193,7 +193,7 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
                     return@setOnClickListener
                 }
                 device?.apply {
-                    printerViewApp.getTablePrinter().print(this, maxWidth = 130)
+                    printerViewApp.getTablePrinter().print(this, maxWidth = 400)
                 }
             }
             printerViewApp.setOnClickListener {
@@ -236,16 +236,21 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
     }
 
     override fun onBackPressed() {
-        if (mBinding.layoutActionPrinter.alphaVisible()) {
-            mBinding.layoutActionPrinter.bottomOut()
-            return
-        }
-        if (mBinding.layoutPopupPrinterApp.alphaVisible()) {
-            mBinding.layoutPopupPrinterApp.bottomOut()
-            return
+        mBinding.apply {
+            if (printerViewApp.alphaVisible()) {
+                printerViewApp.bottomOut()
+                return
+            }
+            if (layoutActionPrinter.alphaVisible()) {
+                layoutActionPrinter.bottomOut()
+                return
+            }
+            if (layoutPopupPrinterApp.alphaVisible()) {
+                layoutPopupPrinterApp.bottomOut()
+                return
+            }
         }
         super.onBackPressed()
-
     }
 
     override fun onDeviceItemClick(device: BluetoothDevice?) {
