@@ -35,3 +35,10 @@ dependencies {
     // module
     api project(':easylib')
 }
+
+apply plugin: 'happy-maven'
+
+HappyMaven {
+    artifactId = "easyprinter"
+    version = "0.0.1"
+}

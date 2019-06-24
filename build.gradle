@@ -5,6 +5,7 @@ buildscript {
         classpath build.gradleX
         classpath build.kotlinX
         classpath protoBuf.gradle
+        classpath build.happyMaven
     }
 }
 
