@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothDevice
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
+import androidx.core.graphics.applyCanvas
 import engineer.echo.easyprinter.EasyPrinter
 import engineer.echo.easyprinter.command.CommandBox
 import engineer.echo.easyprinter.command.CommandBox.PRINT
@@ -27,10 +28,7 @@ abstract class IPainter {
     abstract fun draw(canvas: Canvas)
 
     fun toBitmap(): Bitmap {
-        return Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888).apply {
-            val canvas = Canvas(this)
-            draw(canvas)
-        }
+        return Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888).applyCanvas(::draw)
     }
 
     fun print(

@@ -29,20 +29,14 @@ class TablePrinter : IPainter() {
         strokeWidth = 4f
     }
 
-    fun isRotated(): Boolean {
-        Math.abs(rotation).also {
-            return it == 90f || it == 270f
-        }
+    private val bgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.WHITE
     }
 
     override fun draw(canvas: Canvas) {
         val cx = width / 2f
         val cy = height / 2f
         canvas.rotate(rotation, cx, cy)
-        canvas.drawColor(Color.WHITE)
-        titlePaint().apply {
-            canvas.drawText("红火烧烤利郎店", cx, 120f, this)
-        }
 
         val w = headers.size
         val h = items.size + 1
@@ -50,12 +44,13 @@ class TablePrinter : IPainter() {
         val startY = 220f
         val endY = startY + singleH * h
         val startX = 20f
-        val endX = if (isRotated()) {
-            height - 20f
-        } else {
-            width - 20f
-        }
+        val endX = width - 20f
         val singleW = (endX - startX) / w
+
+        canvas.drawRect(startX, 0f, endX, endY + 70, bgPaint)
+        titlePaint().apply {
+            canvas.drawText("红火烧烤利郎店", cx, 120f, this)
+        }
 
         // 画表格
         linePaint().apply {
