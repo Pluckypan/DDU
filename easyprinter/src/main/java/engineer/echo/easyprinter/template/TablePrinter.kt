@@ -20,6 +20,7 @@ class TablePrinter : IPainter() {
             arrayListOf("纽巴伦", "X", "1", "599", "599")
         )
     private var headerOffset = 0f
+    private var rotation = 90f
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.parseColor("#333333")
@@ -28,10 +29,17 @@ class TablePrinter : IPainter() {
         strokeWidth = 4f
     }
 
+    fun isRotated(): Boolean {
+        Math.abs(rotation).also {
+            return it == 90f || it == 270f
+        }
+    }
+
     override fun draw(canvas: Canvas) {
-        canvas.drawColor(Color.WHITE)
         val cx = width / 2f
         val cy = height / 2f
+        canvas.rotate(rotation, cx, cy)
+        canvas.drawColor(Color.WHITE)
         titlePaint().apply {
             canvas.drawText("红火烧烤利郎店", cx, 120f, this)
         }
@@ -42,7 +50,11 @@ class TablePrinter : IPainter() {
         val startY = 220f
         val endY = startY + singleH * h
         val startX = 20f
-        val endX = width - 20f
+        val endX = if (isRotated()) {
+            height - 20f
+        } else {
+            width - 20f
+        }
         val singleW = (endX - startX) / w
 
         // 画表格
