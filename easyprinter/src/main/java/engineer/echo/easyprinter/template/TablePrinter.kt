@@ -12,15 +12,14 @@ import android.graphics.Paint
  */
 class TablePrinter : IPainter() {
 
-    private val headers = arrayListOf("商品名称", "尺码", "数量", "单价", "金额")
-    private val items =
-        arrayListOf(
-            arrayListOf("Nike", "M", "10", "899", "8990"),
-            arrayListOf("阿迪达斯", "L", "2", "390", "780"),
-            arrayListOf("纽巴伦", "X", "1", "599", "599")
-        )
+    private val headers = arrayListOf<String>()
+    private val items = arrayListOf<ArrayList<String>>()
+    private var title: String = ""
+    private var orderId: String = ""
+    private var time: String = ""
+    private var memo: String = ""
     private var headerOffset = 0f
-    private var rotation = 90f
+    var rotation = 90f
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.parseColor("#333333")
@@ -31,6 +30,22 @@ class TablePrinter : IPainter() {
 
     private val bgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.WHITE
+    }
+
+    fun setup(config: TableConfig) {
+        headers.clear()
+        if (config.headers.isNotEmpty()) {
+            headers.addAll(config.headers)
+        }
+        items.clear()
+        if (config.items.isNotEmpty()) {
+            items.addAll(config.items)
+        }
+        title = config.title
+        orderId = config.orderId
+        time = config.time
+        memo = config.memo
+        rotation = config.rotation
     }
 
     override fun draw(canvas: Canvas) {
@@ -49,7 +64,7 @@ class TablePrinter : IPainter() {
 
         canvas.drawRect(startX, 0f, endX, endY + 70, bgPaint)
         titlePaint().apply {
-            canvas.drawText("红火烧烤利郎店", cx, 120f, this)
+            canvas.drawText(title, cx, 120f, this)
         }
 
         // 画表格
@@ -87,16 +102,16 @@ class TablePrinter : IPainter() {
 
         // 画单号
         orderPaint().apply {
-            canvas.drawText("单号:0x20190624", startX, startY - bottomOffset, this)
+            canvas.drawText(orderId, startX, startY - bottomOffset, this)
         }
         // 画时间
         timePaint().apply {
-            canvas.drawText("2019-06-24 12:06:08", endX, startY - bottomOffset, this)
+            canvas.drawText(time, endX, startY - bottomOffset, this)
         }
         // 画备注
         memoPaint().apply {
             canvas.drawText(
-                "温馨提示:adidas（阿迪达斯）创办于1949年.",
+                memo,
                 startX,
                 endY + topOffset,
                 this

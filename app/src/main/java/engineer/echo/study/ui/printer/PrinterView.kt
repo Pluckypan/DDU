@@ -13,6 +13,7 @@ import engineer.echo.easylib.clipTransparentEdge
 import engineer.echo.easyprinter.EasyPrinter
 import engineer.echo.easyprinter.command.CommandBox.toPrintByte
 import engineer.echo.easyprinter.command.ImageCommand.scaleToFit
+import engineer.echo.easyprinter.template.TableConfig
 import engineer.echo.easyprinter.template.TablePrinter
 
 /**
@@ -35,6 +36,20 @@ class PrinterView @JvmOverloads constructor(
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         painter.apply {
+            setup(TableConfig().apply {
+                title = "高丽酒店"
+                orderId = "订单号: 0x00156789"
+                time = "2019-06-25 00:00"
+                memo = "备注: 少放糖"
+                headers.addAll(arrayListOf("商品名称", "尺码", "数量", "单价", "金额"))
+                items.addAll(
+                    arrayListOf(
+                        arrayListOf("Nike", "M", "10", "899", "8990"),
+                        arrayListOf("阿迪达斯", "L", "2", "390", "780"),
+                        arrayListOf("纽巴伦", "X", "1", "599", "599")
+                    )
+                )
+            })
             width = w
             height = w
         }
@@ -43,6 +58,15 @@ class PrinterView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         painter.draw(canvas)
+    }
+
+    fun setOrientation(rotation: Float) {
+        painter.rotation = rotation
+        invalidate()
+    }
+
+    fun getOrientation(): Float {
+        return painter.rotation
     }
 
     @SuppressLint("WrongThread")

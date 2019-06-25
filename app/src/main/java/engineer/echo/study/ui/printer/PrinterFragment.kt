@@ -216,7 +216,11 @@ class PrinterFragment : MasterFragment(), PrinterContract.IView {
                 }
             }
             printerViewApp.setOnClickListener {
-                it.bottomOut()
+                if (printerViewApp.getOrientation() == 90f) {
+                    printerViewApp.setOrientation(0f)
+                } else {
+                    printerViewApp.setOrientation(90f)
+                }
             }
         }
 
