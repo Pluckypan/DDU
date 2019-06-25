@@ -113,6 +113,17 @@ class C {
                     R.string.label_messenger_app,
                     R.string.label_bluetooth_printer_app
                 )
+            ),
+            Subject(
+                R.string.title_subject_arch_app,
+                R.color.color009966,
+                R.string.iconArch,
+                listOf(
+                    R.string.label_room_arch,
+                    R.string.label_work_manager_arch,
+                    R.string.label_paging_arch,
+                    R.string.label_coroutines_arch
+                )
             )
         )
     }

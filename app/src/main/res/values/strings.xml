@@ -46,5 +46,11 @@
     <string name="label_show_table_app">显示列表</string>
     <string name="label_orientation_app">旋转屏幕</string>
     <string name="label_print_view_app">打印控件</string>
+    <!--Arch-->
+    <string name="title_subject_arch_app">Arch</string>
+    <string name="label_room_arch">Room</string>
+    <string name="label_work_manager_arch">WorkManager</string>
+    <string name="label_paging_arch">Paging</string>
+    <string name="label_coroutines_arch">协程</string>
 
 </resources>
