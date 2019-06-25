@@ -10,6 +10,7 @@ import android.os.SystemClock
 import android.renderscript.*
 import android.util.Base64
 import android.util.Log
+import androidx.annotation.WorkerThread
 import androidx.core.graphics.scale
 import java.io.*
 
@@ -162,12 +163,13 @@ fun Bitmap.gaussScale(scale: Float, radiusOffset: Float, app: Application): Bitm
 }
 
 /**
- * 去除边缘透明像素 offset 均为正
+ * 去除边缘透明像素 offset 均为正 如果透明像素较多 比较耗时
  * @param offsetL 左边预留像素
  * @param offsetT 顶部预留像素
  * @param offsetR 右边预留像素
  * @param offsetB 底部预留像素
  */
+@WorkerThread
 fun Bitmap.clipTransparentEdge(offsetL: Int = 0,
                                offsetT: Int = 0,
                                offsetR: Int = 0,
