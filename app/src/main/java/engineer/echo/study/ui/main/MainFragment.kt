@@ -12,6 +12,7 @@ import engineer.echo.study.R
 import engineer.echo.study.databinding.MainBinding
 import engineer.echo.study.ui.BezierViewFragment
 import engineer.echo.study.ui.ProtoBufFragment
+import engineer.echo.study.ui.coroutines.CoroutinesFragment
 import engineer.echo.study.ui.ipc.WifiP2pFragment
 import engineer.echo.study.ui.messenger.MessengerFragment
 import engineer.echo.study.ui.printer.PrinterFragment
@@ -42,6 +43,7 @@ class MainFragment : MasterFragment(), MainAdapter.MainAdapterCallback {
             R.string.label_wifi_p2p_app -> WifiP2pFragment.goto(this)
             R.string.label_messenger_app -> MessengerFragment.goto(this)
             R.string.label_bluetooth_printer_app -> PrinterFragment.goto(this)
+            R.string.label_coroutines_arch -> CoroutinesFragment.goto(this)
         }
     }
 }

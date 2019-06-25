@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data class="CoroutinesBinding">
+        <import type="engineer.echo.study.ui.coroutines.CoroutinesContract.IView"/>
+        <variable name="code" type="String"/>
+        <variable name="iView" type="IView"/>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <net.cryptobrewery.syntaxview.SyntaxView
+                android:id="@+id/syntax_coroutines_app"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:syntaxCode="@{code}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"/>
+
+        <TextView
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:id="@+id/tv_hello_coroutines"
+                style="@style/TextItemStyle"
+                android:width="100dp"
+                android:text="@string/label_hello_coroutines_arch"
+                android:layout_width="0dp"
+                android:onClick="@{() -> iView.onHelloClick()}"
+                android:gravity="center"
+                app:jiansong="@{true}"
+                android:background="@color/color0099FF"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                app:layout_constraintStart_toEndOf="@+id/tv_hello_coroutines"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:id="@+id/tv_hi_coroutines"
+                style="@style/TextItemStyle"
+                android:width="100dp"
+                android:text="@string/label_hello_coroutines_arch"
+                android:layout_width="0dp"
+                android:onClick="@{() -> iView.onHiClick()}"
+                android:gravity="center"
+                app:jiansong="@{true}"
+                android:background="@color/color0099FF"
+                android:layout_height="wrap_content"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
