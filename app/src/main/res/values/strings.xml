@@ -57,5 +57,6 @@
     <!--自定义View-->
     <string name="title_subject_custom_view">自定义View</string>
     <string name="label_recyclerview_app">RecyclerView</string>
+    <string name="label_behavior_app">Behavior</string>
 
 </resources>

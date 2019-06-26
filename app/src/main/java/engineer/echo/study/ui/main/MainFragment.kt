@@ -11,6 +11,7 @@ import engineer.echo.study.cmpts.BaseFragment
 import engineer.echo.study.databinding.MainBinding
 import engineer.echo.study.ui.BezierViewFragment
 import engineer.echo.study.ui.ProtoBufFragment
+import engineer.echo.study.ui.behavior.BehaviorFragment
 import engineer.echo.study.ui.coroutines.CoroutinesFragment
 import engineer.echo.study.ui.costom.RecyclerViewFragment
 import engineer.echo.study.ui.ipc.WifiP2pFragment
@@ -44,6 +45,7 @@ class MainFragment : BaseFragment(), MainAdapter.MainAdapterCallback {
             R.string.label_bluetooth_printer_app -> PrinterFragment.goto(this)
             R.string.label_coroutines_arch -> CoroutinesFragment.goto(this)
             R.string.label_recyclerview_app -> RecyclerViewFragment.goto(this)
+            R.string.label_behavior_app -> BehaviorFragment.goto(this)
         }
     }
 
