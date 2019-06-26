@@ -10,4 +10,5 @@
     <string name="iconPrinter">&#xe7db;</string>
     <string name="iconBluetooth">&#xec4b;</string>
     <string name="iconArch">&#xe89d;</string>
+    <string name="iconCustomView">&#xe7d3;</string>
 </resources>
