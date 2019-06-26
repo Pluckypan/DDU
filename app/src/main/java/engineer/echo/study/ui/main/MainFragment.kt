@@ -6,19 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import engineer.echo.oneactivity.annotation.Configuration
-import engineer.echo.oneactivity.core.MasterFragment
 import engineer.echo.study.R
+import engineer.echo.study.cmpts.BaseFragment
 import engineer.echo.study.databinding.MainBinding
 import engineer.echo.study.ui.BezierViewFragment
 import engineer.echo.study.ui.ProtoBufFragment
 import engineer.echo.study.ui.coroutines.CoroutinesFragment
+import engineer.echo.study.ui.costom.RecyclerViewFragment
 import engineer.echo.study.ui.ipc.WifiP2pFragment
 import engineer.echo.study.ui.messenger.MessengerFragment
 import engineer.echo.study.ui.printer.PrinterFragment
 
-@Configuration(theme = R.style.Theme_AppCompat_Light)
-class MainFragment : MasterFragment(), MainAdapter.MainAdapterCallback {
+class MainFragment : BaseFragment(), MainAdapter.MainAdapterCallback {
 
     private lateinit var mBinding: MainBinding
 
@@ -44,6 +43,11 @@ class MainFragment : MasterFragment(), MainAdapter.MainAdapterCallback {
             R.string.label_messenger_app -> MessengerFragment.goto(this)
             R.string.label_bluetooth_printer_app -> PrinterFragment.goto(this)
             R.string.label_coroutines_arch -> CoroutinesFragment.goto(this)
+            R.string.label_recyclerview_app -> RecyclerViewFragment.goto(this)
         }
+    }
+
+    override fun getTitle(): Int {
+        return R.string.app_name
     }
 }

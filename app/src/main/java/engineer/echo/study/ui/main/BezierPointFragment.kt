@@ -8,11 +8,11 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
-import engineer.echo.oneactivity.annotation.Configuration
 import engineer.echo.oneactivity.core.IMasterFragment
 import engineer.echo.oneactivity.core.MasterFragment
 import engineer.echo.oneactivity.core.Request
 import engineer.echo.study.R
+import engineer.echo.study.cmpts.BaseFragment
 import engineer.echo.study.databinding.BezierPointBinding
 import engineer.echo.study.widgets.ManualQuadBezierView
 
@@ -22,8 +22,7 @@ import engineer.echo.study.widgets.ManualQuadBezierView
  *  Created by Plucky(plucky@echo.engineer) on 2019/5/20 - 3:55 PM
  *  more about me: http://www.1991th.com
  */
-@Configuration(theme = R.style.Theme_AppCompat_Light)
-class BezierPointFragment : MasterFragment(), SeekBar.OnSeekBarChangeListener {
+class BezierPointFragment : BaseFragment(), SeekBar.OnSeekBarChangeListener {
 
     companion object {
         private const val KEY_START_X = "KEY_START_X"
@@ -129,5 +128,9 @@ class BezierPointFragment : MasterFragment(), SeekBar.OnSeekBarChangeListener {
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
 
+    }
+
+    override fun getTitle(): Int {
+        return R.string.label_quad_bezier_manual_app
     }
 }

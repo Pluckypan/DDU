@@ -8,10 +8,11 @@ import engineer.echo.oneactivity.core.IMasterFragment
 import engineer.echo.oneactivity.core.MasterFragment
 import engineer.echo.oneactivity.core.Request
 import engineer.echo.study.R
+import engineer.echo.study.cmpts.BaseFragment
 import engineer.echo.study.ui.main.BezierPointFragment
 import engineer.echo.study.widgets.ManualQuadBezierView
 
-class BezierViewFragment : MasterFragment() {
+class BezierViewFragment : BaseFragment() {
 
     companion object {
         private const val KEY_MANUAL = "key_for_manual"
@@ -59,5 +60,9 @@ class BezierViewFragment : MasterFragment() {
                 BezierPointFragment.parseData(data, it)
             }
         }
+    }
+
+    override fun getTitle(): Int {
+        return if (mManualBezierView != null) R.string.label_quad_bezier_manual_app else R.string.label_quad_bezier_app
     }
 }

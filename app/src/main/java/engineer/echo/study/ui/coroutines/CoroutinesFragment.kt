@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import engineer.echo.oneactivity.core.MasterFragment
 import engineer.echo.oneactivity.core.Request
 import engineer.echo.study.R
+import engineer.echo.study.cmpts.BaseFragment
 import engineer.echo.study.databinding.CoroutinesBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -21,7 +22,7 @@ import kotlinx.coroutines.runBlocking
  *  Created by Plucky(plucky@echo.engineer) on 2019/6/25 - 8:35 PM
  *  more about me: http://www.1991th.com
  */
-class CoroutinesFragment : MasterFragment(), CoroutinesContract.IView {
+class CoroutinesFragment : BaseFragment(), CoroutinesContract.IView {
 
     companion object {
 
@@ -63,5 +64,9 @@ class CoroutinesFragment : MasterFragment(), CoroutinesContract.IView {
             }
             it.code = "Default Hello.${Thread.currentThread().name}"
         }
+    }
+
+    override fun getTitle(): Int {
+        return R.string.label_coroutines_arch
     }
 }

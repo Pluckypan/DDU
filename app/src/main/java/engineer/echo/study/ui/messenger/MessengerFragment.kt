@@ -8,13 +8,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.jeremyliao.liveeventbus.LiveEventBus
 import engineer.echo.imessenger.send.SendManager.Companion.KEY_FOR_MESSENGER_MEM
-import engineer.echo.oneactivity.annotation.Configuration
 import engineer.echo.oneactivity.core.MasterFragment
 import engineer.echo.oneactivity.core.Request
 import engineer.echo.study.App
 import engineer.echo.study.C
 import engineer.echo.study.C.Companion.toUser
 import engineer.echo.study.R
+import engineer.echo.study.cmpts.BaseFragment
 import engineer.echo.study.cmpts.MMKVUtils
 import engineer.echo.study.cmpts.bottomIn
 import engineer.echo.study.cmpts.bottomOut
@@ -27,8 +27,7 @@ import engineer.echo.study.ui.messenger.ReceiverService.Companion.KEY_REPLY
  *  Created by Plucky(plucky@echo.engineer) on 2019/6/11 - 9:38 AM
  *  more about me: http://www.1991th.com
  */
-@Configuration(theme = R.style.Theme_AppCompat_Light)
-class MessengerFragment : MasterFragment() {
+class MessengerFragment : BaseFragment() {
 
     companion object {
         private const val TAG = "MessengerFragment"
@@ -108,5 +107,9 @@ class MessengerFragment : MasterFragment() {
     override fun onDestroy() {
         super.onDestroy()
         SenderService.unregister(App.getApp())
+    }
+
+    override fun getTitle(): Int {
+        return R.string.label_messenger_app
     }
 }

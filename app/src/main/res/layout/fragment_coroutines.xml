@@ -41,7 +41,7 @@
                 android:id="@+id/tv_hi_coroutines"
                 style="@style/TextItemStyle"
                 android:width="100dp"
-                android:text="@string/label_hello_coroutines_arch"
+                android:text="@string/label_hi_coroutines_arch"
                 android:layout_width="0dp"
                 android:onClick="@{() -> iView.onHiClick()}"
                 android:gravity="center"

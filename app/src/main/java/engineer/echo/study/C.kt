@@ -124,6 +124,14 @@ class C {
                     R.string.label_paging_arch,
                     R.string.label_coroutines_arch
                 )
+            ),
+            Subject(
+                R.string.title_subject_custom_view,
+                R.color.colorCC9933,
+                R.string.iconCustomView,
+                listOf(
+                    R.string.label_recyclerview_app
+                )
             )
         )
     }

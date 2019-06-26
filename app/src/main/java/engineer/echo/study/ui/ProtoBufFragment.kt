@@ -6,16 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.googlecode.protobuf.format.JsonFormat
-import engineer.echo.oneactivity.annotation.Configuration
 import engineer.echo.oneactivity.core.MasterFragment
 import engineer.echo.oneactivity.core.Request
 import engineer.echo.study.C
 import engineer.echo.study.C.Companion.toUser
 import engineer.echo.study.R
+import engineer.echo.study.cmpts.BaseFragment
 import engineer.echo.study.databinding.ProtoBufBinding
 
-@Configuration(theme = R.style.Theme_AppCompat_Light)
-class ProtoBufFragment : MasterFragment() {
+class ProtoBufFragment : BaseFragment() {
 
     companion object {
         fun goto(fragment: MasterFragment) {
@@ -48,5 +47,9 @@ class ProtoBufFragment : MasterFragment() {
             }
         }
 
+    }
+
+    override fun getTitle(): Int {
+        return R.string.label_entry_level_protobuf_app
     }
 }

@@ -9,17 +9,13 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import engineer.echo.oneactivity.annotation.Configuration
 import engineer.echo.oneactivity.core.MasterFragment
 import engineer.echo.oneactivity.core.Request
 import engineer.echo.study.App
 import engineer.echo.study.C
 import engineer.echo.study.C.Companion.toUser
 import engineer.echo.study.R
-import engineer.echo.study.cmpts.bottomIn
-import engineer.echo.study.cmpts.bottomOut
-import engineer.echo.study.cmpts.getColor
-import engineer.echo.study.cmpts.toPx
+import engineer.echo.study.cmpts.*
 import engineer.echo.study.databinding.WifiP2pBinding
 import engineer.echo.whisper.WhisperConnectionInfo
 import engineer.echo.whisper.WhisperDevice
@@ -28,8 +24,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.ByteArrayInputStream
 
-@Configuration(theme = R.style.Theme_AppCompat_Light)
-class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.WifiListAdapterListener {
+class WifiP2pFragment : BaseFragment(), WifiTransferListener, WifiListAdapter.WifiListAdapterListener {
 
     companion object {
 
@@ -287,5 +282,9 @@ class WifiP2pFragment : MasterFragment(), WifiTransferListener, WifiListAdapter.
             val user = bytes?.toUser()
             binding.transferInfo = "received ${user?.name} ${user?.extra}"
         }
+    }
+
+    override fun getTitle(): Int {
+        return R.string.label_wifi_p2p_app
     }
 }
