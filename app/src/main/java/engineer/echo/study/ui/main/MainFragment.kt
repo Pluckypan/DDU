@@ -14,6 +14,7 @@ import engineer.echo.study.ui.ProtoBufFragment
 import engineer.echo.study.ui.behavior.BehaviorFragment
 import engineer.echo.study.ui.coroutines.CoroutinesFragment
 import engineer.echo.study.ui.costom.RecyclerViewFragment
+import engineer.echo.study.ui.costom.TouchEventFragment
 import engineer.echo.study.ui.ipc.WifiP2pFragment
 import engineer.echo.study.ui.messenger.MessengerFragment
 import engineer.echo.study.ui.printer.PrinterFragment
@@ -46,6 +47,7 @@ class MainFragment : BaseFragment(), MainAdapter.MainAdapterCallback {
             R.string.label_coroutines_arch -> CoroutinesFragment.goto(this)
             R.string.label_recyclerview_app -> RecyclerViewFragment.goto(this)
             R.string.label_behavior_app -> BehaviorFragment.goto(this)
+            R.string.label_touch_app -> TouchEventFragment.goto(this)
         }
     }
 

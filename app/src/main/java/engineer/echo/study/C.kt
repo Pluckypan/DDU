@@ -131,7 +131,8 @@ class C {
                 R.string.iconCustomView,
                 listOf(
                     R.string.label_recyclerview_app,
-                    R.string.label_behavior_app
+                    R.string.label_behavior_app,
+                    R.string.label_touch_app
                 )
             )
         )
