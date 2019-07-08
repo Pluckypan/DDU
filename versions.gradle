@@ -83,7 +83,8 @@ ext {
 
     widget = [
             syntaxView           : "com.github.Badranh:Syntax-View-Android:0.1.5",
-            sectionedRecyclerview: "com.truizlop.sectionedrecyclerview:library:1.2.0"
+            sectionedRecyclerview: "com.truizlop.sectionedrecyclerview:library:1.2.0",
+            rangeBar             : "com.github.Greymamba:Rangebar:1.2.1"
     ]
 
     test = [

@@ -64,6 +64,7 @@ dependencies {
     implementation rootProject.ext.protoBuf.javaFormat
     // Widgets
     implementation rootProject.ext.widget.syntaxView
+    implementation rootProject.ext.widget.rangeBar
     // module
     implementation project(':whisper')
     implementation project(':imessenger')
