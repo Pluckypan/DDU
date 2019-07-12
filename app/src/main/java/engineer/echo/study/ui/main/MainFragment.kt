@@ -18,6 +18,7 @@ import engineer.echo.study.ui.costom.TouchEventFragment
 import engineer.echo.study.ui.ipc.WifiP2pFragment
 import engineer.echo.study.ui.messenger.MessengerFragment
 import engineer.echo.study.ui.printer.PrinterFragment
+import engineer.echo.study.ui.rxjava.RxJavaFragment
 
 class MainFragment : BaseFragment(), MainAdapter.MainAdapterCallback {
 
@@ -48,6 +49,7 @@ class MainFragment : BaseFragment(), MainAdapter.MainAdapterCallback {
             R.string.label_recyclerview_app -> RecyclerViewFragment.goto(this)
             R.string.label_behavior_app -> BehaviorFragment.goto(this)
             R.string.label_touch_app -> TouchEventFragment.goto(this)
+            R.string.label_rxjava_arch -> RxJavaFragment.goto(this)
         }
     }
 

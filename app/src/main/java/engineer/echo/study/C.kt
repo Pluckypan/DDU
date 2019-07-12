@@ -122,7 +122,8 @@ class C {
                     R.string.label_room_arch,
                     R.string.label_work_manager_arch,
                     R.string.label_paging_arch,
-                    R.string.label_coroutines_arch
+                    R.string.label_coroutines_arch,
+                    R.string.label_rxjava_arch
                 )
             ),
             Subject(

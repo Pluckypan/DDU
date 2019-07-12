@@ -52,6 +52,7 @@
     <string name="label_work_manager_arch">WorkManager</string>
     <string name="label_paging_arch">Paging</string>
     <string name="label_coroutines_arch">协程</string>
+    <string name="label_rxjava_arch">RxJava</string>
     <string name="label_hello_coroutines_arch">Hello.协程</string>
     <string name="label_hi_coroutines_arch">Hi.协程</string>
     <!--自定义View-->
