@@ -17,6 +17,7 @@ import engineer.echo.study.ui.ipc.messenger.MessengerFragment
 import engineer.echo.study.ui.ipc.p2p.WifiP2pFragment
 import engineer.echo.study.ui.ipc.printer.PrinterFragment
 import engineer.echo.study.ui.proto.ProtoBufFragment
+import engineer.echo.study.ui.test.TestFragment
 
 class MainFragment : BaseFragment(), MainAdapter.MainAdapterCallback {
 
@@ -32,6 +33,9 @@ class MainFragment : BaseFragment(), MainAdapter.MainAdapterCallback {
         mBinding.rcvSubjectMainApp.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = MainAdapter(this@MainFragment)
+        }
+        mBinding.ivLogoApp.setOnClickListener {
+            TestFragment.goto(this)
         }
     }
 

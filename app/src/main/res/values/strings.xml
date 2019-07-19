@@ -57,8 +57,10 @@
     <string name="label_hi_coroutines_arch">Hi.协程</string>
     <!--自定义View-->
     <string name="title_subject_custom_view">自定义View</string>
-    <string name="label_recyclerview_app">RecyclerView</string>
     <string name="label_behavior_app">Behavior</string>
+    <string name="title_test_center_app">测试中心</string>
     <string name="label_touch_app">TouchEvent</string>
+    <string name="label_recyclerview_app">RecyclerView</string>
+    <string name="label_lyric_app">LyricView</string>
 
 </resources>
