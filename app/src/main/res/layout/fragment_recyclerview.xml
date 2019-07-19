@@ -44,7 +44,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/rcv_size"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"/>
+                android:layout_height="150dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

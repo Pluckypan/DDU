@@ -23,15 +23,26 @@ class LyricView @JvmOverloads constructor(
     private val layer0 = ContextCompat.getDrawable(context, R.drawable.img_lyric_00000)
     private val layer1 = ContextCompat.getDrawable(context, R.drawable.img_lyric_00001)
 
+    private val layer2 = BitmapFactory.decodeResource(resources, R.drawable.img_lyric_00002)
+    private val layer3 = BitmapFactory.decodeResource(resources, R.drawable.img_lyric_00003)
+
     private val mPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
         xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
     }
 
+    private val mBitmapPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.RED
+        xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
+    }
+
     var progress: Float = 0.0f
+    val mSrcRect = Rect()
+    val mDstRect = RectF()
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        var offsety = 0f
         layer0?.apply {
             setBounds(0, 0, intrinsicWidth, intrinsicHeight)
             draw(canvas)
@@ -42,6 +53,13 @@ class LyricView @JvmOverloads constructor(
             draw(canvas)
             canvas.drawRect(intrinsicWidth * progress, 0f, intrinsicWidth * 1f, intrinsicHeight * 1f, mPaint)
             canvas.restore()
+            offsety = intrinsicHeight * 1f
         }
+
+        val bLeft = (width - layer2.width) * 1f
+        canvas.drawBitmap(layer2, bLeft, offsety, null)
+        mSrcRect.set(0, 0, (layer3.width * progress).toInt(), layer3.height)
+        mDstRect.set(bLeft, offsety, layer3.width * progress + bLeft, layer3.height + offsety)
+        canvas.drawBitmap(layer3, mSrcRect, mDstRect, null)
     }
 }
