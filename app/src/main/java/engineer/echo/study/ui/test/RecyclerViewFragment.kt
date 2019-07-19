@@ -42,7 +42,11 @@ class RecyclerViewFragment : BaseFragment() {
             mBinding.rcvSize.layoutParams.apply {
                 width = ((maxValue.toFloat() / 100) * 20 * 150).toInt()
                 "setOnRangeSeekbarChangeListener min=%s max=%s width=%s".formatLog(TAG, minValue, maxValue, width)
-                mBinding.rcvSize.layoutParams=this
+                mBinding.rcvSize.layoutParams = this
+            }
+            mBinding.lyricviewApp.apply {
+                progress = maxValue.toFloat() / 100
+                invalidate()
             }
         }
     }
