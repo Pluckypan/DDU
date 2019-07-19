@@ -51,7 +51,7 @@ ext {
     protoBuf = [
             java      : "com.google.protobuf:protobuf-java:3.6.1",
             plugin    : "com.google.protobuf",
-            gradle    : "com.google.protobuf:protobuf-gradle-plugin:0.8.9",
+            gradle    : "com.google.protobuf:protobuf-gradle-plugin:0.8.10",
             compile   : "com.google.protobuf:protoc:3.1.0",
             javaFormat: "com.googlecode.protobuf-java-format:protobuf-java-format:1.2",
             javaUtil  : "com.google.protobuf:protobuf-java-util:3.6.0"
