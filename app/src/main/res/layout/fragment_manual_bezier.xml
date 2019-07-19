@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<engineer.echo.study.widgets.ManualQuadBezierView
+<engineer.echo.study.ui.bezier.ManualQuadBezierView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/manual_bezier_app"
         android:layout_width="match_parent"

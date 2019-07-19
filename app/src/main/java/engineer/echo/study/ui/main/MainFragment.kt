@@ -9,16 +9,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import engineer.echo.study.R
 import engineer.echo.study.cmpts.BaseFragment
 import engineer.echo.study.databinding.MainBinding
-import engineer.echo.study.ui.BezierViewFragment
-import engineer.echo.study.ui.ProtoBufFragment
-import engineer.echo.study.ui.behavior.BehaviorFragment
-import engineer.echo.study.ui.coroutines.CoroutinesFragment
-import engineer.echo.study.ui.costom.RecyclerViewFragment
-import engineer.echo.study.ui.costom.TouchEventFragment
-import engineer.echo.study.ui.ipc.WifiP2pFragment
-import engineer.echo.study.ui.messenger.MessengerFragment
-import engineer.echo.study.ui.printer.PrinterFragment
-import engineer.echo.study.ui.rxjava.RxJavaFragment
+import engineer.echo.study.ui.arch.coroutines.CoroutinesFragment
+import engineer.echo.study.ui.arch.rxjava.RxJavaFragment
+import engineer.echo.study.ui.bezier.BezierViewFragment
+import engineer.echo.study.ui.costom.behavior.BehaviorFragment
+import engineer.echo.study.ui.ipc.messenger.MessengerFragment
+import engineer.echo.study.ui.ipc.p2p.WifiP2pFragment
+import engineer.echo.study.ui.ipc.printer.PrinterFragment
+import engineer.echo.study.ui.proto.ProtoBufFragment
 
 class MainFragment : BaseFragment(), MainAdapter.MainAdapterCallback {
 
@@ -46,9 +44,7 @@ class MainFragment : BaseFragment(), MainAdapter.MainAdapterCallback {
             R.string.label_messenger_app -> MessengerFragment.goto(this)
             R.string.label_bluetooth_printer_app -> PrinterFragment.goto(this)
             R.string.label_coroutines_arch -> CoroutinesFragment.goto(this)
-            R.string.label_recyclerview_app -> RecyclerViewFragment.goto(this)
             R.string.label_behavior_app -> BehaviorFragment.goto(this)
-            R.string.label_touch_app -> TouchEventFragment.goto(this)
             R.string.label_rxjava_arch -> RxJavaFragment.goto(this)
         }
     }

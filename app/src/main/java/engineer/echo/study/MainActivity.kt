@@ -6,8 +6,8 @@ import engineer.echo.oneactivity.core.IMasterFragment
 import engineer.echo.oneactivity.core.MasterCompatActivity
 import engineer.echo.oneactivity.core.Request
 import engineer.echo.study.cmpts.BaseFragment
+import engineer.echo.study.ui.ipc.messenger.ReceiverService
 import engineer.echo.study.ui.main.MainFragment
-import engineer.echo.study.ui.messenger.ReceiverService
 
 
 class MainActivity : MasterCompatActivity(), FragmentMaster.FragmentLifecycleCallbacks {

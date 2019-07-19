@@ -251,7 +251,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <engineer.echo.study.ui.printer.PrinterView
+            <engineer.echo.study.ui.ipc.printer.PrinterView
                     android:id="@+id/printer_view_app"
                     android:background="@android:color/white"
                     android:alpha="0"

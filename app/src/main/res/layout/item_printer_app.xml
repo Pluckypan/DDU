@@ -5,7 +5,7 @@
 
     <data class="DeviceItemBinding">
         <variable name="device" type="android.bluetooth.BluetoothDevice"/>
-        <variable name="iView" type="engineer.echo.study.ui.printer.PrinterContract.IView"/>
+        <variable name="iView" type="engineer.echo.study.ui.ipc.printer.PrinterContract.IView"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

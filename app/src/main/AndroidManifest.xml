@@ -18,8 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <service android:name=".ui.messenger.SenderService"/>
-        <service android:name=".ui.messenger.ReceiverService" android:exported="true"/>
+        <service android:name="engineer.echo.study.ui.ipc.messenger.SenderService"/>
+        <service android:name="engineer.echo.study.ui.ipc.messenger.ReceiverService" android:exported="true"/>
     </application>
 
 </manifest>

@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <engineer.echo.study.ui.costom.TouchHandlerView
+    <engineer.echo.study.ui.test.TouchHandlerView
             android:layout_marginTop="40dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

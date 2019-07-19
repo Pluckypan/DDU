@@ -14,7 +14,7 @@ import engineer.echo.oneactivity.core.Request
 import engineer.echo.study.R
 import engineer.echo.study.cmpts.BaseFragment
 import engineer.echo.study.databinding.BezierPointBinding
-import engineer.echo.study.widgets.ManualQuadBezierView
+import engineer.echo.study.ui.bezier.ManualQuadBezierView
 
 /**
  *  BezierPointFragment.kt
