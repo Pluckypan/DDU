@@ -15,6 +15,7 @@ class C {
         private const val ICON_PATH = "font/iconfont.ttf"
         private const val SONGTI_PATH = "font/jiansong.ttf"
         private const val HEITI_PATH = "font/jianhei.ttf"
+        const val URL_APK = "https://cdn.llscdn.com/yy/files/tkzpx40x-lls-LLS-5.7-785-20171108-111118.apk"
 
         var ICON = lazy {
             Typeface.createFromAsset(App.getApp().assets, ICON_PATH)

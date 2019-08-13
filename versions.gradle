@@ -78,7 +78,8 @@ ext {
             liveBus        : "com.jeremyliao:live-event-bus-x:1.4.4",
             mmkv           : "com.tencent:mmkv:1.0.22",
             workManager    : workManager,
-            room           : room
+            room           : room,
+            rxAndroid      : "io.reactivex.rxjava2:rxandroid:2.0.1"
     ]
 
     widget = [

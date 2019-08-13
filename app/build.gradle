@@ -55,6 +55,7 @@ dependencies {
     kapt rootProject.ext.framework.room.compiler
     implementation rootProject.ext.framework.room.runtime
     implementation rootProject.ext.framework.room.rxjava2
+    implementation rootProject.ext.framework.rxAndroid
     // test
     testImplementation rootProject.ext.test.junit
     androidTestImplementation rootProject.ext.test.runner

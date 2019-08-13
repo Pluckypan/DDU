@@ -7,11 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import engineer.echo.easylib.formatLog
+import engineer.echo.easylib.printLine
 import engineer.echo.oneactivity.core.Request
 import engineer.echo.study.R
 import engineer.echo.study.cmpts.BaseFragment
 import engineer.echo.study.databinding.RxjavaBinding
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import kotlin.random.Random
 
 /**
  *  RxJavaFragment.kt
@@ -81,5 +85,36 @@ class RxJavaFragment : BaseFragment(), RxJavaView {
         }, {
             "onErrorReturnClick error %s".formatLog(TAG, it.message)
         })
+    }
+
+    @SuppressLint("CheckResult")
+    override fun onDownloadClick(view: View) {
+        Observable.just("Alan Walker").flatMap {
+            val arr = it.toCharArray().toTypedArray()
+            Observable.fromArray(*arr)
+        }.flatMap {
+            val t = Random.nextInt(1000)
+            Thread.sleep(t*1L)
+            Observable.just(it.plus("#$t"))
+        }
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {
+                "Download doOnSubscribe".printLine(TAG)
+            }
+            .doOnComplete {
+                "Download doOnComplete".printLine(TAG)
+            }
+            .doOnDispose {
+                "Download doOnDispose".printLine(TAG)
+            }
+            .doOnTerminate {
+                "Download doOnTerminate".printLine(TAG)
+            }
+            .subscribe({
+                "Downloading %s".formatLog(TAG, it)
+            }, {
+                "Downloading error %s".formatLog(TAG, it.message)
+            })
     }
 }

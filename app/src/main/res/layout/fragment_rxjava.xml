@@ -30,5 +30,16 @@
                 android:background="@color/colorPrimary"
                 style="@style/TextItemStyle" tools:ignore="HardcodedText"/>
 
+        <TextView
+                android:layout_width="140dp"
+                android:id="@+id/tv_onDownload_rxjava"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_onErrorReturn_rxjava"
+                android:text="onDownload"
+                android:onClick="@{iView::onDownloadClick}"
+                android:background="@color/colorPrimary"
+                style="@style/TextItemStyle"
+                tools:ignore="HardcodedText"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

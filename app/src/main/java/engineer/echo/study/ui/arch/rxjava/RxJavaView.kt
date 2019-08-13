@@ -11,4 +11,5 @@ import android.view.View
 interface RxJavaView {
     fun onToListClick(view: View)
     fun onErrorReturnClick(view: View)
+    fun onDownloadClick(view: View)
 }
