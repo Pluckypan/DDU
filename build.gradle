@@ -1,4 +1,4 @@
-buildscript { 
+buildscript {
     ext.kotlin_version = '1.3.50'
 
     apply from: 'versions.gradle'
@@ -8,7 +8,7 @@ buildscript {
         classpath build.kotlinX
         classpath protoBuf.gradle
         classpath build.happyMaven
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version" }
+    }
 }
 
 allprojects {

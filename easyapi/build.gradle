@@ -1,21 +1,20 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
+
     defaultConfig {
-        applicationId "engineer.echo.logic"
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
     }
-    dataBinding {
-        enabled = true
-    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -32,9 +31,4 @@ dependencies {
     // androidx
     implementation rootProject.ext.androidx.appcompat
     implementation rootProject.ext.androidx.ktx
-    implementation rootProject.ext.androidx.constraintlayout
-    // test
-    testImplementation rootProject.ext.test.junit
-    androidTestImplementation rootProject.ext.test.runner
-    androidTestImplementation rootProject.ext.test.espresso
 }
