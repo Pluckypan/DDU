@@ -32,4 +32,18 @@ class ExampleUnitTest {
         // len = 5
         // arr = [1, 2, 3, 5, 6, 3, 3, 5, 6]
     }
+
+    @Test
+    fun maxProfit1() {
+        val arr = intArrayOf(2, 7, 12, 1, 10, 5, 3, 6, 4)
+        val max1 = Simple.maxProfit1(arr)
+        val max2 = Simple.maxProfit2(arr)
+        println("max1 = $max1 max2 = $max2")
+    }
+
+    @Test
+    fun maxProfit2() {
+        val arr = intArrayOf(1,2,3,4,5)
+        println("max = ${Middle.maxProfit(arr)}")
+    }
 }
