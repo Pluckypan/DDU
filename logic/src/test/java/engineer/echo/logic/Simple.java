@@ -49,4 +49,19 @@ public class Simple {
         }
         return max;
     }
+
+    public static int[] rotateArray(int[] arr, int shift) {
+        int len = arr.length;
+        if (len < 2 || shift <= 0) return arr;
+        int s = shift % len;
+        if (s == 0) return arr;
+        int[] temp = new int[arr.length * 2];
+        for (int i = 0; i < temp.length; i++) {
+            temp[i] = arr[i % len];
+        }
+        for (int i = len - s; i < 2 * len - s; i++) {
+            arr[i - (len-s)] = temp[i];
+        }
+        return arr;
+    }
 }

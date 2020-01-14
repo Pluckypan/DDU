@@ -43,7 +43,14 @@ class ExampleUnitTest {
 
     @Test
     fun maxProfit2() {
-        val arr = intArrayOf(1,2,3,4,5)
+        val arr = intArrayOf(1, 2, 3, 4, 5)
         println("max = ${Middle.maxProfit(arr)}")
+    }
+
+    @Test
+    fun testRotateArray() {
+        val arr = intArrayOf(1, 2, 3, 4, 5, 6, 7)
+        val arr1 = Simple.rotateArray(arr, 3)
+        println("#1 = ${arr1?.contentToString()}")
     }
 }
