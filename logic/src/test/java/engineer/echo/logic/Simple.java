@@ -1,5 +1,7 @@
 package engineer.echo.logic;
 
+import java.util.Arrays;
+
 /**
  * Simple.java
  * Info: 简单算法
@@ -60,8 +62,31 @@ public class Simple {
             temp[i] = arr[i % len];
         }
         for (int i = len - s; i < 2 * len - s; i++) {
-            arr[i - (len-s)] = temp[i];
+            arr[i - (len - s)] = temp[i];
         }
         return arr;
+    }
+
+    public static boolean duplicate(int[] arr) {
+        int len = arr.length;
+        if (len < 2) return false;
+        for (int i = 0; i < len; i++) {
+            for (int j = i + 1; j < len; j++) {
+                if (arr[i] == arr[j]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean duplicateArr(int[] arr) {
+        int len = arr.length;
+        if (len < 2) return false;
+        Arrays.sort(arr);
+        for (int i = 1; i < len; i++) {
+            if (arr[i - 1] == arr[i]) return true;
+        }
+        return false;
     }
 }

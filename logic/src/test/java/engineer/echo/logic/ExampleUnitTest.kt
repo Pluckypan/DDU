@@ -1,6 +1,7 @@
 package engineer.echo.logic
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 /**
@@ -52,5 +53,14 @@ class ExampleUnitTest {
         val arr = intArrayOf(1, 2, 3, 4, 5, 6, 7)
         val arr1 = Simple.rotateArray(arr, 3)
         println("#1 = ${arr1?.contentToString()}")
+    }
+
+    @Test
+    fun testDuplicate() {
+        val arr = intArrayOf(1, 2, 3, 1)
+        val th1 = Simple.duplicate(arr)
+        val th2 = Simple.duplicateArr(arr)
+        println("#1 = $th1")
+        assertTrue("#2", th2)
     }
 }
