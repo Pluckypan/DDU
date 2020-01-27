@@ -31,4 +31,6 @@ dependencies {
     // androidx
     implementation rootProject.ext.androidx.appcompat
     implementation rootProject.ext.androidx.ktx
+    // retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
 }
