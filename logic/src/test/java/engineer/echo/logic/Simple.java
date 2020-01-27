@@ -1,6 +1,8 @@
 package engineer.echo.logic;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Simple.java
@@ -86,6 +88,20 @@ public class Simple {
         Arrays.sort(arr);
         for (int i = 1; i < len; i++) {
             if (arr[i - 1] == arr[i]) return true;
+        }
+        return false;
+    }
+
+    public static boolean duplicateSet(int[] arr) {
+        int len = arr.length;
+        if (len < 2) return false;
+        Set<Integer> set = new HashSet<>(len);
+        for (int i = 0; i < len; i++) {
+            if (set.contains(arr[i])) {
+                return true;
+            } else {
+                set.add(arr[i]);
+            }
         }
         return false;
     }

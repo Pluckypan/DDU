@@ -60,7 +60,7 @@ class ExampleUnitTest {
         val arr = intArrayOf(1, 2, 3, 1)
         val th1 = Simple.duplicate(arr)
         val th2 = Simple.duplicateArr(arr)
-        println("#1 = $th1")
-        assertTrue("#2", th2)
+        val th3 = Simple.duplicateSet(arr)
+        assertTrue("result", th1 && th2 && th3)
     }
 }
