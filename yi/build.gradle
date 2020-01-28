@@ -12,8 +12,12 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled = true
     }
-
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -30,8 +34,13 @@ dependencies {
     // androidx
     implementation rootProject.ext.androidx.appcompat
     implementation rootProject.ext.androidx.ktx
+    implementation rootProject.ext.androidx.constraintlayout
+    implementation rootProject.ext.androidx.recyclerview
     // test
     testImplementation rootProject.ext.test.junit
     androidTestImplementation rootProject.ext.test.runner
     androidTestImplementation rootProject.ext.test.espresso
+    // modules
+    implementation project(path: ':easyapi')
+    implementation project(path: ':easylib')
 }

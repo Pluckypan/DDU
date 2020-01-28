@@ -21,16 +21,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // build
-    implementation rootProject.ext.build.kotlinLib
+    api rootProject.ext.build.kotlinLib
     // androidx
-    implementation rootProject.ext.androidx.appcompat
-    implementation rootProject.ext.androidx.ktx
+    api rootProject.ext.androidx.appcompat
+    api rootProject.ext.androidx.ktx
     // retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    api 'com.squareup.retrofit2:retrofit:2.7.0'
+    api 'com.squareup.retrofit2:converter-gson:2.7.0'
 }
