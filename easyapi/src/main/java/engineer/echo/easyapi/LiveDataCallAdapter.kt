@@ -44,19 +44,15 @@ internal class LiveDataCallAdapter<T : Result>(
         if (response != null && response.isSuccessful && t == null) {
             liveData.postValue(response.body())
         } else {
-            try {
-                val constructor = rawType.declaredConstructors.first()
-                val result = constructor.newInstance() as T
-                result.exception = t ?: if (response != null) {
-                    Exception("${response.code()}", Throwable(response.message()))
-                } else {
-                    null
-                }
-                liveData.postValue(result)
-            } catch (e: Exception) {
-                EasyApi.printLog("postResult exception = %s", e.message)
-                liveData.postValue(null)
+            val constructor = rawType.declaredConstructors.first()
+            // 通过无参构造函数实例化对象
+            val result = constructor.newInstance() as T
+            result.exception = t ?: if (response != null) {
+                Exception("${response.code()}", Throwable(response.message()))
+            } else {
+                null
             }
+            liveData.postValue(result)
         }
     }
 
