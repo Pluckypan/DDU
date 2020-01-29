@@ -27,7 +27,7 @@ class LiveDataCallAdapterFactory private constructor() : CallAdapter.Factory() {
             rawType.simpleName,
             annotations.size
         )
-        return LiveDataCallAdapter<Result>(resultType)
+        return LiveDataCallAdapter<Result>(rawType,resultType)
     }
 
     companion object {
