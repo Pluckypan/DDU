@@ -1,6 +1,7 @@
 package engineer.echo.easyapi
 
 import android.app.Application
+import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -11,8 +12,17 @@ class EasyApi {
 
     companion object {
 
+        private const val TAG = "EasyApi"
         private lateinit var application: Application
         private var customRetrofit: Retrofit? = null
+        private var debugMode = false
+        private const val DEFAULT_URL = "http://www.1991th.com/"
+
+        internal fun printLog(format: String, vararg args: Any?) {
+            if (debugMode) {
+                Log.i(TAG, format.format(*args).plus(" thread=[${Thread.currentThread().name}]"))
+            }
+        }
 
         /**
          * 设置 Header
@@ -21,7 +31,8 @@ class EasyApi {
             return Interceptor { chain ->
                 val originalRequest = chain.request()
                 val requestBuilder = originalRequest.newBuilder().apply {
-                    header("AuthorId", "plucky")
+                    header("powerBy", TAG)
+                    header("author", "plucky")
                 }
                 val request = requestBuilder.build()
                 chain.proceed(request)
@@ -42,10 +53,12 @@ class EasyApi {
 
         fun init(
             app: Application,
-            retrofit: Retrofit? = null
+            retrofit: Retrofit? = null,
+            debugMode: Boolean = false
         ) {
-            application = app
-            customRetrofit = retrofit
+            this.application = app
+            this.customRetrofit = retrofit
+            this.debugMode = debugMode
         }
 
         fun <T> create(service: Class<T>): T {
@@ -54,13 +67,14 @@ class EasyApi {
 
         private val lazyApi by lazy {
             val builder = customRetrofit?.newBuilder() ?: Retrofit.Builder()
-                .addCallAdapterFactory(LiveDataCallAdapterFactory()).apply {
-                    // 如果是自定义的 Retrofit 则所有参数均由外部决定
+                .apply {
                     if (customRetrofit == null) {
                         client(okClient)
+                        baseUrl(DEFAULT_URL)
                         addConverterFactory(GsonConverterFactory.create())
                     }
                 }
+                .addCallAdapterFactory(LiveDataCallAdapterFactory.create())
             builder.build()
         }
 

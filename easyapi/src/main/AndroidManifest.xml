@@ -1,1 +1,5 @@
-<manifest package="engineer.echo.easyapi" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        package="engineer.echo.easyapi">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+</manifest>

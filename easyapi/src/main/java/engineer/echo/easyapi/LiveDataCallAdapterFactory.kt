@@ -6,22 +6,31 @@ import retrofit2.Retrofit
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
-class LiveDataCallAdapterFactory : CallAdapter.Factory() {
+class LiveDataCallAdapterFactory private constructor() : CallAdapter.Factory() {
+
     override fun get(
         returnType: Type,
         annotations: Array<Annotation>,
         retrofit: Retrofit
     ): CallAdapter<*, *>? {
+        // 返回类型必须是 LiveData
         if (getRawType(returnType) != LiveData::class.java) return null
-        //获取第一个泛型类型
-        val observableType = getParameterUpperBound(0, returnType as ParameterizedType)
-        val rawType = getRawType(observableType)
-        if (rawType != ApiResponse::class.java) {
-            throw IllegalArgumentException("type must be ApiResponse")
-        }
-        if (observableType !is ParameterizedType) {
-            throw IllegalArgumentException("resource must be parameterized")
-        }
-        return LiveDataCallAdapter<Any>(observableType)
+        // 取 LiveData 泛型
+        val resultType = getParameterUpperBound(0, returnType as ParameterizedType)
+        // 必须指定了返回类型「参数化构造：必须指定类型」
+        require(resultType is ParameterizedType) { "EasyApi: resultType must be Parameterized" }
+        val rawType = getRawType(resultType)
+        // 必须是继承自 Result
+        require(rawType.superclass == Result::class.java) { "EasyApi: rawType must be a subclass of Result" }
+        EasyApi.printLog(
+            "LiveDataCallAdapterFactory get rawType = %s,annotations = %s",
+            rawType.simpleName,
+            annotations.size
+        )
+        return LiveDataCallAdapter<Result>(resultType)
+    }
+
+    companion object {
+        fun create(): LiveDataCallAdapterFactory = LiveDataCallAdapterFactory()
     }
 }
