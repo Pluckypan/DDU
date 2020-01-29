@@ -18,7 +18,7 @@ class LiveDataCallAdapterFactory private constructor() : CallAdapter.Factory() {
         // 取 LiveData 泛型
         val resultType = getParameterUpperBound(0, returnType as ParameterizedType)
         // 必须指定了返回类型「参数化构造：必须指定类型」
-        require(resultType is ParameterizedType) { "EasyApi: resultType must be Parameterized" }
+        // require(resultType is ParameterizedType) { "EasyApi: resultType must be Parameterized" }
         val rawType = getRawType(resultType)
         // 必须是继承自 Result
         require(rawType.superclass == Result::class.java) { "EasyApi: rawType must be a subclass of Result" }

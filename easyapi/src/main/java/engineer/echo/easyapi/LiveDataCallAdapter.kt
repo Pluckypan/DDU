@@ -7,13 +7,12 @@ import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import java.util.concurrent.atomic.AtomicLong
 
 internal class LiveDataCallAdapter<T : Result>(
     private val rawType: Class<*>,
-    private val responseType: ParameterizedType
+    private val responseType: Type
 ) :
     CallAdapter<T, LiveData<T>> {
 
