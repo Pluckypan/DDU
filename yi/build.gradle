@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
 
@@ -13,6 +15,12 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
+    }
+    dataBinding {
+        enabled = true
+    }
+    androidExtensions {
+        experimental = true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -36,6 +44,7 @@ dependencies {
     implementation rootProject.ext.androidx.ktx
     implementation rootProject.ext.androidx.constraintlayout
     implementation rootProject.ext.androidx.recyclerview
+    implementation rootProject.ext.androidx.lifecycleExt
     // test
     testImplementation rootProject.ext.test.junit
     androidTestImplementation rootProject.ext.test.runner

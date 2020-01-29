@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">yi</string>
+    <string name="main_label_submit">submit</string>
 </resources>

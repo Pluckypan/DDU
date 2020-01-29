@@ -7,6 +7,6 @@ class YiApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        EasyApi.init(this)
+        EasyApi.init(this, debugMode = BuildConfig.DEBUG)
     }
 }

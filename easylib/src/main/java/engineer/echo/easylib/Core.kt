@@ -1,11 +1,13 @@
 package engineer.echo.easylib
 
+import android.content.Context
 import android.graphics.Rect
 import android.os.Looper
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.children
 import java.io.File
 
@@ -58,7 +60,7 @@ fun ViewGroup.allView(): ArrayList<View> {
     return views
 }
 
-fun ViewGroup.groupEnable(isEnable: Boolean){
+fun ViewGroup.groupEnable(isEnable: Boolean) {
     isEnabled = isEnable
     this.allView().forEach {
         it.isEnabled = isEnable
@@ -88,4 +90,12 @@ fun View.inTouchInPointView(ev: MotionEvent): Boolean {
 
 fun View.alphaVisible(): Boolean {
     return alpha == 1.0f
+}
+
+fun String.toastShort(context: Context) {
+    Toast.makeText(context.applicationContext, this, Toast.LENGTH_SHORT).show()
+}
+
+fun String.toastLong(context: Context) {
+    Toast.makeText(context.applicationContext, this, Toast.LENGTH_LONG).show()
 }
