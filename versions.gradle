@@ -7,6 +7,9 @@ private static def addRepos(RepositoryHandler handler) {
 
 ext {
     addRepos = this.&addRepos
+    getPropertyVal = this.&getPropertyVal
+    localProperties = this.&localProperties
+    currentTime = this.&currentTime
 
     app = [
             id     : "engineer.echo.study",
@@ -18,6 +21,7 @@ ext {
             compileSdkVersion: 28,
             minSdkVersion    : 21,
             targetSdkVersion : 28,
+            renderscriptTarget:24,
     ]
 
     build = [
@@ -66,10 +70,10 @@ ext {
     ]
 
     room = [
-            compiler: "android.arch.persistence.room:compiler:1.1.1",
-            runtime : "android.arch.persistence.room:runtime:1.1.1",
-            rxjava2 : "android.arch.persistence.room:rxjava2:1.1.1",
-            testing : "android.arch.persistence.room:testing:1.1.1"
+            compiler: "android.arch.persistence.room:compiler:2.2.0",
+            runtime : "android.arch.persistence.room:runtime:2.2.0",
+            rxjava2 : "android.arch.persistence.room:rxjava2:2.2.0",
+            testing : "android.arch.persistence.room:testing:2.2.0"
     ]
 
     framework = [
@@ -95,6 +99,30 @@ ext {
             runner  : "androidx.test:runner:1.1.0-alpha4",
             espresso: "androidx.test.espresso:espresso-core:3.1.0-alpha4"
     ]
+}
+
+def static currentTime() {
+    return new Date().format("yyyyMMddHHmmss", TimeZone.getTimeZone("GMT+08:00"))
+}
+
+def localProperties(key, defaultVal) {
+    Properties properties = new Properties()
+    if (project.rootProject.file('local.properties').exists()) {
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        return properties.getProperty(key, defaultVal)
+    } else {
+        return null
+    }
+}
+
+def getPropertyVal(key) {
+    if (System.getProperty(key)) {
+        return System.getProperty(key)
+    } else if (project.hasProperty(key)) {
+        return project.getProperty(key)
+    } else {
+        return localProperties(key, "null")
+    }
 }
 
 

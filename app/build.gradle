@@ -13,6 +13,10 @@ android {
         versionCode rootProject.ext.app.verCode
         versionName rootProject.ext.app.verName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        //开启renderscript支持，否则编译时找不到RenderScript相关类
+        renderscriptTargetApi rootProject.ext.android.renderscriptTarget
+        renderscriptSupportModeEnabled true
     }
     dataBinding {
         enabled = true
