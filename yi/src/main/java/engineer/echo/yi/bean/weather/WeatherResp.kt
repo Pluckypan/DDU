@@ -9,7 +9,7 @@ data class WeatherResp(
     val results: List<WeatherResult> = arrayListOf()
 ) : Result() {
 
-    fun getWeather(): String {
-        return results.firstOrNull()?.weather_data?.firstOrNull()?.date ?: "nil"
+    fun getWeather(defVal: String = "nil"): String {
+        return results.firstOrNull()?.weather_data?.firstOrNull()?.date ?: defVal
     }
 }

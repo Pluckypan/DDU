@@ -6,7 +6,8 @@ import retrofit2.Retrofit
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
-class LiveDataCallAdapterFactory private constructor() : CallAdapter.Factory() {
+class LiveDataCallAdapterFactory private constructor(private val monitor: EasyMonitor? = null) :
+    CallAdapter.Factory() {
 
     override fun get(
         returnType: Type,
@@ -30,10 +31,11 @@ class LiveDataCallAdapterFactory private constructor() : CallAdapter.Factory() {
             rawType.simpleName,
             annotations.size
         )
-        return LiveDataCallAdapter<Result>(rawType, resultType)
+        return LiveDataCallAdapter<Result>(rawType, resultType, monitor)
     }
 
     companion object {
-        fun create(): LiveDataCallAdapterFactory = LiveDataCallAdapterFactory()
+        fun create(monitor: EasyMonitor? = null): LiveDataCallAdapterFactory =
+            LiveDataCallAdapterFactory(monitor)
     }
 }

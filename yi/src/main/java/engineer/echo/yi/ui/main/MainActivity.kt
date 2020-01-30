@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import engineer.echo.yi.R
 import engineer.echo.yi.bean.weather.WeatherResp
@@ -25,7 +26,9 @@ class MainActivity : AppCompatActivity(), MainContract.IView {
                 iView = this@MainActivity
                 iViewModel = viewModel
             }
-
+        viewModel.weatherData?.observe(this, Observer {
+            title = it.getWeather(getString(R.string.app_name))
+        })
     }
 
     override fun onSubmitClick(view: View) {

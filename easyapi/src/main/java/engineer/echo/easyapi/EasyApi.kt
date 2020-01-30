@@ -15,6 +15,7 @@ class EasyApi {
         private const val TAG = "EasyApi"
         private lateinit var application: Application
         private var customRetrofit: Retrofit? = null
+        private var monitor: EasyMonitor? = null
         private var debugMode = false
         private const val DEFAULT_URL = "http://www.1991th.com/"
 
@@ -54,11 +55,13 @@ class EasyApi {
         fun init(
             app: Application,
             retrofit: Retrofit? = null,
-            debugMode: Boolean = false
+            debugMode: Boolean = false,
+            monitor: EasyMonitor? = null
         ) {
             this.application = app
             this.customRetrofit = retrofit
             this.debugMode = debugMode
+            this.monitor = monitor
         }
 
         fun <T> create(service: Class<T>): T {
@@ -74,7 +77,7 @@ class EasyApi {
                         addConverterFactory(GsonConverterFactory.create())
                     }
                 }
-                .addCallAdapterFactory(LiveDataCallAdapterFactory.create())
+                .addCallAdapterFactory(LiveDataCallAdapterFactory.create(monitor))
             builder.build()
         }
 

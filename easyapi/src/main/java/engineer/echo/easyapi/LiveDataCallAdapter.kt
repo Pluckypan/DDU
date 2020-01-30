@@ -12,7 +12,8 @@ import java.util.concurrent.atomic.AtomicLong
 
 internal class LiveDataCallAdapter<T : Result>(
     private val rawType: Class<*>,
-    private val responseType: Type
+    private val responseType: Type,
+    private val monitor: EasyMonitor? = null
 ) :
     CallAdapter<T, LiveData<T>> {
 
@@ -36,11 +37,10 @@ internal class LiveDataCallAdapter<T : Result>(
 
     @Suppress("UNCHECKED_CAST")
     private fun postResult(method: String, response: Response<T>? = null, t: Throwable? = null) {
-        EasyApi.printLog(
-            "postResult adapt $method cost = %sms",
-            (SystemClock.elapsedRealtime() - callTime.get())
-        )
+        val cost = SystemClock.elapsedRealtime() - callTime.get()
+        EasyApi.printLog("postResult adapt $method cost = %sms", cost)
         if (response != null && response.isSuccessful && t == null) {
+            monitor?.onResult(true, response.body(), cost)
             liveData.postValue(response.body())
         } else {
             val constructor = rawType.declaredConstructors.first()
@@ -51,6 +51,7 @@ internal class LiveDataCallAdapter<T : Result>(
             } else {
                 null
             }
+            monitor?.onResult(false, result, cost)
             liveData.postValue(result)
         }
     }
