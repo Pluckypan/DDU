@@ -18,10 +18,10 @@ ext {
     ]
 
     android = [
-            compileSdkVersion: 28,
-            minSdkVersion    : 21,
-            targetSdkVersion : 28,
-            renderscriptTarget:24,
+            compileSdkVersion : 28,
+            minSdkVersion     : 21,
+            targetSdkVersion  : 28,
+            renderscriptTarget: 24,
     ]
 
     build = [
@@ -91,7 +91,8 @@ ext {
     widget = [
             syntaxView           : "com.github.Badranh:Syntax-View-Android:0.1.5",
             sectionedRecyclerview: "com.truizlop.sectionedrecyclerview:library:1.2.0",
-            rangeBar             : "com.github.Greymamba:Rangebar:1.2.1"
+            rangeBar             : "com.github.Greymamba:Rangebar:1.2.1",
+            gravitySnapHelper    : "com.github.rubensousa:gravitysnaphelper:1.5",
     ]
 
     test = [
