@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:onClick="@{iView::onSubmitClick}"
                 android:text="@string/main_label_submit"
+                app:downloadData="@{iViewModel.downloadData}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mainMsgTv"

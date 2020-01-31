@@ -8,6 +8,7 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import engineer.echo.easyapi.download.DownloadState
 import engineer.echo.yi.R
 import engineer.echo.yi.bean.weather.WeatherResp
 import engineer.echo.yi.databinding.MainActivityBinding
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity(), MainContract.IView {
     }
 
     override fun onSubmitClick(view: View) {
-
+        viewModel.startDownload(this)
     }
 
     companion object {
@@ -43,6 +44,14 @@ class MainActivity : AppCompatActivity(), MainContract.IView {
             weather?.let {
                 textView.text = it.getWeather()
             }
+        }
+
+        @JvmStatic
+        @BindingAdapter("downloadData")
+        fun onBindDownload(textView: TextView, downloadState: DownloadState? = null) {
+            textView.isEnabled = downloadState == null || downloadState.downloadEnable()
+            textView.text = downloadState?.downloadText()
+                ?: textView.resources.getString(R.string.main_label_submit)
         }
     }
 }

@@ -9,6 +9,7 @@ class YiApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        app = this
         EasyApi.init(this, debugMode = BuildConfig.DEBUG, monitor = object : EasyMonitor {
 
             override fun onResult(isSuccess: Boolean, result: Result?, cost: Long) {
@@ -16,5 +17,10 @@ class YiApp : Application() {
             }
 
         })
+    }
+
+    companion object {
+        private lateinit var app: Application
+        fun getApp(): Application = app
     }
 }
