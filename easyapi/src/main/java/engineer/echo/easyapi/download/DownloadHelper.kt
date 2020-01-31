@@ -32,9 +32,8 @@ object DownloadHelper {
      */
     fun InputStream.writeToFile(
         file: File,
-        totalSize: Long,
         bufferSize: Int = 4096,
-        listener: ((state: State, progress: Int, msg: String?) -> Unit)? = null
+        listener: ((state: State, current: Long, msg: String?) -> Unit)? = null
     ) {
         val exception = file.tryCreateFile()
         if (exception != null) {
@@ -46,14 +45,13 @@ object DownloadHelper {
                 BufferedOutputStream(FileOutputStream(file)).use { output ->
                     val buffer = ByteArray(bufferSize)
                     var currentLen = 0L
-                    val totalLen = if (totalSize == 0L) input.available() * 1L else totalSize
                     var len: Int
                     while (input.read(buffer).also { len = it } != -1) {
                         output.write(buffer, 0, len)
                         currentLen += len
                         listener?.invoke(
                             State.OnProgress,
-                            calculateProgress(currentLen, totalLen),
+                            currentLen,
                             null
                         )
                     }

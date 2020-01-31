@@ -10,6 +10,8 @@ data class DownloadState(
     var url: String = "",
     var path: String = "",
     var state: State = State.Idle,
+    var total: Long = 0,
+    var current: Long = 0,
     var progress: Int = 0,
     var msg: String = ""
 ) : Result(), Parcelable {

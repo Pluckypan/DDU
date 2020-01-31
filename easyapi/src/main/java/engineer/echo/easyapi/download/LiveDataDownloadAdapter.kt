@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.EasyApi.Companion.toException
 import engineer.echo.easyapi.MD5Tool
+import engineer.echo.easyapi.download.DownloadHelper.calculateProgress
 import engineer.echo.easyapi.download.DownloadHelper.writeToFile
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -25,6 +26,7 @@ class LiveDataDownloadAdapter : CallAdapter<ResponseBody, LiveData<DownloadState
         downloadState.url = url
         val path = call.request().tag(String::class.java)
         if (path is String) {
+            downloadState.exception = null
             downloadState.path = path
             downloadState.id =
                 MD5Tool.getMD5("[EasyApi][$url][$path][${System.currentTimeMillis()}]")
@@ -45,15 +47,19 @@ class LiveDataDownloadAdapter : CallAdapter<ResponseBody, LiveData<DownloadState
                 ) {
                     val body = response.body()
                     if (response.isSuccessful && body != null) {
+                        val total = body.contentLength()
+                        downloadState.exception = null
+                        downloadState.total = total
                         body.byteStream()
-                            .writeToFile(File(path), body.contentLength()) { state, progress, msg ->
+                            .writeToFile(File(path)) { state, current, msg ->
                                 downloadState.state = state
-                                downloadState.progress = progress
+                                downloadState.current = current
+                                downloadState.progress = calculateProgress(current, total)
                                 downloadState.msg = msg ?: ""
                                 EasyApi.printLog(
                                     "adapt onResponse writeToFile %s %s %s",
                                     state,
-                                    progress,
+                                    downloadState.progress,
                                     msg
                                 )
                                 liveData.postValue(downloadState)
