@@ -2,10 +2,15 @@ package engineer.echo.easyapi
 
 import android.app.Application
 import android.util.Log
+import androidx.lifecycle.LiveData
+import engineer.echo.easyapi.download.DownloadApi
+import engineer.echo.easyapi.download.DownloadState
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Url
 import java.util.concurrent.TimeUnit
 
 class EasyApi {
@@ -23,6 +28,10 @@ class EasyApi {
             if (debugMode) {
                 Log.i(TAG, format.format(*args).plus(" thread=[${Thread.currentThread().name}]"))
             }
+        }
+
+        internal fun Response<*>.toException(): Exception {
+            return Exception("${code()}", Throwable(message()))
         }
 
         /**
@@ -66,6 +75,10 @@ class EasyApi {
 
         fun <T> create(service: Class<T>): T {
             return lazyApi.create(service)
+        }
+
+        fun download(@Url url: String, path: String): LiveData<DownloadState> {
+            return create(DownloadApi::class.java).download(url, path)
         }
 
         private val lazyApi by lazy {

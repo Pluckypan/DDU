@@ -3,6 +3,7 @@ package engineer.echo.easyapi
 import android.os.SystemClock
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import engineer.echo.easyapi.EasyApi.Companion.toException
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Callback
@@ -46,11 +47,7 @@ internal class LiveDataCallAdapter<T : Result>(
             val constructor = rawType.declaredConstructors.first()
             // 通过无参构造函数实例化对象
             val result = constructor.newInstance() as T
-            result.exception = t ?: if (response != null) {
-                Exception("${response.code()}", Throwable(response.message()))
-            } else {
-                null
-            }
+            result.exception = t ?: response?.toException()
             monitor?.onResult(false, result, cost)
             liveData.postValue(result)
         }
