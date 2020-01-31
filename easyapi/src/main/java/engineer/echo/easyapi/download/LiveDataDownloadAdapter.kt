@@ -6,6 +6,7 @@ import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.EasyApi.Companion.toException
 import engineer.echo.easyapi.MD5Tool
 import engineer.echo.easyapi.download.DownloadHelper.calculateProgress
+import engineer.echo.easyapi.download.DownloadHelper.resumeBytes
 import engineer.echo.easyapi.download.DownloadHelper.writeToFile
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -29,7 +30,7 @@ class LiveDataDownloadAdapter : CallAdapter<ResponseBody, LiveData<DownloadState
             downloadState.exception = null
             downloadState.path = path
             downloadState.id =
-                MD5Tool.getMD5("[EasyApi][$url][$path][${System.currentTimeMillis()}]")
+                MD5Tool.getMD5("[EasyApi][$url][$path]")
             downloadState.state = State.OnStart
             liveData.postValue(downloadState)
 
@@ -37,6 +38,7 @@ class LiveDataDownloadAdapter : CallAdapter<ResponseBody, LiveData<DownloadState
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     EasyApi.printLog("adapt onFailure %s", t.message)
+                    DownloadHelper.deleteIfExist(path)
                     downloadState.exception = t
                     liveData.postValue(downloadState)
                 }
@@ -47,14 +49,16 @@ class LiveDataDownloadAdapter : CallAdapter<ResponseBody, LiveData<DownloadState
                 ) {
                     val body = response.body()
                     if (response.isSuccessful && body != null) {
-                        val total = body.contentLength()
+                        val resumeBytes = call.resumeBytes()
+                        val total = body.contentLength() + resumeBytes
                         downloadState.exception = null
                         downloadState.total = total
                         body.byteStream()
-                            .writeToFile(File(path)) { state, current, msg ->
+                            .writeToFile(File(path), resumeBytes > 0) { state, current, msg ->
+                                val cur = current + resumeBytes
                                 downloadState.state = state
-                                downloadState.current = current
-                                downloadState.progress = calculateProgress(current, total)
+                                downloadState.current = cur
+                                downloadState.progress = calculateProgress(cur, total)
                                 downloadState.msg = msg ?: ""
                                 EasyApi.printLog(
                                     "adapt onResponse writeToFile %s %s %s",
@@ -65,6 +69,7 @@ class LiveDataDownloadAdapter : CallAdapter<ResponseBody, LiveData<DownloadState
                                 liveData.postValue(downloadState)
                             }
                     } else {
+                        DownloadHelper.deleteIfExist(path)
                         downloadState.exception = response.toException().also {
                             EasyApi.printLog("adapt onResponse error %s", it.message)
                         }

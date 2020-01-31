@@ -11,6 +11,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Url
+import java.io.File
 import java.util.concurrent.TimeUnit
 
 class EasyApi {
@@ -78,7 +79,22 @@ class EasyApi {
         }
 
         fun download(@Url url: String, path: String): LiveData<DownloadState> {
-            return create(DownloadApi::class.java).download(url, path)
+            return downloadInner(url, path, false)
+        }
+
+        fun downloadResume(@Url url: String, path: String): LiveData<DownloadState> {
+            return downloadInner(url, path, true)
+        }
+
+        private fun downloadInner(
+            @Url url: String, path: String,
+            resume: Boolean = false
+        ): LiveData<DownloadState> {
+            val start = File(path).let {
+                if (resume && it.exists()) it.length() else 0
+            }
+            val range = "bytes=$start-"
+            return create(DownloadApi::class.java).download(range, url, path)
         }
 
         private val lazyApi by lazy {

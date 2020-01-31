@@ -1,11 +1,26 @@
 package engineer.echo.easyapi.download
 
-import java.io.BufferedOutputStream
+import android.text.TextUtils
+import retrofit2.Call
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 
 object DownloadHelper {
+
+    fun deleteIfExist(path: String?): Boolean {
+        if (path == null) return false
+        return File(path).let {
+            if (it.exists()) it.delete() else false
+        }
+    }
+
+    fun Call<*>.resumeBytes(): Long {
+        request().header("RANGE")?.replace("bytes=", "")?.replace("-", "")?.let {
+            return if (TextUtils.isDigitsOnly(it)) it.toLong() else 0
+        }
+        return 0
+    }
 
     fun File.tryCreateFile(): Exception? {
         if (!exists()) {
@@ -32,6 +47,7 @@ object DownloadHelper {
      */
     fun InputStream.writeToFile(
         file: File,
+        append: Boolean = false,
         bufferSize: Int = 4096,
         listener: ((state: State, current: Long, msg: String?) -> Unit)? = null
     ) {
@@ -42,7 +58,7 @@ object DownloadHelper {
         }
         use { input ->
             try {
-                BufferedOutputStream(FileOutputStream(file)).use { output ->
+                FileOutputStream(file, append).use { output ->
                     val buffer = ByteArray(bufferSize)
                     var currentLen = 0L
                     var len: Int
@@ -55,9 +71,10 @@ object DownloadHelper {
                             null
                         )
                     }
-                    listener?.invoke(State.OnFinish, 100, null)
+                    listener?.invoke(State.OnFinish, currentLen, null)
                 }
             } catch (e: Exception) {
+                file.delete()
                 listener?.invoke(State.OnFail, 0, e.message)
             }
         }
