@@ -1,7 +1,9 @@
 package engineer.echo.easylib
 
+import android.app.Application
 import android.content.Context
 import android.graphics.Rect
+import android.os.Environment
 import android.os.Looper
 import android.util.Log
 import android.view.MotionEvent
@@ -99,3 +101,21 @@ fun String.toastShort(context: Context) {
 fun String.toastLong(context: Context) {
     Toast.makeText(context.applicationContext, this, Toast.LENGTH_LONG).show()
 }
+
+fun Application.externalDirectory(): File {
+    return externalCacheDir?.parentFile ?: File(
+        Environment.getExternalStorageDirectory(),
+        "${File.separator}Android${File.separator}data${File.separator}${packageName}"
+    )
+}
+
+fun Application.externalSubDirectory(folder: String): File {
+    return File(externalDirectory(), folder).also {
+        if (!it.exists()) {
+            it.mkdirs()
+        }
+    }
+}
+
+fun Application.externalCache(): File = externalSubDirectory("cache")
+fun Application.externalFiles(): File = externalSubDirectory("files")
