@@ -4,9 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.EasyApi.Companion.toException
-import engineer.echo.easyapi.MD5Tool
 import engineer.echo.easyapi.download.DownloadHelper.calculateProgress
+import engineer.echo.easyapi.download.DownloadHelper.downloadId
 import engineer.echo.easyapi.download.DownloadHelper.resumeBytes
+import engineer.echo.easyapi.download.DownloadHelper.urlAndPath
 import engineer.echo.easyapi.download.DownloadHelper.writeToFile
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -22,15 +23,26 @@ class LiveDataDownloadAdapter : CallAdapter<ResponseBody, LiveData<DownloadState
     private val downloadState = DownloadState()
 
     override fun adapt(call: Call<ResponseBody>): LiveData<DownloadState> {
-        EasyApi.printLog("LiveDataDownloadAdapter adapt")
-        val url = call.request().url().url().toString()
-        downloadState.url = url
-        val path = call.request().tag(String::class.java)
+        val resumeBytes = call.resumeBytes()
+        EasyApi.printLog("LiveDataDownloadAdapter adapt resumeBytes=%s", resumeBytes)
+        val urlAndPath = call.urlAndPath()
+        downloadState.url = urlAndPath.first
+        downloadState.current = resumeBytes
+        val path = urlAndPath.second
         if (path is String) {
-            downloadState.exception = null
             downloadState.path = path
-            downloadState.id =
-                MD5Tool.getMD5("[EasyApi][$url][$path]")
+            downloadState.id = downloadId(urlAndPath.first, path)
+            val existCall = EasyApi.downloadTaskExist(urlAndPath.first, path)
+            if (existCall) {
+                downloadState.state = State.Idle
+                downloadState.exception = DownloadHelper.downloadTaskExist()
+                liveData.postValue(downloadState)
+                return liveData
+            }
+
+            // Start
+            downloadState.exception = null
+            downloadState.msg = ""
             downloadState.state = State.OnStart
             liveData.postValue(downloadState)
 
@@ -38,8 +50,8 @@ class LiveDataDownloadAdapter : CallAdapter<ResponseBody, LiveData<DownloadState
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     EasyApi.printLog("adapt onFailure %s", t.message)
-                    DownloadHelper.deleteIfExist(path)
                     downloadState.exception = t
+                    downloadState.state = State.OnFail
                     liveData.postValue(downloadState)
                 }
 
@@ -49,12 +61,22 @@ class LiveDataDownloadAdapter : CallAdapter<ResponseBody, LiveData<DownloadState
                 ) {
                     val body = response.body()
                     if (response.isSuccessful && body != null) {
-                        val resumeBytes = call.resumeBytes()
-                        val total = body.contentLength() + resumeBytes
+                        val bodyLen = body.contentLength()
+                        val total = if (resumeBytes > 0) {
+                            val realLen = DownloadHelper.getFileLength(urlAndPath.first)
+                            if (bodyLen + resumeBytes != realLen) {
+                                downloadState.exception = DownloadHelper.invalidFileRange()
+                                liveData.postValue(downloadState)
+                                return
+                            }
+                            realLen
+                        } else {
+                            bodyLen
+                        }
                         downloadState.exception = null
                         downloadState.total = total
                         body.byteStream()
-                            .writeToFile(File(path), resumeBytes > 0) { state, current, msg ->
+                            .writeToFile(File(path), resumeBytes) { state, current, msg ->
                                 val cur = current + resumeBytes
                                 downloadState.state = state
                                 downloadState.current = cur
@@ -70,15 +92,20 @@ class LiveDataDownloadAdapter : CallAdapter<ResponseBody, LiveData<DownloadState
                             }
                     } else {
                         DownloadHelper.deleteIfExist(path)
+                        downloadState.state = State.OnFail
                         downloadState.exception = response.toException().also {
-                            EasyApi.printLog("adapt onResponse error %s", it.message)
+                            EasyApi.printLog(
+                                "adapt onResponse error %s",
+                                it.message?.plus(" - ${it.cause?.message}")
+                            )
                         }
                         liveData.postValue(downloadState)
                     }
                 }
             })
         } else {
-            downloadState.exception = Exception("-1", Throwable("invalid savedPath"))
+            downloadState.state = State.Idle
+            downloadState.exception = DownloadHelper.invalidSavedPath()
             liveData.postValue(downloadState)
         }
 

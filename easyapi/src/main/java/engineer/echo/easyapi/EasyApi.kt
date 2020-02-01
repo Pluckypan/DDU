@@ -4,6 +4,8 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import engineer.echo.easyapi.download.DownloadApi
+import engineer.echo.easyapi.download.DownloadHelper.downloadId
+import engineer.echo.easyapi.download.DownloadHelper.okDownloadId
 import engineer.echo.easyapi.download.DownloadState
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -32,7 +34,7 @@ class EasyApi {
         }
 
         internal fun Response<*>.toException(): Exception {
-            return Exception("${code()}", Throwable(message()))
+            return Exception("${code()}", Throwable(message().plus(" try again.")))
         }
 
         /**
@@ -82,8 +84,36 @@ class EasyApi {
             return downloadInner(url, path, false)
         }
 
-        fun downloadResume(@Url url: String, path: String): LiveData<DownloadState> {
+        fun resumeDownload(@Url url: String, path: String): LiveData<DownloadState> {
             return downloadInner(url, path, true)
+        }
+
+        fun pauseDownload(@Url url: String, path: String) {
+            getClient()?.dispatcher()?.let {
+                it.runningCalls().plus(it.queuedCalls()).filter { call ->
+                    !call.isCanceled && call.okDownloadId() == downloadId(url, path)
+                }.forEach { call ->
+                    printLog("pauseDownload id=%s", call.okDownloadId())
+                    call.cancel()
+                }
+            }
+        }
+
+        fun downloadTaskExist(@Url url: String, path: String): Boolean {
+            return getClient()?.dispatcher()?.let {
+                it.queuedCalls().plus(it.runningCalls())
+                    .firstOrNull { call ->
+                        !call.isCanceled && call.okDownloadId() == downloadId(url, path)
+                    } != null
+            } == true
+        }
+
+        fun getClient(): OkHttpClient? = lazyApi.callFactory().let {
+            if (it is OkHttpClient) return it else null
+        }
+
+        fun cancelAll() {
+            getClient()?.dispatcher()?.cancelAll()
         }
 
         private fun downloadInner(
