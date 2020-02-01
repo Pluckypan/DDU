@@ -17,12 +17,12 @@ class MainViewModel : ViewModel(), MainContract.IViewModel {
 
     override fun startDownload(owner: LifecycleOwner) {
         // TODO 实现方式不优雅
-        model.download()?.observe(owner, Observer {
+        model.download().observe(owner, Observer {
             downloadData.postValue(it)
         })
     }
 
-    override fun pauseDownload() {
-        model.pauseDownload()
+    override fun cancelDownload() {
+        model.cancelDownload()
     }
 }

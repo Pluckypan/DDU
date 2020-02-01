@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">yi</string>
-    <string name="main_label_download">download</string>
-    <string name="label_pause">pause</string>
+    <string name="main_label_download">Download</string>
+    <string name="label_cancel">Cancel</string>
 </resources>

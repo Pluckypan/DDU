@@ -37,8 +37,8 @@ class MainActivity : AppCompatActivity(), MainContract.IView {
         viewModel.startDownload(this)
     }
 
-    override fun onPauseDownloadClick(view: View) {
-        viewModel.pauseDownload()
+    override fun onCancelDownloadClick(view: View) {
+        viewModel.cancelDownload()
     }
 
     companion object {

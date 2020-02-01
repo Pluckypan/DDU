@@ -9,13 +9,12 @@ import java.io.File
 
 class MainModel : MainContract.IModel {
 
-    override fun download(): LiveData<DownloadState>? {
-        if (EasyApi.downloadTaskExist(APK_URL, getPath())) return null
-        return EasyApi.resumeDownload(APK_URL, getPath())
+    override fun download(): LiveData<DownloadState>{
+        return EasyApi.download(APK_URL, getPath())
     }
 
-    override fun pauseDownload() {
-        EasyApi.pauseDownload(APK_URL, getPath())
+    override fun cancelDownload() {
+        EasyApi.cancelDownload(APK_URL, getPath())
     }
 
     companion object {

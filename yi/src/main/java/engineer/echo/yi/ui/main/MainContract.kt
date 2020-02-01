@@ -11,18 +11,18 @@ object MainContract {
 
     interface IView {
         fun onDownloadClick(view: View)
-        fun onPauseDownloadClick(view: View)
+        fun onCancelDownloadClick(view: View)
     }
 
     interface IViewModel {
         var weatherData: LiveData<WeatherResp>?
         var downloadData: MutableLiveData<DownloadState>
         fun startDownload(owner: LifecycleOwner)
-        fun pauseDownload()
+        fun cancelDownload()
     }
 
     interface IModel {
-        fun download(): LiveData<DownloadState>?
-        fun pauseDownload()
+        fun download(): LiveData<DownloadState>
+        fun cancelDownload()
     }
 }

@@ -78,12 +78,10 @@ class EasyApi {
             return lazyApi.create(service)
         }
 
-        fun download(@Url url: String, path: String): LiveData<DownloadState> {
-            return downloadInner(url, path, false)
-        }
-
-        fun resumeDownload(@Url url: String, path: String): LiveData<DownloadState> {
-            return downloadInner(url, path, true)
+        fun download(
+            @Url url: String, path: String, resume: Boolean = true
+        ): LiveData<DownloadState> {
+            return downloadInner(url, path, resume)
         }
 
         fun cancelDownload(@Url url: String, path: String, deleteFile: Boolean = false) {
