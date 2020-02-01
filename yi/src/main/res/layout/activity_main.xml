@@ -17,29 +17,62 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="20dp"
             tools:context=".ui.main.MainActivity">
 
         <TextView
                 android:id="@+id/mainMsgTv"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Hello World!"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+
                 app:weatherData="@{iViewModel.weatherData}" />
 
-        <Button
-                android:id="@+id/mainSubmitBtn"
-                android:layout_width="wrap_content"
+        <TextView
+                android:id="@+id/mainDownloadMsg"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="@{iView::onSubmitClick}"
-                android:text="@string/main_label_submit"
                 app:downloadData="@{iViewModel.downloadData}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mainMsgTv"
+                app:layout_constraintTop_toBottomOf="@+id/mainMsgTv" />
+
+        <Button
+                android:id="@+id/mainDownloadBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{iView::onDownloadClick}"
+                android:text="@string/main_label_download"
+                android:textAllCaps="false"
+                app:downloadData="@{iViewModel.downloadData}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mainDownloadMsg"
                 app:layout_goneMarginTop="20dp" />
+
+        <Button
+                android:id="@+id/mainDownload1Btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{iView::onDownloadClick}"
+                android:text="@string/main_label_download"
+                android:textAllCaps="false"
+                app:layout_constraintStart_toEndOf="@+id/mainDownloadBtn"
+                app:layout_constraintTop_toBottomOf="@+id/mainDownloadMsg"
+                app:layout_goneMarginTop="20dp" />
+
+        <Button
+                android:id="@+id/mainPauseBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{iView::onPauseDownloadClick}"
+                android:text="@string/label_pause"
+                android:textAllCaps="false"
+                app:layout_constraintStart_toEndOf="@+id/mainDownload1Btn"
+                app:layout_constraintTop_toBottomOf="@+id/mainDownloadMsg"
+                app:layout_goneMarginTop="20dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -10,16 +10,19 @@ import engineer.echo.yi.bean.weather.WeatherResp
 object MainContract {
 
     interface IView {
-        fun onSubmitClick(view: View)
+        fun onDownloadClick(view: View)
+        fun onPauseDownloadClick(view: View)
     }
 
     interface IViewModel {
         var weatherData: LiveData<WeatherResp>?
         var downloadData: MutableLiveData<DownloadState>
         fun startDownload(owner: LifecycleOwner)
+        fun pauseDownload()
     }
 
     interface IModel {
-        fun download(): LiveData<DownloadState>
+        fun download(): LiveData<DownloadState>?
+        fun pauseDownload()
     }
 }

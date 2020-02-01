@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">yi</string>
-    <string name="main_label_submit">submit</string>
+    <string name="main_label_download">download</string>
+    <string name="label_pause">pause</string>
 </resources>

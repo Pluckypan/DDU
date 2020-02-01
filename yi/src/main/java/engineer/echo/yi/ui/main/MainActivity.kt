@@ -2,6 +2,7 @@ package engineer.echo.yi.ui.main
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
@@ -32,8 +33,12 @@ class MainActivity : AppCompatActivity(), MainContract.IView {
         })
     }
 
-    override fun onSubmitClick(view: View) {
+    override fun onDownloadClick(view: View) {
         viewModel.startDownload(this)
+    }
+
+    override fun onPauseDownloadClick(view: View) {
+        viewModel.pauseDownload()
     }
 
     companion object {
@@ -49,9 +54,13 @@ class MainActivity : AppCompatActivity(), MainContract.IView {
         @JvmStatic
         @BindingAdapter("downloadData")
         fun onBindDownload(textView: TextView, downloadState: DownloadState? = null) {
+            textView.text = downloadState?.downloadText() ?: ""
+        }
+
+        @JvmStatic
+        @BindingAdapter("downloadData")
+        fun onBindDownload(textView: Button, downloadState: DownloadState? = null) {
             textView.isEnabled = downloadState == null || downloadState.downloadEnable()
-            textView.text = downloadState?.downloadText()
-                ?: textView.resources.getString(R.string.main_label_submit)
         }
     }
 }
