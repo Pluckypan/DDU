@@ -5,5 +5,6 @@ enum class State {
     OnStart,
     OnProgress,
     OnFinish,
-    OnFail
+    OnFail,
+    OnCancel
 }

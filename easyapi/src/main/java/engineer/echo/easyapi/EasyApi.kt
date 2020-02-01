@@ -3,9 +3,8 @@ package engineer.echo.easyapi
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
-import engineer.echo.easyapi.download.DownloadApi
-import engineer.echo.easyapi.download.DownloadHelper.downloadId
-import engineer.echo.easyapi.download.DownloadHelper.okDownloadId
+import engineer.echo.easyapi.download.DownloadHelper
+import engineer.echo.easyapi.download.DownloadHelper.downloadInner
 import engineer.echo.easyapi.download.DownloadState
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -13,7 +12,6 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Url
-import java.io.File
 import java.util.concurrent.TimeUnit
 
 class EasyApi {
@@ -88,24 +86,12 @@ class EasyApi {
             return downloadInner(url, path, true)
         }
 
-        fun pauseDownload(@Url url: String, path: String) {
-            getClient()?.dispatcher()?.let {
-                it.runningCalls().plus(it.queuedCalls()).filter { call ->
-                    !call.isCanceled && call.okDownloadId() == downloadId(url, path)
-                }.forEach { call ->
-                    printLog("pauseDownload id=%s", call.okDownloadId())
-                    call.cancel()
-                }
-            }
+        fun cancelDownload(@Url url: String, path: String, deleteFile: Boolean = false) {
+            DownloadHelper.cancelDownload(url, path, deleteFile)
         }
 
         fun downloadTaskExist(@Url url: String, path: String): Boolean {
-            return getClient()?.dispatcher()?.let {
-                it.queuedCalls().plus(it.runningCalls())
-                    .firstOrNull { call ->
-                        !call.isCanceled && call.okDownloadId() == downloadId(url, path)
-                    } != null
-            } == true
+            return DownloadHelper.downloadTaskExist(url, path)
         }
 
         fun getClient(): OkHttpClient? = lazyApi.callFactory().let {
@@ -114,17 +100,6 @@ class EasyApi {
 
         fun cancelAll() {
             getClient()?.dispatcher()?.cancelAll()
-        }
-
-        private fun downloadInner(
-            @Url url: String, path: String,
-            resume: Boolean = false
-        ): LiveData<DownloadState> {
-            val start = File(path).let {
-                if (resume && it.exists()) it.length() else 0
-            }
-            val range = "bytes=$start-"
-            return create(DownloadApi::class.java).download(range, url, path)
         }
 
         private val lazyApi by lazy {

@@ -2,9 +2,12 @@ package engineer.echo.easyapi.download
 
 import android.text.TextUtils
 import androidx.annotation.WorkerThread
+import androidx.lifecycle.LiveData
 import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.MD5Tool
 import okhttp3.Request
+import okhttp3.internal.http2.ErrorCode
+import okhttp3.internal.http2.StreamResetException
 import retrofit2.Call
 import retrofit2.http.Url
 import java.io.File
@@ -12,7 +15,9 @@ import java.io.InputStream
 import java.io.RandomAccessFile
 import okhttp3.Call as OkCall
 
-object DownloadHelper {
+internal object DownloadHelper {
+
+    val downloadTask = HashMap<String, LiveData<DownloadState>>()
 
     fun deleteIfExist(path: String?): Boolean {
         if (path == null) return false
@@ -21,9 +26,46 @@ object DownloadHelper {
         }
     }
 
-    fun invalidSavedPath(): Exception = Exception("-1", Throwable("invalid savedPath"))
+
+    fun downloadInner(
+        @Url url: String, path: String,
+        resume: Boolean = false
+    ): LiveData<DownloadState> {
+        val downloadId = downloadId(url, path)
+        if (downloadTask.containsKey(downloadId)) {
+            return downloadTask[downloadId]!!
+        }
+        val start = File(path).let {
+            if (resume && it.exists()) it.length() else 0
+        }
+        val range = "bytes=$start-"
+        return EasyApi.create(DownloadApi::class.java).download(range, url, path).also {
+            downloadTask[downloadId] = it
+        }
+    }
+
+    fun cancelDownload(@Url url: String, path: String, deleteFile: Boolean = false) {
+        EasyApi.getClient()?.dispatcher()?.let {
+            it.runningCalls().plus(it.queuedCalls()).filter { call ->
+                !call.isCanceled && call.okDownloadId() == downloadId(url, path)
+            }.forEach { call ->
+                EasyApi.printLog("cancelDownload id=%s", call.okDownloadId())
+                call.cancel()
+                if (deleteFile) deleteIfExist(path)
+            }
+        }
+    }
+
+    fun downloadTaskExist(@Url url: String, path: String): Boolean {
+        return EasyApi.getClient()?.dispatcher()?.let {
+            it.queuedCalls().plus(it.runningCalls())
+                .firstOrNull { call ->
+                    !call.isCanceled && call.okDownloadId() == downloadId(url, path)
+                } != null
+        } == true
+    }
+
     fun invalidFileRange(): Exception = Exception("-2", Throwable("invalid file range"))
-    fun downloadTaskExist(): Exception = Exception("-3", Throwable("duplicate download task"))
 
     fun Call<*>.resumeBytes(): Long {
         request().header("RANGE")?.replace("bytes=", "")?.replace("-", "")?.let {
@@ -92,13 +134,13 @@ object DownloadHelper {
             return
         }
         use { input ->
+            var currentLen = 0L
             try {
                 RandomAccessFile(file, "rw").use { output ->
                     if (offset > 0) {
                         output.seek(offset)
                     }
                     val buffer = ByteArray(bufferSize)
-                    var currentLen = 0L
                     var len: Int
                     while (input.read(buffer).also { len = it } != -1) {
                         output.write(buffer, 0, len)
@@ -113,7 +155,11 @@ object DownloadHelper {
                 }
             } catch (e: Exception) {
                 EasyApi.printLog("writeToFile error = %s", e.message)
-                listener?.invoke(State.OnFail, 0, e.message)
+                if (e is StreamResetException && e.errorCode == ErrorCode.CANCEL) {
+                    listener?.invoke(State.OnCancel, currentLen, e.message)
+                } else {
+                    listener?.invoke(State.OnFail, currentLen, e.message)
+                }
             }
         }
     }
