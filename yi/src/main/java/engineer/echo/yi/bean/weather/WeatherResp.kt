@@ -10,6 +10,36 @@ data class WeatherResp(
 ) : Result() {
 
     fun getWeather(defVal: String = "nil"): String {
-        return results.firstOrNull()?.weather_data?.firstOrNull()?.date ?: defVal
+        results.firstOrNull()?.let {
+            return StringBuilder().apply {
+                appendln("${it.currentCityCamelCase()} $date")
+
+                it.weather_data.firstOrNull()?.let { today ->
+                    appendln()
+                    appendln("今天 ${today.realTime()}")
+                    appendln(today.getWeatherData())
+                }
+                it.index.forEach {
+                    appendln(it.getIndex())
+                }
+                it.weather_data.getOrNull(1)?.let { tomorrow ->
+                    appendln()
+                    appendln("明天")
+                    appendln(tomorrow.getWeatherData())
+                }
+            }.toString()
+        }
+        return defVal
+    }
+
+    fun simple(defVal: String = "nil"): String {
+        results.firstOrNull()?.let {
+            return StringBuilder().apply {
+                it.weather_data.firstOrNull()?.let { today ->
+                    appendln("${it.currentCityCamelCase()} ${today.realTime()}")
+                }
+            }.toString()
+        }
+        return defVal
     }
 }

@@ -28,8 +28,8 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
                 iView = this@ApiMockActivity
                 iViewModel = viewModel
             }
-        viewModel.weatherData?.observe(this, Observer {
-            title = it.getWeather(getString(R.string.app_name))
+        viewModel.titleData.observe(this, Observer {
+            title = it
         })
     }
 

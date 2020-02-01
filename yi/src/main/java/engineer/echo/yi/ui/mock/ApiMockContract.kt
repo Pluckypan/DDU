@@ -15,7 +15,8 @@ object ApiMockContract {
     }
 
     interface IViewModel {
-        var weatherData: LiveData<WeatherResp>?
+        var weatherData: LiveData<WeatherResp>
+        var titleData: LiveData<String>
         var downloadData: MutableLiveData<DownloadState>
         fun startDownload(owner: LifecycleOwner)
         fun cancelDownload()
