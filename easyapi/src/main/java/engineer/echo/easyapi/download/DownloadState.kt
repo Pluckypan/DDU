@@ -16,6 +16,10 @@ data class DownloadState(
     var msg: String = ""
 ) : Result(), Parcelable {
 
+    fun isDownloadSuccess(): Boolean {
+        return isSuccess() && state == State.OnFinish
+    }
+
     fun downloadEnable(): Boolean =
         (state != State.OnStart && state != State.OnProgress) || !isSuccess()
 

@@ -4,7 +4,8 @@ import android.text.TextUtils
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import engineer.echo.easyapi.EasyApi
-import engineer.echo.easyapi.MD5Tool
+import engineer.echo.easyapi.pub.MD5Tool
+import engineer.echo.easyapi.pub.tryCreateFileException
 import okhttp3.Request
 import okhttp3.internal.http2.ErrorCode
 import okhttp3.internal.http2.StreamResetException
@@ -98,19 +99,6 @@ internal object DownloadHelper {
         return downloadId(url, path ?: "")
     }
 
-    fun File.tryCreateFile(): Exception? {
-        if (!exists()) {
-            if (!parentFile.exists()) {
-                parentFile.mkdirs()
-            }
-            try {
-                createNewFile()
-            } catch (e: Exception) {
-                return e
-            }
-        }
-        return null
-    }
 
     fun calculateProgress(current: Long, total: Long): Int {
         if (total > 0 && current >= 0 && current <= total) return (current * 100f / total).toInt()
@@ -127,7 +115,7 @@ internal object DownloadHelper {
         bufferSize: Int = 4096,
         listener: ((state: State, current: Long, msg: String?) -> Unit)? = null
     ) {
-        val exception = file.tryCreateFile()
+        val exception = file.tryCreateFileException()
         if (exception != null) {
             EasyApi.printLog("writeToFile createFile error = %s", exception.message)
             listener?.invoke(State.OnFail, 0, exception.message)

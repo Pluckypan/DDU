@@ -1,9 +1,12 @@
-package engineer.echo.easyapi
+package engineer.echo.easyapi.api
 
 import android.os.SystemClock
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.EasyApi.Companion.toException
+import engineer.echo.easyapi.EasyMonitor
+import engineer.echo.easyapi.Result
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Callback
@@ -11,7 +14,7 @@ import retrofit2.Response
 import java.lang.reflect.Type
 import java.util.concurrent.atomic.AtomicLong
 
-internal class LiveDataCallAdapter<T : Result>(
+internal class LiveDataApiCallAdapter<T : Result>(
     private val rawType: Class<*>,
     private val responseType: Type,
     private val monitor: EasyMonitor? = null
@@ -23,7 +26,7 @@ internal class LiveDataCallAdapter<T : Result>(
 
     override fun adapt(call: Call<T>): LiveData<T> {
         callTime.set(SystemClock.elapsedRealtime())
-        EasyApi.printLog("LiveDataCallAdapter adapt")
+        EasyApi.printLog("LiveDataApiCallAdapter adapt")
         call.enqueue(object : Callback<T> {
             override fun onFailure(call: Call<T>, t: Throwable) {
                 postResult("onFailure", null, t)

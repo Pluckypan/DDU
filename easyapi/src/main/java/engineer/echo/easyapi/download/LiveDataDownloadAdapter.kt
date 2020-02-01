@@ -1,9 +1,11 @@
 package engineer.echo.easyapi.download
 
+import android.os.SystemClock
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.EasyApi.Companion.toException
+import engineer.echo.easyapi.EasyMonitor
 import engineer.echo.easyapi.download.DownloadHelper.calculateProgress
 import engineer.echo.easyapi.download.DownloadHelper.downloadId
 import engineer.echo.easyapi.download.DownloadHelper.resumeBytes
@@ -16,13 +18,17 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import java.lang.reflect.Type
+import java.util.concurrent.atomic.AtomicLong
 
-class LiveDataDownloadAdapter : CallAdapter<ResponseBody, LiveData<DownloadState>> {
+class LiveDataDownloadAdapter(private val monitor: EasyMonitor? = null) :
+    CallAdapter<ResponseBody, LiveData<DownloadState>> {
 
     private val liveData = MutableLiveData<DownloadState>()
     private val downloadState = DownloadState()
+    private var callTime = AtomicLong()
 
     override fun adapt(call: Call<ResponseBody>): LiveData<DownloadState> {
+        callTime.set(SystemClock.elapsedRealtime())
         val resumeBytes = call.resumeBytes()
         val urlAndPath = call.urlAndPath()
         val path = urlAndPath.second ?: ""
@@ -112,6 +118,12 @@ class LiveDataDownloadAdapter : CallAdapter<ResponseBody, LiveData<DownloadState
     }
 
     private fun postDownload(state: DownloadState, removeTask: Boolean = false) {
+        if (state.state == State.OnFinish || state.state == State.OnFail || state.state == State.OnCancel) {
+            monitor?.onResult(
+                state.isDownloadSuccess(), state,
+                SystemClock.elapsedRealtime() - callTime.get()
+            )
+        }
         liveData.postValue(state)
         if (removeTask) {
             DownloadHelper.downloadTask.remove(state.id)

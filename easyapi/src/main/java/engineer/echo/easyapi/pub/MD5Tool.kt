@@ -1,9 +1,9 @@
-package engineer.echo.easyapi
+package engineer.echo.easyapi.pub
 
 import java.security.MessageDigest
 import java.util.*
 
-internal object MD5Tool {
+object MD5Tool {
 
     private val HEX_DIGITS =
         charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')
