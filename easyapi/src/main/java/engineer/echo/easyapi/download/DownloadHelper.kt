@@ -45,14 +45,13 @@ internal object DownloadHelper {
         }
     }
 
-    fun cancelDownload(@Url url: String, path: String, deleteFile: Boolean = false) {
+    fun cancelDownload(id: String) {
         EasyApi.getClient()?.dispatcher()?.let {
             it.runningCalls().plus(it.queuedCalls()).filter { call ->
-                !call.isCanceled && call.okDownloadId() == downloadId(url, path)
+                !call.isCanceled && call.okDownloadId() == id
             }.forEach { call ->
                 EasyApi.printLog("cancelDownload id=%s", call.okDownloadId())
                 call.cancel()
-                if (deleteFile) deleteIfExist(path)
             }
         }
     }

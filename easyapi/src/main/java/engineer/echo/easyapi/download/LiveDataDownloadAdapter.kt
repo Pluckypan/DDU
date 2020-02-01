@@ -2,9 +2,9 @@ package engineer.echo.easyapi.download
 
 import android.os.SystemClock
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.EasyApi.Companion.toException
+import engineer.echo.easyapi.EasyLiveData
 import engineer.echo.easyapi.EasyMonitor
 import engineer.echo.easyapi.download.DownloadHelper.calculateProgress
 import engineer.echo.easyapi.download.DownloadHelper.downloadId
@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicLong
 class LiveDataDownloadAdapter(private val monitor: EasyMonitor? = null) :
     CallAdapter<ResponseBody, LiveData<DownloadState>> {
 
-    private val liveData = MutableLiveData<DownloadState>()
+    private val liveData = EasyLiveData<DownloadState>()
     private val downloadState = DownloadState()
     private var callTime = AtomicLong()
 
@@ -32,13 +32,15 @@ class LiveDataDownloadAdapter(private val monitor: EasyMonitor? = null) :
         val resumeBytes = call.resumeBytes()
         val urlAndPath = call.urlAndPath()
         val path = urlAndPath.second ?: ""
+        val downloadId = downloadId(urlAndPath.first, path)
+        liveData.id = downloadId
         downloadState.url = urlAndPath.first
         downloadState.path = path
-        downloadState.id = downloadId(urlAndPath.first, path)
+        downloadState.id = downloadId
         downloadState.current = resumeBytes
         EasyApi.printLog(
             "LiveDataDownloadAdapter adapt id=%s resumeBytes=%s",
-            downloadState.id, resumeBytes
+            liveData.id, resumeBytes
         )
         // Start
         downloadState.exception = null

@@ -2,11 +2,12 @@ package engineer.echo.easyapi.api
 
 import android.os.SystemClock
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.EasyApi.Companion.toException
+import engineer.echo.easyapi.EasyLiveData
 import engineer.echo.easyapi.EasyMonitor
 import engineer.echo.easyapi.Result
+import engineer.echo.easyapi.pub.MD5Tool
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Callback
@@ -22,11 +23,12 @@ internal class LiveDataApiCallAdapter<T : Result>(
     CallAdapter<T, LiveData<T>> {
 
     private var callTime = AtomicLong()
-    private val liveData = MutableLiveData<T>()
+    private val liveData = EasyLiveData<T>()
 
     override fun adapt(call: Call<T>): LiveData<T> {
         callTime.set(SystemClock.elapsedRealtime())
-        EasyApi.printLog("LiveDataApiCallAdapter adapt")
+        liveData.id = MD5Tool.getMD5(call.request().toString())
+        EasyApi.printLog("LiveDataApiCallAdapter adapt id=%s", liveData.id)
         call.enqueue(object : Callback<T> {
             override fun onFailure(call: Call<T>, t: Throwable) {
                 postResult("onFailure", null, t)

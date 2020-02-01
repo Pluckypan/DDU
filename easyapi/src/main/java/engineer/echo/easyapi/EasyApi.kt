@@ -3,6 +3,7 @@ package engineer.echo.easyapi
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
+import engineer.echo.easyapi.api.ApiHelper
 import engineer.echo.easyapi.download.DownloadHelper
 import engineer.echo.easyapi.download.DownloadHelper.downloadInner
 import engineer.echo.easyapi.download.DownloadState
@@ -84,8 +85,8 @@ class EasyApi {
             return downloadInner(url, path, resume)
         }
 
-        fun cancelDownload(@Url url: String, path: String, deleteFile: Boolean = false) {
-            DownloadHelper.cancelDownload(url, path, deleteFile)
+        fun cancelDownload(id: String) {
+            DownloadHelper.cancelDownload(id)
         }
 
         fun downloadTaskExist(@Url url: String, path: String): Boolean {
@@ -94,6 +95,10 @@ class EasyApi {
 
         fun getClient(): OkHttpClient? = lazyApi.callFactory().let {
             if (it is OkHttpClient) return it else null
+        }
+
+        fun cancel(id: String) {
+            ApiHelper.cancel(id)
         }
 
         fun cancelAll() {
