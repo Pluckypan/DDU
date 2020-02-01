@@ -1,4 +1,4 @@
-package engineer.echo.yi.ui.main
+package engineer.echo.yi.ui.mock
 
 import android.os.Bundle
 import android.view.View
@@ -14,18 +14,18 @@ import engineer.echo.yi.R
 import engineer.echo.yi.bean.weather.WeatherResp
 import engineer.echo.yi.databinding.MainActivityBinding
 
-class MainActivity : AppCompatActivity(), MainContract.IView {
+class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
 
     private lateinit var binding: MainActivityBinding
-    private lateinit var viewModel: MainContract.IViewModel
+    private lateinit var viewModel: ApiMockContract.IViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        binding = DataBindingUtil.setContentView<MainActivityBinding>(this, R.layout.activity_main)
+        viewModel = ViewModelProviders.of(this).get(ApiMockViewModel::class.java)
+        binding = DataBindingUtil.setContentView<MainActivityBinding>(this, R.layout.activity_mock)
             .apply {
-                lifecycleOwner = this@MainActivity
-                iView = this@MainActivity
+                lifecycleOwner = this@ApiMockActivity
+                iView = this@ApiMockActivity
                 iViewModel = viewModel
             }
         viewModel.weatherData?.observe(this, Observer {

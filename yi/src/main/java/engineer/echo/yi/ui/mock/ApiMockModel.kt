@@ -1,4 +1,4 @@
-package engineer.echo.yi.ui.main
+package engineer.echo.yi.ui.mock
 
 import androidx.lifecycle.LiveData
 import engineer.echo.easyapi.EasyApi
@@ -7,7 +7,7 @@ import engineer.echo.easylib.externalCache
 import engineer.echo.yi.YiApp
 import java.io.File
 
-class MainModel : MainContract.IModel {
+class ApiMockModel : ApiMockContract.IModel {
 
     override fun download(): LiveData<DownloadState>{
         return EasyApi.download(APK_URL, getPath())

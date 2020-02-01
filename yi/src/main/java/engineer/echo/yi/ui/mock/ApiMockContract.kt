@@ -1,4 +1,4 @@
-package engineer.echo.yi.ui.main
+package engineer.echo.yi.ui.mock
 
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import engineer.echo.easyapi.download.DownloadState
 import engineer.echo.yi.bean.weather.WeatherResp
 
-object MainContract {
+object ApiMockContract {
 
     interface IView {
         fun onDownloadClick(view: View)

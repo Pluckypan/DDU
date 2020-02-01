@@ -7,18 +7,18 @@
 
         <variable
                 name="iView"
-                type="engineer.echo.yi.ui.main.MainContract.IView" />
+                type="engineer.echo.yi.ui.mock.ApiMockContract.IView" />
 
         <variable
                 name="iViewModel"
-                type="engineer.echo.yi.ui.main.MainContract.IViewModel" />
+                type="engineer.echo.yi.ui.mock.ApiMockContract.IViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="20dp"
-            tools:context=".ui.main.MainActivity">
+            tools:context=".ui.mock.ApiMockActivity">
 
         <TextView
                 android:id="@+id/mainMsgTv"
