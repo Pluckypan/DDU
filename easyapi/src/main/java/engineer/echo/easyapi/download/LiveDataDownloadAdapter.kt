@@ -26,9 +26,11 @@ class LiveDataDownloadAdapter(private val monitor: EasyMonitor? = null) :
     private val liveData = EasyLiveData<DownloadState>()
     private val downloadState = DownloadState()
     private var callTime = AtomicLong()
+    private var requestSize = 0L
 
     override fun adapt(call: Call<ResponseBody>): LiveData<DownloadState> {
         callTime.set(SystemClock.elapsedRealtime())
+        requestSize = call.request().body()?.contentLength() ?: 0L
         val resumeBytes = call.resumeBytes()
         val urlAndPath = call.urlAndPath()
         val path = urlAndPath.second ?: ""
@@ -123,7 +125,9 @@ class LiveDataDownloadAdapter(private val monitor: EasyMonitor? = null) :
         if (state.state == State.OnFinish || state.state == State.OnFail || state.state == State.OnCancel) {
             monitor?.onResult(
                 state.isDownloadSuccess(), state,
-                SystemClock.elapsedRealtime() - callTime.get()
+                SystemClock.elapsedRealtime() - callTime.get(),
+                requestSize,
+                state.total
             )
         }
         liveData.postValue(state)

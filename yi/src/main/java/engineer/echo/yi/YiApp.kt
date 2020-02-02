@@ -13,10 +13,15 @@ class YiApp : Application() {
         app = this
         EasyApi.init(this, debugMode = BuildConfig.DEBUG, monitor = object : EasyMonitor {
 
-            override fun onResult(isSuccess: Boolean, result: Result?, cost: Long) {
+            override fun onResult(
+                isSuccess: Boolean,
+                result: Result?,
+                cost: Long,
+                requestSize: Long,
+                responseSize: Long
+            ) {
 
             }
-
         })
     }
 

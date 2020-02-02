@@ -23,10 +23,12 @@ internal class LiveDataApiCallAdapter<T : Result>(
     CallAdapter<T, LiveData<T>> {
 
     private var callTime = AtomicLong()
+    private var requestSize = 0L
     private val liveData = EasyLiveData<T>()
 
     override fun adapt(call: Call<T>): LiveData<T> {
         callTime.set(SystemClock.elapsedRealtime())
+        requestSize = call.request().body()?.contentLength() ?: 0L
         liveData.id = MD5Tool.getMD5(call.request().toString())
         EasyApi.printLog("LiveDataApiCallAdapter adapt id=%s", liveData.id)
         call.enqueue(object : Callback<T> {
@@ -45,15 +47,16 @@ internal class LiveDataApiCallAdapter<T : Result>(
     private fun postResult(method: String, response: Response<T>? = null, t: Throwable? = null) {
         val cost = SystemClock.elapsedRealtime() - callTime.get()
         EasyApi.printLog("postResult adapt $method cost = %sms", cost)
+        val responseSize = response?.raw()?.body()?.contentLength() ?: 0
         if (response != null && response.isSuccessful && t == null) {
-            monitor?.onResult(true, response.body(), cost)
+            monitor?.onResult(true, response.body(), cost, requestSize, responseSize)
             liveData.postValue(response.body())
         } else {
             val constructor = rawType.declaredConstructors.first()
             // 通过无参构造函数实例化对象
             val result = constructor.newInstance() as T
             result.exception = t ?: response?.toException()
-            monitor?.onResult(false, result, cost)
+            monitor?.onResult(false, result, cost, requestSize, responseSize)
             liveData.postValue(result)
         }
     }
