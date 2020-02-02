@@ -40,6 +40,16 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
         setupView()
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.mockWindLottieView.playAnimation()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.mockWindLottieView.pauseAnimation()
+    }
+
     override fun onDownloadClick(view: View) {
         viewModel.startDownload(binding.mockApkSwitch.isChecked)
     }

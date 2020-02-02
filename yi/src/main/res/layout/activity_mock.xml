@@ -29,6 +29,25 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+        <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/mockWindLottieView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="20dp"
+                android:alpha="0.8"
+                app:layout_constraintBottom_toBottomOf="@+id/mockBgIv"
+                app:layout_constraintDimensionRatio="572:653"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/mockBgIv"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintWidth_percent="0.25"
+                app:lottie_autoPlay="true"
+                app:lottie_cacheComposition="true"
+                app:lottie_colorFilter="@android:color/white"
+                app:lottie_fileName="lottie/wind.json"
+                app:lottie_loop="true"
+                app:lottie_speed="1.5" />
+
         <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="0dp"
                 android:layout_height="0dp"

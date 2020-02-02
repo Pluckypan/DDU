@@ -127,6 +127,7 @@ dependencies {
     kapt rootProject.ext.glide.compiler
     // widget
     implementation rootProject.ext.widget.gravitySnapHelper
+    implementation rootProject.ext.widget.lottie
     // test
     testImplementation rootProject.ext.test.junit
     androidTestImplementation rootProject.ext.test.runner

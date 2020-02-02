@@ -97,6 +97,7 @@ ext {
             sectionedRecyclerview: "com.truizlop.sectionedrecyclerview:library:1.2.0",
             rangeBar             : "com.github.Greymamba:Rangebar:1.2.1",
             gravitySnapHelper    : "com.github.rubensousa:gravitysnaphelper:1.5",
+            lottie               : "com.airbnb.android:lottie:3.3.1"
     ]
 
     glide = [
