@@ -5,6 +5,7 @@ import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.pub.MD5Tool
+import engineer.echo.easyapi.pub.easyId
 import engineer.echo.easyapi.pub.tryCreateFileException
 import okhttp3.Request
 import okhttp3.internal.http2.ErrorCode
@@ -27,12 +28,23 @@ internal object DownloadHelper {
         }
     }
 
+    fun LiveData<*>.downloadId(): String {
+        var id = easyId()
+        if (id.isEmpty()) {
+            value?.let {
+                if (it is DownloadState) {
+                    id = it.id
+                }
+            }
+        }
+        return id
+    }
 
     fun downloadInner(
         @Url url: String, path: String,
         resume: Boolean = false
     ): LiveData<DownloadState> {
-        val downloadId = downloadId(url, path)
+        val downloadId = genDownloadId(url, path)
         if (downloadTask.containsKey(downloadId)) {
             return downloadTask[downloadId]!!
         }
@@ -60,7 +72,7 @@ internal object DownloadHelper {
         return EasyApi.getClient()?.dispatcher()?.let {
             it.queuedCalls().plus(it.runningCalls())
                 .firstOrNull { call ->
-                    !call.isCanceled && call.okDownloadId() == downloadId(url, path)
+                    !call.isCanceled && call.okDownloadId() == genDownloadId(url, path)
                 } != null
         } == true
     }
@@ -89,13 +101,13 @@ internal object DownloadHelper {
         return Pair(url, path)
     }
 
-    fun downloadId(@Url url: String, path: String): String =
+    fun genDownloadId(@Url url: String, path: String): String =
         MD5Tool.getMD5("[EasyApi][$url][$path]")
 
-    fun OkCall.okDownloadId(): String {
+    private fun OkCall.okDownloadId(): String {
         val url = request().url().url().toString()
         val path = request().tag(String::class.java)
-        return downloadId(url, path ?: "")
+        return genDownloadId(url, path ?: "")
     }
 
 

@@ -7,7 +7,7 @@ import engineer.echo.easyapi.EasyApi.Companion.toException
 import engineer.echo.easyapi.EasyLiveData
 import engineer.echo.easyapi.EasyMonitor
 import engineer.echo.easyapi.download.DownloadHelper.calculateProgress
-import engineer.echo.easyapi.download.DownloadHelper.downloadId
+import engineer.echo.easyapi.download.DownloadHelper.genDownloadId
 import engineer.echo.easyapi.download.DownloadHelper.resumeBytes
 import engineer.echo.easyapi.download.DownloadHelper.urlAndPath
 import engineer.echo.easyapi.download.DownloadHelper.writeToFile
@@ -32,7 +32,7 @@ class LiveDataDownloadAdapter(private val monitor: EasyMonitor? = null) :
         val resumeBytes = call.resumeBytes()
         val urlAndPath = call.urlAndPath()
         val path = urlAndPath.second ?: ""
-        val downloadId = downloadId(urlAndPath.first, path)
+        val downloadId = genDownloadId(urlAndPath.first, path)
         liveData.id = downloadId
         downloadState.url = urlAndPath.first
         downloadState.path = path
