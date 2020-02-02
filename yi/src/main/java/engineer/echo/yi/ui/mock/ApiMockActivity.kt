@@ -34,7 +34,7 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
     }
 
     override fun onDownloadClick(view: View) {
-        viewModel.startDownload(this)
+        viewModel.startDownload(binding.mockApkSwitch.isChecked)
     }
 
     override fun onCancelDownloadClick(view: View) {

@@ -1,8 +1,13 @@
 package engineer.echo.yi.ui.mock
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.download.DownloadState
+import engineer.echo.easyapi.pub.assignTo
+import engineer.echo.easyapi.pub.cancelRequest
 import engineer.echo.yi.R
 import engineer.echo.yi.YiApp
 import engineer.echo.yi.api.WeatherApi
@@ -21,14 +26,11 @@ class ApiMockViewModel : ViewModel(), ApiMockContract.IViewModel {
 
     override var downloadData: MutableLiveData<DownloadState> = MutableLiveData()
 
-    override fun startDownload(owner: LifecycleOwner) {
-        // TODO 实现方式不优雅
-        model.download().observe(owner, Observer {
-            downloadData.postValue(it)
-        })
+    override fun startDownload(apk: Boolean) {
+        model.download(apk).assignTo(downloadData)
     }
 
     override fun cancelDownload() {
-        model.cancelDownload()
+        downloadData.cancelRequest()
     }
 }

@@ -9,12 +9,9 @@ import java.io.File
 
 class ApiMockModel : ApiMockContract.IModel {
 
-    override fun download(): LiveData<DownloadState> {
-        return EasyApi.download(IMG_URL, getPath())
-    }
 
-    override fun cancelDownload() {
-        EasyApi.cancelDownload(IMG_URL, getPath())
+    override fun download(apk: Boolean): LiveData<DownloadState> {
+        return EasyApi.download(if (apk) APK_URL else IMG_URL, getPath())
     }
 
     companion object {

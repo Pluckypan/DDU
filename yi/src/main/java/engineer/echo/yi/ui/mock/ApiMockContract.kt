@@ -1,7 +1,6 @@
 package engineer.echo.yi.ui.mock
 
 import android.view.View
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import engineer.echo.easyapi.download.DownloadState
@@ -18,12 +17,11 @@ object ApiMockContract {
         var weatherData: LiveData<WeatherResp>
         var titleData: LiveData<String>
         var downloadData: MutableLiveData<DownloadState>
-        fun startDownload(owner: LifecycleOwner)
+        fun startDownload(apk: Boolean = false)
         fun cancelDownload()
     }
 
     interface IModel {
-        fun download(): LiveData<DownloadState>
-        fun cancelDownload()
+        fun download(apk: Boolean = false): LiveData<DownloadState>
     }
 }
