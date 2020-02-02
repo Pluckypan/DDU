@@ -116,7 +116,7 @@ fun Bitmap.gaussScale(scale: Float, radiusOffset: Float, app: Application): Bitm
     val sigma = resizeRatio / Math.PI.toFloat()
     //+ radiusOffset 的目的是更柔和一点 否则字体容易出现锯齿
     var radius = 2.5f * sigma - 1.5f + radiusOffset
-    radius = Math.min(25f, Math.max(0.0001f, radius))
+    radius = 25f.coerceAtMost(0.0001f.coerceAtLeast(radius))
 
     /**
      * 由于 gauss & bilinear 两种缩放算法表现比较好且 Android 已经自带了 ScriptIntrinsicBlur (基于gauss)

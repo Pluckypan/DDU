@@ -13,7 +13,7 @@ good good study **好好学习**, day day up **天天向上**
   1. [x] `WifiDirect`: **P2P** & `Socket`
   2. [x] `Messenger`: `Service` & `BroadcastReceiver`
   3. [x] **LiveEventBus**: `LiveData` & `BroadcastReceiver`
-  4. [ ] **Bluetooth**
+  4. [x] **Bluetooth** `EasyPrinter` 
 
 ### 目录说明
 ```
