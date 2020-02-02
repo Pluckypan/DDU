@@ -15,6 +15,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import engineer.echo.easyapi.download.DownloadState
 import engineer.echo.yi.R
 import engineer.echo.yi.cmpts.glide.ImageYi
+import engineer.echo.yi.cmpts.widgets.IndicatorView
 import engineer.echo.yi.databinding.MainActivityBinding
 import jp.wasabeef.glide.transformations.BlurTransformation
 import java.util.*
@@ -61,13 +62,22 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
         private const val BG_DAY = "http://img.1991th.com/tuchongeter/statics/HSDH3OCE5QQKWYR"
         private const val BG_NIGHT = "http://img.1991th.com/tuchongeter/statics/XO5DIZ7YXGU5EVN"
         private val BG_TRANSFORM = MultiTransformation(
-            BlurTransformation(10,2),
+            BlurTransformation(10, 2),
             CenterCrop()
         )
 
         private fun getBackground(): String {
             Calendar.getInstance().get(Calendar.HOUR_OF_DAY).let {
                 return if (it in 6..18) BG_DAY else BG_NIGHT
+            }
+        }
+
+        @JvmStatic
+        @BindingAdapter("indicatorData")
+        fun onBindIndicator(indicatorView: IndicatorView, pair: Pair<Int, Int>? = null) {
+            pair?.let {
+                indicatorView.size = pair.second
+                indicatorView.currentIndex = pair.first
             }
         }
 

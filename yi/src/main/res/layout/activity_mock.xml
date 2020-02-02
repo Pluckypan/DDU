@@ -37,7 +37,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:viewModel="@{iViewModel}"
                 app:weatherData="@{iViewModel.weatherData}" />
+
+        <engineer.echo.yi.cmpts.widgets.IndicatorView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                app:indicatorData="@{iViewModel.indicatorData}"
+                app:layout_constraintDimensionRatio="43:12"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.115" />
 
         <TextView
                 android:id="@+id/mockDownloadMsg"

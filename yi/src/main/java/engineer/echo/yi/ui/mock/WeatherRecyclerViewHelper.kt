@@ -1,5 +1,6 @@
 package engineer.echo.yi.ui.mock
 
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,7 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.github.rubensousa.gravitysnaphelper.GravityPagerSnapHelper
 import engineer.echo.yi.R
 import engineer.echo.yi.YiApp
 import engineer.echo.yi.bean.weather.WeatherResp
@@ -17,10 +19,17 @@ import engineer.echo.yi.databinding.WeatherTodayBinding
 object WeatherRecyclerViewHelper {
 
 
-    private fun RecyclerView.setupIfNeed(): WeatherAdapter {
+    private fun RecyclerView.setupIfNeed(viewModel: ApiMockContract.IViewModel? = null): WeatherAdapter {
         if (adapter == null) {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = WeatherAdapter()
+            GravityPagerSnapHelper(Gravity.START, true) {
+                viewModel?.indicatorData?.value?.let { pair ->
+                    if (it != pair.first) {
+                        viewModel.indicatorData.postValue(Pair(it, pair.second))
+                    }
+                }
+            }.attachToRecyclerView(this)
         }
         return adapter as WeatherAdapter
     }
@@ -35,10 +44,16 @@ object WeatherRecyclerViewHelper {
     private const val TYPE_OTHER = 2
 
     @JvmStatic
-    @BindingAdapter("weatherData")
-    fun bindData(recyclerView: RecyclerView, weather: WeatherResp? = null) {
-        recyclerView.setupIfNeed().apply {
-            data = weather?.results?.firstOrNull()
+    @BindingAdapter("weatherData", "viewModel")
+    fun bindData(
+        recyclerView: RecyclerView,
+        weather: WeatherResp? = null,
+        viewModel: ApiMockContract.IViewModel? = null
+    ) {
+        recyclerView.setupIfNeed(viewModel).apply {
+            data = weather?.results?.firstOrNull()?.also {
+                viewModel?.indicatorData?.postValue(Pair(0, it.weather_data.size))
+            }
             notifyDataSetChanged()
         }
     }

@@ -18,6 +18,7 @@ object ApiMockContract {
         val locationData: LiveData<IpLocation>
         val weatherData: LiveData<WeatherResp>
         val titleData: LiveData<String>
+        val indicatorData: MutableLiveData<Pair<Int, Int>>
         val downloadData: MutableLiveData<DownloadState>
         fun startDownload(apk: Boolean = false)
         fun cancelDownload()

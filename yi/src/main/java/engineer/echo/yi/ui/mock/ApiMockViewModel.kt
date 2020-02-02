@@ -29,6 +29,8 @@ class ApiMockViewModel : ViewModel(), ApiMockContract.IViewModel {
         it.city
     }
 
+    override val indicatorData: MutableLiveData<Pair<Int, Int>> = MutableLiveData()
+
     override val downloadData: MutableLiveData<DownloadState> = MutableLiveData()
 
     override fun startDownload(apk: Boolean) {
