@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="WeatherTodayBinding">
+
+        <variable
+                name="weather"
+                type="engineer.echo.yi.bean.weather.WeatherResult" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        <TextView
+                android:id="@+id/temperatureTv"
+                style="@style/style_item_temperature"
+                android:text="@{String.valueOf(weather.realTimeTemperature)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="12" />
+
+        <TextView
+                style="@style/style_item_degree"
+                android:text="o"
+                app:layout_constraintCircle="@+id/temperatureTv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText" />
+
+        <TextView
+                style="@style/style_item_weather"
+                android:text="@{weather.todayWeather}"
+                app:layout_constraintCircle="@+id/temperatureTv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="多云转小雪" />
+
+        <TextView
+                style="@style/style_item_temperature_range"
+                android:text="@{weather.todayTemperature}"
+                app:layout_constraintCircle="@+id/temperatureTv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="-5~10°" />
+
+        <ImageView
+                android:id="@+id/blurTextBgIv"
+                style="@style/style_item_blur_bg"
+                app:layout_constraintCircle="@+id/temperatureTv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+        <TextView
+                style="@style/style_item_blur_text"
+                android:text='@{weather.todayDate.concat(" ").concat(weather.todayEnvIndex)}'
+                app:layout_constraintBottom_toBottomOf="@id/blurTextBgIv"
+                app:layout_constraintStart_toStartOf="@+id/blurTextBgIv"
+                app:layout_constraintTop_toTopOf="@+id/blurTextBgIv"
+                tools:text="轻度污染" />
+
+        <TextView
+                style="@style/style_item_blur_text"
+                android:text="@{weather.todayWind}"
+                app:layout_constraintBottom_toBottomOf="@id/blurTextBgIv"
+                app:layout_constraintEnd_toEndOf="@+id/blurTextBgIv"
+                app:layout_constraintTop_toTopOf="@+id/blurTextBgIv"
+                tools:text="东北风微风" />
+
+        <TextView
+                style="@style/style_item_weather_index"
+                android:text="@{weather.todayWeatherIndex}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/blurTextBgIv"
+                tools:text="穿衣指數:冷" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

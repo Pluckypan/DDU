@@ -9,11 +9,11 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.bumptech.glide.load.MultiTransformation
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import engineer.echo.easyapi.download.DownloadState
 import engineer.echo.yi.R
-import engineer.echo.yi.bean.location.IpLocation
-import engineer.echo.yi.bean.weather.WeatherResp
 import engineer.echo.yi.cmpts.glide.ImageYi
 import engineer.echo.yi.databinding.MainActivityBinding
 import jp.wasabeef.glide.transformations.BlurTransformation
@@ -52,35 +52,22 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
         ImageYi.with(this)
             .load(getBackground())
             .transition(DrawableTransitionOptions.withCrossFade())
-            .transform(BlurTransformation(15))
-            .centerCrop()
+            .transform(BG_TRANSFORM)
             .into(binding.mockBgIv)
     }
 
     companion object {
 
         private const val BG_DAY = "http://img.1991th.com/tuchongeter/statics/HSDH3OCE5QQKWYR"
-        private const val BG_NIGHT = "http://img.1991th.com/tuchongeter/statics/RO2NFSDESAI9SS4"
+        private const val BG_NIGHT = "http://img.1991th.com/tuchongeter/statics/XO5DIZ7YXGU5EVN"
+        private val BG_TRANSFORM = MultiTransformation(
+            BlurTransformation(10,2),
+            CenterCrop()
+        )
 
         private fun getBackground(): String {
             Calendar.getInstance().get(Calendar.HOUR_OF_DAY).let {
-                return if (it in 6..6) BG_DAY else BG_NIGHT
-            }
-        }
-
-        @JvmStatic
-        @BindingAdapter("weatherData", "locationData")
-        fun onBindWeather(
-            textView: TextView,
-            weather: WeatherResp? = null,
-            location: IpLocation? = null
-        ) {
-            location?.let {
-                textView.text = it.getLocation().plus("\n\n")
-            }
-            weather?.let {
-                val oldText = textView.text.toString()
-                textView.text = oldText.plus(it.getWeather())
+                return if (it in 6..18) BG_DAY else BG_NIGHT
             }
         }
 

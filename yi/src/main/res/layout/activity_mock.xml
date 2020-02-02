@@ -29,15 +29,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-                android:id="@+id/mockMsgTv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Hello World!"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+        <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:contentDescription="@string/app_name"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:locationData="@{iViewModel.locationData}"
                 app:weatherData="@{iViewModel.weatherData}" />
 
         <TextView
@@ -46,6 +45,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"
                 app:downloadData="@{iViewModel.downloadData}"
                 app:layout_constraintBottom_toBottomOf="@+id/mockApkSwitch"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -54,38 +55,28 @@
 
         <Button
                 android:id="@+id/mockDownloadBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                style="@style/style_download_button"
                 android:onClick="@{iView::onDownloadClick}"
                 android:text="@string/main_label_download"
-                android:textAllCaps="false"
                 app:downloadData="@{iViewModel.downloadData}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mockApkSwitch"
-                app:layout_goneMarginTop="20dp" />
+                app:layout_constraintTop_toBottomOf="@+id/mockApkSwitch" />
 
         <Button
                 android:id="@+id/mockDownload1Btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/style_download_button"
                 android:onClick="@{iView::onDownloadClick}"
                 android:text="@string/main_label_download"
-                android:textAllCaps="false"
                 app:layout_constraintStart_toEndOf="@+id/mockDownloadBtn"
-                app:layout_constraintTop_toBottomOf="@+id/mockApkSwitch"
-                app:layout_goneMarginTop="20dp" />
+                app:layout_constraintTop_toBottomOf="@+id/mockApkSwitch" />
 
         <Button
                 android:id="@+id/mockPauseBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/style_download_button"
                 android:onClick="@{iView::onCancelDownloadClick}"
-                android:text="@string/label_cancel"
-                android:textAllCaps="false"
+                android:text="@android:string/cancel"
                 app:layout_constraintStart_toEndOf="@+id/mockDownload1Btn"
-                app:layout_constraintTop_toBottomOf="@+id/mockApkSwitch"
-                app:layout_goneMarginTop="20dp" />
+                app:layout_constraintTop_toBottomOf="@+id/mockApkSwitch" />
 
         <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/mockApkSwitch"

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">易</string>
+    <string name="main_label_download">下载</string>
 </resources>
