@@ -5,6 +5,7 @@ import engineer.echo.yi.bean.location.IpLocation
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface IpLocateApi {
 
@@ -14,5 +15,8 @@ interface IpLocateApi {
 
     @FormUrlEncoded
     @POST(API_URL)
-    fun getLocation(@Field("app") app: String = "EasyApi"): LiveData<IpLocation>
+    fun getLocation(
+        @Field("app") app: String = "EasyApi",
+        @Query("lang") lang: String = "zh-CN"
+    ): LiveData<IpLocation>
 }

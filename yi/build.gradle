@@ -121,6 +121,10 @@ dependencies {
     implementation rootProject.ext.androidx.constraintlayout
     implementation rootProject.ext.androidx.recyclerview
     implementation rootProject.ext.androidx.lifecycleExt
+    // glide
+    implementation rootProject.ext.glide.runtime
+    implementation rootProject.ext.glide.transformations
+    kapt rootProject.ext.glide.compiler
     // test
     testImplementation rootProject.ext.test.junit
     androidTestImplementation rootProject.ext.test.runner

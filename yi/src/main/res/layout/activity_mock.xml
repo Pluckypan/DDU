@@ -17,8 +17,17 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="20dp"
             tools:context=".ui.mock.ApiMockActivity">
+
+        <ImageView
+                android:id="@+id/mockBgIv"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:contentDescription="@string/app_name"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
                 android:id="@+id/mockMsgTv"
@@ -36,6 +45,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 app:downloadData="@{iViewModel.downloadData}"
                 app:layout_constraintBottom_toBottomOf="@+id/mockApkSwitch"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -46,6 +56,7 @@
                 android:id="@+id/mockDownloadBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:onClick="@{iView::onDownloadClick}"
                 android:text="@string/main_label_download"
                 android:textAllCaps="false"
@@ -80,9 +91,10 @@
                 android:id="@+id/mockApkSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mockMsgTv" />
+                app:layout_constraintTop_toBottomOf="@+id/mockBgIv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -88,11 +88,22 @@ ext {
             rxAndroid      : "io.reactivex.rxjava2:rxandroid:2.0.1"
     ]
 
+    support = [
+            annotations: "com.android.support:support-annotations:27.1.1"
+    ]
+
     widget = [
             syntaxView           : "com.github.Badranh:Syntax-View-Android:0.1.5",
             sectionedRecyclerview: "com.truizlop.sectionedrecyclerview:library:1.2.0",
             rangeBar             : "com.github.Greymamba:Rangebar:1.2.1",
             gravitySnapHelper    : "com.github.rubensousa:gravitysnaphelper:1.5",
+    ]
+
+    glide = [
+            runtime        : "com.github.bumptech.glide:glide:4.11.0",
+            compiler       : "com.github.bumptech.glide:compiler:4.11.0",
+            integration    : "com.github.bumptech.glide:recyclerview-integration:4.7.1",
+            transformations: "jp.wasabeef:glide-transformations:3.3.0"
     ]
 
     test = [
