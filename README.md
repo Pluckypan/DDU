@@ -14,3 +14,20 @@ good good study **好好学习**, day day up **天天向上**
   2. [x] `Messenger`: `Service` & `BroadcastReceiver`
   3. [x] **LiveEventBus**: `LiveData` & `BroadcastReceiver`
   4. [ ] **Bluetooth**
+
+### 目录说明
+```
+.
+├── LICENSE
+├── README.md
+├── app                --- 研究技术 demo
+├── easyapi            --- 基于 LiveData & Retrofit
+├── easylib            --- 通用方法
+├── easyprinter        --- 蓝牙打印机
+├── imessenger         --- 基于 Messenger 的 IPC 方案
+├── local.properties
+├── logic
+├── note
+├── whisper            --- 基于 WiFi 跨进程、设备间传输
+└── yi                 --- 基于 EasyApi MVVM demo
+```
