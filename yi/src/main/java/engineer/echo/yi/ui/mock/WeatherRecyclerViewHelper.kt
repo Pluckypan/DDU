@@ -77,6 +77,7 @@ object WeatherRecyclerViewHelper {
     }
 
     class WeatherTodayViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        // 方式一
         val binding: WeatherTodayBinding? = WeatherTodayBinding.bind(itemView)
 
         init {
@@ -85,6 +86,7 @@ object WeatherRecyclerViewHelper {
     }
 
     class WeatherOtherViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        // 方式二
         val binding = DataBindingUtil.bind<WeatherOtherBinding>(itemView)
 
         init {
