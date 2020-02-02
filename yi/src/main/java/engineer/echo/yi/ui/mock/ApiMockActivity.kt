@@ -14,6 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import engineer.echo.easyapi.download.DownloadState
 import engineer.echo.yi.R
+import engineer.echo.yi.bean.location.IpLocation
 import engineer.echo.yi.cmpts.glide.ImageYi
 import engineer.echo.yi.cmpts.widgets.IndicatorView
 import engineer.echo.yi.databinding.MainActivityBinding
@@ -95,6 +96,12 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
         @BindingAdapter("downloadData")
         fun onBindDownload(textView: TextView, downloadState: DownloadState? = null) {
             textView.text = downloadState?.downloadText() ?: ""
+        }
+
+        @JvmStatic
+        @BindingAdapter("locationData")
+        fun onBindLocation(textView: TextView, location: IpLocation? = null) {
+            textView.text = location?.getLocation()
         }
 
         @JvmStatic
