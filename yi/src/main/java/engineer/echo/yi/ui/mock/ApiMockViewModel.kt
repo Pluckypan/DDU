@@ -10,21 +10,28 @@ import engineer.echo.easyapi.pub.assignTo
 import engineer.echo.easyapi.pub.cancelRequest
 import engineer.echo.yi.R
 import engineer.echo.yi.YiApp
+import engineer.echo.yi.api.IpLocateApi
 import engineer.echo.yi.api.WeatherApi
+import engineer.echo.yi.bean.location.IpLocation
 import engineer.echo.yi.bean.weather.WeatherResp
 
 class ApiMockViewModel : ViewModel(), ApiMockContract.IViewModel {
 
     private val model: ApiMockContract.IModel = ApiMockModel()
 
-    override var weatherData: LiveData<WeatherResp> =
-        EasyApi.create(WeatherApi::class.java).getWeather(location = "beijing")
+    override val locationData: LiveData<IpLocation> =
+        EasyApi.create(IpLocateApi::class.java).getLocation()
 
-    override var titleData: LiveData<String> = Transformations.map(weatherData) {
+    override val weatherData: LiveData<WeatherResp> =
+        Transformations.switchMap(locationData) {
+            EasyApi.create(WeatherApi::class.java).getWeather(location = it.getQueryLocation())
+        }
+
+    override val titleData: LiveData<String> = Transformations.map(weatherData) {
         it.simple(YiApp.getApp().getString(R.string.app_name))
     }
 
-    override var downloadData: MutableLiveData<DownloadState> = MutableLiveData()
+    override val downloadData: MutableLiveData<DownloadState> = MutableLiveData()
 
     override fun startDownload(apk: Boolean) {
         model.download(apk).assignTo(downloadData)

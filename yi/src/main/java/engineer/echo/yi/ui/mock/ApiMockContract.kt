@@ -4,6 +4,7 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import engineer.echo.easyapi.download.DownloadState
+import engineer.echo.yi.bean.location.IpLocation
 import engineer.echo.yi.bean.weather.WeatherResp
 
 object ApiMockContract {
@@ -14,9 +15,10 @@ object ApiMockContract {
     }
 
     interface IViewModel {
-        var weatherData: LiveData<WeatherResp>
-        var titleData: LiveData<String>
-        var downloadData: MutableLiveData<DownloadState>
+        val locationData: LiveData<IpLocation>
+        val weatherData: LiveData<WeatherResp>
+        val titleData: LiveData<String>
+        val downloadData: MutableLiveData<DownloadState>
         fun startDownload(apk: Boolean = false)
         fun cancelDownload()
     }

@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import engineer.echo.easyapi.download.DownloadState
 import engineer.echo.yi.R
+import engineer.echo.yi.bean.location.IpLocation
 import engineer.echo.yi.bean.weather.WeatherResp
 import engineer.echo.yi.databinding.MainActivityBinding
 
@@ -44,10 +45,18 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
     companion object {
 
         @JvmStatic
-        @BindingAdapter("weatherData")
-        fun onBindWeather(textView: TextView, weather: WeatherResp? = null) {
+        @BindingAdapter("weatherData", "locationData")
+        fun onBindWeather(
+            textView: TextView,
+            weather: WeatherResp? = null,
+            location: IpLocation? = null
+        ) {
+            location?.let {
+                textView.text = it.getLocation().plus("\n\n")
+            }
             weather?.let {
-                textView.text = it.getWeather()
+                val oldText = textView.text.toString()
+                textView.text = oldText.plus(it.getWeather())
             }
         }
 

@@ -33,18 +33,18 @@ data class WeatherData(
 
     fun getWeatherData(): String {
         return StringBuilder().apply {
-            appendln("天气: $weather $wind")
-            appendln("气温: ${temperature.replace(" ~ ", "~")}")
+            appendln("$weather $wind ${temperature.replace(" ~ ", "~")}")
         }.toString()
     }
 }
 
+@Parcelize
 data class WeatherResult(
     val currentCity: String,
     val pm25: String,
     val index: List<WeatherIndex>,
     val weather_data: List<WeatherData>
-) {
+):Parcelable {
     fun currentCityCamelCase(): String {
         if (currentCity.isEmpty()) return currentCity
         return currentCity.replaceFirst(currentCity.first(), currentCity.first().toUpperCase())
