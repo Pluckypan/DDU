@@ -47,10 +47,13 @@ fun LiveData<*>.cancelRequest() {
 
 /**
  * LiveData 状态转发
- * 如：将下载状态转发给新的 MutableLiveData
- * 使用 DataBinding 重新给 LiveData 赋值时,observers 会丢失
- * 非最优解
+ * 在 LiveData 的世界里,一切都是由 LiveData 驱动,让 triggerLiveData 去触发 其他 LiveData 产生
+ * 详情参考 Yi ApiMockViewModel#refreshTrigger
  */
+@Deprecated(
+    "please use triggerLiveData",
+    ReplaceWith("Transformations.switchMap(triggerLiveData) { if(it) LiveData1 else LiveData2  }")
+)
 fun <T> LiveData<T>.assignTo(liveData: MutableLiveData<T>) {
     observeForever {
         liveData.value = it

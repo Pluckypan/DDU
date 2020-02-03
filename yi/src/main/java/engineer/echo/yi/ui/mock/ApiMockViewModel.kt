@@ -6,7 +6,6 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.download.DownloadState
-import engineer.echo.easyapi.pub.assignTo
 import engineer.echo.easyapi.pub.cancelRequest
 import engineer.echo.yi.R
 import engineer.echo.yi.YiApp
@@ -18,34 +17,46 @@ import engineer.echo.yi.bean.weather.WeatherResp
 class ApiMockViewModel : ViewModel(), ApiMockContract.IViewModel {
 
     private val model: ApiMockContract.IModel = ApiMockModel()
+    override val indicatorData: MutableLiveData<Pair<Int, Int>> = MutableLiveData()
 
-    override val locationData: LiveData<IpLocation> =
-        EasyApi.create(IpLocateApi::class.java).getLocation()
+    // 刷新事件
+    private val refreshTrigger = MutableLiveData<Boolean>()
+
+    override val locationData: LiveData<IpLocation> = Transformations.switchMap(refreshTrigger) {
+        if (it == true) {
+            EasyApi.create(IpLocateApi::class.java).getLocation()
+        } else {
+            null
+        }
+    }
 
     override val weatherData: LiveData<WeatherResp> =
         Transformations.switchMap(locationData) {
-            EasyApi.create(WeatherApi::class.java).getWeather(location = it.getQueryLocation())
+            if (it != null) {
+                EasyApi.create(WeatherApi::class.java).getWeather(location = it.getQueryLocation())
+            } else {
+                null
+            }
         }
 
     override val titleData: LiveData<String> = Transformations.map(locationData) {
         if (it.isSuccess() && it.city.isNotEmpty()) it.city else YiApp.getString(R.string.app_name)
     }
 
-    override val indicatorData: MutableLiveData<Pair<Int, Int>> = MutableLiveData()
-
-    override val downloadData: MutableLiveData<DownloadState> = MutableLiveData()
-
-    override fun startDownload(apk: Boolean) {
-        model.download(apk).assignTo(downloadData)
+    override fun refresh() {
+        refreshTrigger.value = true
     }
 
-    override fun refresh() {
-        // TODO 如果 locationData 重新 assignTo 会造成 接口循环调用
-        Transformations.switchMap(locationData) {
-            EasyApi.create(WeatherApi::class.java).getWeather(location = it.getQueryLocation())
-        }.also {
-            it.assignTo(weatherData as MutableLiveData<WeatherResp>)
+    // 下载相关
+    private val downloadTrigger = MutableLiveData<Boolean>()
+
+    override val downloadData: LiveData<DownloadState> =
+        Transformations.switchMap(downloadTrigger) { apk ->
+            model.download(apk)
         }
+
+    override fun startDownload(apk: Boolean) {
+        downloadTrigger.value = apk
     }
 
     override fun cancelDownload() {

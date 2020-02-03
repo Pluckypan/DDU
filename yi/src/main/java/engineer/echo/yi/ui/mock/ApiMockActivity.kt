@@ -69,6 +69,7 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
             setOnRefreshListener {
                 viewModel.refresh()
             }
+            autoRefresh()
         }
 
         viewModel.weatherData.observe(this, Observer {
