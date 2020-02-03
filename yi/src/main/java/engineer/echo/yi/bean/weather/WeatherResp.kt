@@ -12,6 +12,8 @@ data class WeatherResp(
     val results: List<WeatherResult> = arrayListOf()
 ) : Result(), Parcelable {
 
+    fun isWeatherSuccess(): Boolean = isSuccess() && results.isNotEmpty()
+
     fun getWeather(defVal: String = "nil"): String {
         results.firstOrNull()?.let {
             return StringBuilder().apply {

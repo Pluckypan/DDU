@@ -24,10 +24,12 @@ data class IpLocation(
     val query: String = ""
 ) : Result(), Parcelable {
 
-    fun getQueryLocation(): String = "$lon,$lat"
+    fun isLocateSuccess(): Boolean = isSuccess() && status == "success"
+
+    fun getQueryLocation(): String = if (isLocateSuccess()) "$lon,$lat" else "beijing"
 
     fun getLocation(defVal: String = "nil"): String = StringBuilder().apply {
-        if (isSuccess() && status == "success") {
+        if (isLocateSuccess()) {
             appendln("$city $regionName $country")
             appendln("timezone: $timezone [${getQueryLocation()}]")
             appendln("ip: $query")

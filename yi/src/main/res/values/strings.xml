@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Yi</string>
+    <string name="app_name">Easy</string>
     <string name="main_label_download">Download</string>
     <string name="tips_network_error">Service not available</string>
 </resources>

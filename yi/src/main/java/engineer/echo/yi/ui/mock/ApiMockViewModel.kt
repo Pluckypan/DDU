@@ -39,6 +39,15 @@ class ApiMockViewModel : ViewModel(), ApiMockContract.IViewModel {
         model.download(apk).assignTo(downloadData)
     }
 
+    override fun refresh() {
+        // TODO 如果 locationData 重新 assignTo 会造成 接口循环调用
+        Transformations.switchMap(locationData) {
+            EasyApi.create(WeatherApi::class.java).getWeather(location = it.getQueryLocation())
+        }.also {
+            it.assignTo(weatherData as MutableLiveData<WeatherResp>)
+        }
+    }
+
     override fun cancelDownload() {
         downloadData.cancelRequest()
     }

@@ -22,6 +22,7 @@ object ApiMockContract {
         val downloadData: MutableLiveData<DownloadState>
         fun startDownload(apk: Boolean = false)
         fun cancelDownload()
+        fun refresh()
     }
 
     interface IModel {

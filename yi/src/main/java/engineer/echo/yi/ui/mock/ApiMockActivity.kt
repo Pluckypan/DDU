@@ -36,9 +36,6 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
                 iView = this@ApiMockActivity
                 iViewModel = viewModel
             }
-        viewModel.titleData.observe(this, Observer {
-            title = it
-        })
         setupView()
     }
 
@@ -61,6 +58,22 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
     }
 
     private fun setupView() {
+        // title
+        viewModel.titleData.observe(this, Observer {
+            title = it
+        })
+
+        // refreshLayout
+        binding.mockRefreshLayout.apply {
+            setOnRefreshListener {
+                viewModel.refresh()
+            }
+        }
+
+        viewModel.weatherData.observe(this, Observer {
+            binding.mockRefreshLayout.finishRefresh(500, it.isWeatherSuccess())
+        })
+
         // background
         ImageYi.with(this)
             .load(getBackground())

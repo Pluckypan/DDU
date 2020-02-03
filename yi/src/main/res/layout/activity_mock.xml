@@ -14,121 +14,128 @@
                 type="engineer.echo.yi.ui.mock.ApiMockContract.IViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/mockRefreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".ui.mock.ApiMockActivity">
+            android:layout_height="match_parent">
 
-        <ImageView
-                android:id="@+id/mockBgIv"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:contentDescription="@string/app_name"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".ui.mock.ApiMockActivity">
 
-        <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/mockWindLottieView"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_margin="20dp"
-                android:alpha="0.8"
-                app:layout_constraintBottom_toBottomOf="@+id/mockBgIv"
-                app:layout_constraintDimensionRatio="572:653"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/mockBgIv"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintWidth_percent="0.25"
-                app:lottie_autoPlay="true"
-                app:lottie_cacheComposition="true"
-                app:lottie_colorFilter="@android:color/white"
-                app:lottie_fileName="lottie/wind.json"
-                app:lottie_loop="true"
-                app:lottie_speed="1.5" />
+            <ImageView
+                    android:id="@+id/mockBgIv"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:contentDescription="@string/app_name"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:contentDescription="@string/app_name"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:viewModel="@{iViewModel}"
-                app:weatherData="@{iViewModel.weatherData}" />
+            <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/mockWindLottieView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="20dp"
+                    android:alpha="0.8"
+                    app:layout_constraintBottom_toBottomOf="@+id/mockBgIv"
+                    app:layout_constraintDimensionRatio="572:653"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/mockBgIv"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintWidth_percent="0.25"
+                    app:lottie_autoPlay="true"
+                    app:lottie_cacheComposition="true"
+                    app:lottie_colorFilter="@android:color/white"
+                    app:lottie_fileName="lottie/wind.json"
+                    app:lottie_loop="true"
+                    app:lottie_speed="1.5" />
 
-        <engineer.echo.yi.cmpts.widgets.IndicatorView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_margin="10dp"
-                app:indicatorData="@{iViewModel.indicatorData}"
-                app:layout_constraintDimensionRatio="43:12"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.115" />
+            <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:contentDescription="@string/app_name"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:viewModel="@{iViewModel}"
+                    app:weatherData="@{iViewModel.weatherData}" />
 
-        <TextView
-                android:id="@+id/mockDownloadMsg"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:textColor="@color/colorPrimary"
-                android:textSize="12sp"
-                app:downloadData="@{iViewModel.downloadData}"
-                app:layout_constraintBottom_toBottomOf="@+id/mockApkSwitch"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/mockApkSwitch"
-                app:layout_constraintTop_toTopOf="@+id/mockApkSwitch" />
+            <engineer.echo.yi.cmpts.widgets.IndicatorView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="10dp"
+                    app:indicatorData="@{iViewModel.indicatorData}"
+                    app:layout_constraintDimensionRatio="43:12"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.115" />
 
-        <Button
-                android:id="@+id/mockDownloadBtn"
-                style="@style/style_download_button"
-                android:onClick="@{iView::onDownloadClick}"
-                android:text="@string/main_label_download"
-                app:downloadData="@{iViewModel.downloadData}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mockApkSwitch" />
+            <TextView
+                    android:id="@+id/mockDownloadMsg"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp"
+                    app:downloadData="@{iViewModel.downloadData}"
+                    app:layout_constraintBottom_toBottomOf="@+id/mockApkSwitch"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/mockApkSwitch"
+                    app:layout_constraintTop_toTopOf="@+id/mockApkSwitch" />
 
-        <Button
-                android:id="@+id/mockDownload1Btn"
-                style="@style/style_download_button"
-                android:onClick="@{iView::onDownloadClick}"
-                android:text="@string/main_label_download"
-                app:layout_constraintStart_toEndOf="@+id/mockDownloadBtn"
-                app:layout_constraintTop_toBottomOf="@+id/mockApkSwitch" />
+            <Button
+                    android:id="@+id/mockDownloadBtn"
+                    style="@style/style_download_button"
+                    android:onClick="@{iView::onDownloadClick}"
+                    android:text="@string/main_label_download"
+                    app:downloadData="@{iViewModel.downloadData}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/mockApkSwitch" />
 
-        <Button
-                android:id="@+id/mockPauseBtn"
-                style="@style/style_download_button"
-                android:onClick="@{iView::onCancelDownloadClick}"
-                android:text="@android:string/cancel"
-                app:layout_constraintStart_toEndOf="@+id/mockDownload1Btn"
-                app:layout_constraintTop_toBottomOf="@+id/mockApkSwitch" />
+            <Button
+                    android:id="@+id/mockDownload1Btn"
+                    style="@style/style_download_button"
+                    android:onClick="@{iView::onDownloadClick}"
+                    android:text="@string/main_label_download"
+                    app:layout_constraintStart_toEndOf="@+id/mockDownloadBtn"
+                    app:layout_constraintTop_toBottomOf="@+id/mockApkSwitch" />
 
-        <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/mockApkSwitch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mockBgIv" />
+            <Button
+                    android:id="@+id/mockPauseBtn"
+                    style="@style/style_download_button"
+                    android:onClick="@{iView::onCancelDownloadClick}"
+                    android:text="@android:string/cancel"
+                    app:layout_constraintStart_toEndOf="@+id/mockDownload1Btn"
+                    app:layout_constraintTop_toBottomOf="@+id/mockApkSwitch" />
 
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:textColor="@color/colorPrimary"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:locationData="@{iViewModel.locationData}"
-                tools:text="福建泉州" />
+            <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/mockApkSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/mockBgIv" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:locationData="@{iViewModel.locationData}"
+                    tools:text="福建泉州" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 </layout>

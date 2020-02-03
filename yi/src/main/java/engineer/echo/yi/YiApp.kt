@@ -6,6 +6,7 @@ import androidx.annotation.StringRes
 import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.EasyMonitor
 import engineer.echo.easyapi.Result
+import engineer.echo.yi.cmpts.widgets.refresh.SmartRefresh
 
 class YiApp : Application() {
 
@@ -24,6 +25,7 @@ class YiApp : Application() {
 
             }
         })
+        SmartRefresh.setup()
     }
 
     companion object {
