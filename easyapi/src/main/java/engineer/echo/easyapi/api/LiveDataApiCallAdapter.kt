@@ -7,6 +7,7 @@ import engineer.echo.easyapi.EasyApi.Companion.toException
 import engineer.echo.easyapi.EasyLiveData
 import engineer.echo.easyapi.EasyMonitor
 import engineer.echo.easyapi.Result
+import engineer.echo.easyapi.job.JobHelper.injectHeader
 import engineer.echo.easyapi.pub.MD5Tool
 import retrofit2.Call
 import retrofit2.CallAdapter
@@ -31,6 +32,7 @@ internal class LiveDataApiCallAdapter<T : Result>(
         callTime.set(SystemClock.elapsedRealtime())
         requestSize = call.request().body()?.contentLength() ?: 0L
         liveData.id = MD5Tool.getMD5(call.request().toString())
+        call.injectHeader(annotations, liveData.id)
         EasyApi.printLog("LiveDataApiCallAdapter adapt id=%s", liveData.id)
         call.enqueue(object : Callback<T> {
             override fun onFailure(call: Call<T>, t: Throwable) {

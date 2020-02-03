@@ -7,6 +7,7 @@ import engineer.echo.easyapi.api.ApiHelper
 import engineer.echo.easyapi.download.DownloadHelper
 import engineer.echo.easyapi.download.DownloadHelper.downloadInner
 import engineer.echo.easyapi.download.DownloadState
+import engineer.echo.easyapi.job.JobInterceptor
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Response
@@ -55,11 +56,18 @@ class EasyApi {
          * OkHttpClient
          */
         private val okClient by lazy {
-            OkHttpClient.Builder()
-                .addInterceptor(addHeaderInterceptor())
-                .connectTimeout(15L, TimeUnit.SECONDS)
-                .readTimeout(30L, TimeUnit.SECONDS)
-                .writeTimeout(30L, TimeUnit.SECONDS)
+            customRetrofit?.okClient().let {
+                if (it != null) it.newBuilder() else OkHttpClient.Builder()
+            }
+                .addInterceptor(JobInterceptor())
+                .apply {
+                    if (customRetrofit == null) {
+                        addInterceptor(addHeaderInterceptor())
+                        connectTimeout(15L, TimeUnit.SECONDS)
+                        readTimeout(30L, TimeUnit.SECONDS)
+                        writeTimeout(30L, TimeUnit.SECONDS)
+                    }
+                }
                 .build()
         }
 
@@ -93,9 +101,13 @@ class EasyApi {
             return DownloadHelper.downloadTaskExist(url, path)
         }
 
-        fun getClient(): OkHttpClient? = lazyApi.callFactory().let {
-            if (it is OkHttpClient) return it else null
+        fun Retrofit.okClient(): OkHttpClient? {
+            return callFactory().let {
+                if (it is OkHttpClient) return it else null
+            }
         }
+
+        fun getClient(): OkHttpClient? = lazyApi.okClient()
 
         fun cancel(id: String) {
             ApiHelper.cancel(id)
@@ -108,16 +120,14 @@ class EasyApi {
         private val lazyApi by lazy {
             val builder = customRetrofit?.newBuilder() ?: Retrofit.Builder()
                 .apply {
+                    client(okClient)
                     if (customRetrofit == null) {
-                        client(okClient)
                         baseUrl(DEFAULT_URL)
                         addConverterFactory(GsonConverterFactory.create())
                     }
                 }
                 .addCallAdapterFactory(LiveDataCallAdapterFactory.create(monitor))
-            builder.build().also {
-                // getClient()?.interceptors()?.add(JobInterceptor())
-            }
+            builder.build()
         }
 
     }
