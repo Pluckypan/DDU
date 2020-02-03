@@ -46,8 +46,11 @@ internal class LiveDataApiCallAdapter<T : Result>(
     @Suppress("UNCHECKED_CAST")
     private fun postResult(method: String, response: Response<T>? = null, t: Throwable? = null) {
         val cost = SystemClock.elapsedRealtime() - callTime.get()
-        EasyApi.printLog("postResult adapt $method cost = %sms", cost)
         val responseSize = response?.raw()?.body()?.contentLength() ?: 0
+        EasyApi.printLog(
+            "postResult adapt $method cost = %sms request[%s] response[%s]",
+            cost, requestSize, responseSize
+        )
         if (response != null && response.isSuccessful && t == null) {
             monitor?.onResult(true, response.body(), cost, requestSize, responseSize)
             liveData.postValue(response.body())

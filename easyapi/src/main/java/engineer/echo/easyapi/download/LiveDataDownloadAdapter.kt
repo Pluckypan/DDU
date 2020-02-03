@@ -53,7 +53,7 @@ class LiveDataDownloadAdapter(private val monitor: EasyMonitor? = null) :
         call.enqueue(object : Callback<ResponseBody> {
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                EasyApi.printLog("adapt onFailure %s", t.message)
+                EasyApi.printLog("adapt onFailure request[%s] %s", requestSize, t.message)
                 downloadState.exception = t
                 downloadState.progress = 0
                 downloadState.current = 0
@@ -92,10 +92,8 @@ class LiveDataDownloadAdapter(private val monitor: EasyMonitor? = null) :
                             downloadState.progress = calculateProgress(cur, total)
                             downloadState.msg = msg ?: ""
                             EasyApi.printLog(
-                                "adapt onResponse writeToFile %s %s %s",
-                                state,
-                                downloadState.progress,
-                                msg
+                                "adapt onResponse request[%s] response[%s] writeToFile %s %s %s",
+                                requestSize, total, state, downloadState.progress, msg
                             )
                             postDownload(
                                 downloadState,
@@ -109,8 +107,8 @@ class LiveDataDownloadAdapter(private val monitor: EasyMonitor? = null) :
                     downloadState.current = 0
                     downloadState.exception = response.toException().also {
                         EasyApi.printLog(
-                            "adapt onResponse error %s",
-                            it.message?.plus(" - ${it.cause?.message}")
+                            "adapt onResponse request[%s] error %s",
+                            requestSize, it.message?.plus(" - ${it.cause?.message}")
                         )
                     }
                     postDownload(downloadState, true)
