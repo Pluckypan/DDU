@@ -14,6 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import engineer.echo.easyapi.download.DownloadState
 import engineer.echo.yi.R
+import engineer.echo.yi.YiApp
 import engineer.echo.yi.bean.location.IpLocation
 import engineer.echo.yi.cmpts.glide.ImageYi
 import engineer.echo.yi.cmpts.widgets.IndicatorView
@@ -101,7 +102,7 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
         @JvmStatic
         @BindingAdapter("locationData")
         fun onBindLocation(textView: TextView, location: IpLocation? = null) {
-            textView.text = location?.getLocation()
+            textView.text = location?.getLocation(YiApp.getString(R.string.tips_network_error))
         }
 
         @JvmStatic

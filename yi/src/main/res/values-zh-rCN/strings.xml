@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">易</string>
     <string name="main_label_download">下载</string>
+    <string name="tips_network_error">网络失联 生无可恋</string>
 </resources>

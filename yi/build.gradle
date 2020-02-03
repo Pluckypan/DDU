@@ -60,7 +60,7 @@ android {
     }
 
     signingConfigs {
-        def storeFilePath = getPropertyVal('StoreFile')
+        def storeFilePath = getPropertyVal('StoreFile', "null")
         release {
             storeFile file(storeFilePath)
             storePassword getPropertyVal('StorePassword')
@@ -86,7 +86,7 @@ android {
     }
 
     buildTypes.each {
-        it.buildConfigField("String", "BAIDU_AK", "\"${localProperties("baiduAk", "")}\"")
+        it.buildConfigField("String", "BAIDU_AK", "\"${getPropertyVal("baiduAk")}\"")
     }
 
     sourceSets {

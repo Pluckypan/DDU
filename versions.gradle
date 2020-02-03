@@ -128,13 +128,16 @@ def localProperties(key, defaultVal) {
     }
 }
 
-def getPropertyVal(key) {
-    if (System.getProperty(key)) {
+def getPropertyVal(key, defVal = "") {
+    def local = localProperties(key, defVal)
+    if (local != null && local.length() > 0) {
+        return local
+    } else if (System.getProperty(key)) {
         return System.getProperty(key)
     } else if (project.hasProperty(key)) {
         return project.getProperty(key)
     } else {
-        return localProperties(key, "null")
+        return defVal
     }
 }
 

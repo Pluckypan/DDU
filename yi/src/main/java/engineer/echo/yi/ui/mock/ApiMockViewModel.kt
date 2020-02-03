@@ -8,6 +8,8 @@ import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.download.DownloadState
 import engineer.echo.easyapi.pub.assignTo
 import engineer.echo.easyapi.pub.cancelRequest
+import engineer.echo.yi.R
+import engineer.echo.yi.YiApp
 import engineer.echo.yi.api.IpLocateApi
 import engineer.echo.yi.api.WeatherApi
 import engineer.echo.yi.bean.location.IpLocation
@@ -26,7 +28,7 @@ class ApiMockViewModel : ViewModel(), ApiMockContract.IViewModel {
         }
 
     override val titleData: LiveData<String> = Transformations.map(locationData) {
-        it.city
+        if (it.isSuccess() && it.city.isNotEmpty()) it.city else YiApp.getString(R.string.app_name)
     }
 
     override val indicatorData: MutableLiveData<Pair<Int, Int>> = MutableLiveData()

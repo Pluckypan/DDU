@@ -26,9 +26,13 @@ data class IpLocation(
 
     fun getQueryLocation(): String = "$lon,$lat"
 
-    fun getLocation(): String = StringBuilder().apply {
-        appendln("$city $regionName $country")
-        appendln("timezone: $timezone [${getQueryLocation()}]")
-        appendln("ip: $query")
+    fun getLocation(defVal: String = "nil"): String = StringBuilder().apply {
+        if (isSuccess() && status == "success") {
+            appendln("$city $regionName $country")
+            appendln("timezone: $timezone [${getQueryLocation()}]")
+            appendln("ip: $query")
+        } else {
+            appendln(defVal)
+        }
     }.toString()
 }
