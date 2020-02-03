@@ -2,6 +2,7 @@ package engineer.echo.yi
 
 import android.app.Application
 import android.util.DisplayMetrics
+import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.EasyMonitor
@@ -35,6 +36,7 @@ class YiApp : Application() {
         fun getApp(): Application = app
 
         fun getString(@StringRes id: Int, vararg args: Any): String = getApp().getString(id, args)
+        fun getColor(@ColorRes id: Int): Int = getApp().resources.getColor(id)
 
         val displayMetrics: DisplayMetrics by lazy {
             app.resources.displayMetrics

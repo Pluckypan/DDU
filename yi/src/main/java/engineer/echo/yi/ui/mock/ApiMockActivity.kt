@@ -1,5 +1,6 @@
 package engineer.echo.yi.ui.mock
 
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -78,6 +79,7 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
         ImageYi.with(this)
             .load(getBackground())
             .transition(DrawableTransitionOptions.withCrossFade())
+            .placeholder(ColorDrawable(YiApp.getColor(R.color.colorPrimaryDark)))
             .transform(BG_TRANSFORM)
             .into(binding.mockBgIv)
     }
