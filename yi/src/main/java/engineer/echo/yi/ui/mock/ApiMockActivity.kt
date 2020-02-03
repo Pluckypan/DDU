@@ -13,6 +13,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import engineer.echo.easyapi.ProgressResult
+import engineer.echo.easyapi.Result
 import engineer.echo.easyapi.download.DownloadState
 import engineer.echo.yi.R
 import engineer.echo.yi.YiApp
@@ -51,11 +53,15 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
     }
 
     override fun onDownloadClick(view: View) {
-        viewModel.startDownload(binding.mockApkSwitch.isChecked)
+        viewModel.startDownload()
     }
 
     override fun onCancelDownloadClick(view: View) {
         viewModel.cancelDownload()
+    }
+
+    override fun onZipClick(view: View) {
+        viewModel.startZipAction()
     }
 
     private fun setupView() {
@@ -110,9 +116,17 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
         }
 
         @JvmStatic
-        @BindingAdapter("downloadData")
-        fun onBindDownload(textView: TextView, downloadState: DownloadState? = null) {
-            textView.text = downloadState?.downloadText() ?: ""
+        @BindingAdapter("downloadData", "zipData")
+        fun onBindDownload(
+            textView: TextView,
+            downloadState: DownloadState? = null,
+            zipData: Result? = null
+        ) {
+            textView.text = downloadState?.downloadText()
+                ?: if (zipData != null) "${YiApp.getString(
+                    if (zipData is ProgressResult) R.string.label_unzip else R.string.label_zip
+                )} ${zipData.isSuccess()}"
+                else ""
         }
 
         @JvmStatic

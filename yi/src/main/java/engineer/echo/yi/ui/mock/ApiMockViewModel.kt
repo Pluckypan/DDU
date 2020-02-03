@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import engineer.echo.easyapi.EasyApi
+import engineer.echo.easyapi.Result
 import engineer.echo.easyapi.download.DownloadState
 import engineer.echo.easyapi.pub.cancelRequest
 import engineer.echo.yi.R
@@ -18,6 +19,7 @@ class ApiMockViewModel : ViewModel(), ApiMockContract.IViewModel {
 
     private val model: ApiMockContract.IModel = ApiMockModel()
     override val indicatorData: MutableLiveData<Pair<Int, Int>> = MutableLiveData()
+    override val switchData: MutableLiveData<Boolean> = MutableLiveData()
 
     // 刷新事件
     private val refreshTrigger = MutableLiveData<Boolean>()
@@ -55,11 +57,22 @@ class ApiMockViewModel : ViewModel(), ApiMockContract.IViewModel {
             model.download(apk)
         }
 
-    override fun startDownload(apk: Boolean) {
-        downloadTrigger.value = apk
+    override fun startDownload() {
+        downloadTrigger.value = switchData.value == true
     }
 
     override fun cancelDownload() {
         downloadData.cancelRequest()
+    }
+
+    // 解压相关
+    private val zipTrigger = MutableLiveData<Boolean>()
+
+    override val zipData: LiveData<Result> = Transformations.switchMap(zipTrigger) {
+        model.zipAction(it == true)
+    }
+
+    override fun startZipAction() {
+        zipTrigger.value = switchData.value == true
     }
 }

@@ -3,4 +3,6 @@
     <string name="app_name">易</string>
     <string name="main_label_download">下载</string>
     <string name="tips_network_error">网络失联 生无可恋</string>
+    <string name="label_zip">压缩</string>
+    <string name="label_unzip">解压</string>
 </resources>

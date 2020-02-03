@@ -75,7 +75,7 @@
                     app:layout_constraintWidth_percent="0.115" />
 
             <TextView
-                    android:id="@+id/mockDownloadMsg"
+                    android:id="@+id/mockMsg"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -86,7 +86,8 @@
                     app:layout_constraintBottom_toBottomOf="@+id/mockApkSwitch"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/mockApkSwitch"
-                    app:layout_constraintTop_toTopOf="@+id/mockApkSwitch" />
+                    app:layout_constraintTop_toTopOf="@+id/mockApkSwitch"
+                    app:zipData="@{iViewModel.zipData}" />
 
             <Button
                     android:id="@+id/mockDownloadBtn"
@@ -98,10 +99,10 @@
                     app:layout_constraintTop_toBottomOf="@+id/mockApkSwitch" />
 
             <Button
-                    android:id="@+id/mockDownload1Btn"
+                    android:id="@+id/mockZipBtn"
                     style="@style/style_download_button"
-                    android:onClick="@{iView::onDownloadClick}"
-                    android:text="@string/main_label_download"
+                    android:onClick="@{iView::onZipClick}"
+                    android:text="@string/label_zip"
                     app:layout_constraintStart_toEndOf="@+id/mockDownloadBtn"
                     app:layout_constraintTop_toBottomOf="@+id/mockApkSwitch" />
 
@@ -110,7 +111,7 @@
                     style="@style/style_download_button"
                     android:onClick="@{iView::onCancelDownloadClick}"
                     android:text="@android:string/cancel"
-                    app:layout_constraintStart_toEndOf="@+id/mockDownload1Btn"
+                    app:layout_constraintStart_toEndOf="@+id/mockZipBtn"
                     app:layout_constraintTop_toBottomOf="@+id/mockApkSwitch" />
 
             <androidx.appcompat.widget.SwitchCompat
