@@ -18,6 +18,7 @@ import java.util.concurrent.atomic.AtomicLong
 internal class LiveDataApiCallAdapter<T : Result>(
     private val rawType: Class<*>,
     private val responseType: Type,
+    private val annotations: Array<Annotation>,
     private val monitor: EasyMonitor? = null
 ) :
     CallAdapter<T, LiveData<T>> {

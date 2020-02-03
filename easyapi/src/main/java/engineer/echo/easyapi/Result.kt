@@ -16,5 +16,5 @@ open class Result(
     var exception: Throwable? = null
 ) : Parcelable {
 
-    fun isSuccess(): Boolean = exception == null
+   open fun isSuccess(): Boolean = exception == null
 }

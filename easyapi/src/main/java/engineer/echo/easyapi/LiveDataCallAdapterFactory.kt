@@ -37,7 +37,7 @@ class LiveDataCallAdapterFactory private constructor(private val monitor: EasyMo
         return if (rawType == DownloadState::class.java) {
             LiveDataDownloadAdapter(monitor)
         } else {
-            LiveDataApiCallAdapter<Result>(rawType, resultType, monitor)
+            LiveDataApiCallAdapter<Result>(rawType, resultType, annotations, monitor)
         }
     }
 

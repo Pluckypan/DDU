@@ -1,7 +1,8 @@
 package engineer.echo.easyapi.download
 
 import android.os.Parcelable
-import engineer.echo.easyapi.Result
+import engineer.echo.easyapi.ProgressResult
+import engineer.echo.easyapi.State
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -9,15 +10,11 @@ data class DownloadState(
     var id: String = "",
     var url: String = "",
     var path: String = "",
-    var state: State = State.Idle,
-    var total: Long = 0,
-    var current: Long = 0,
-    var progress: Int = 0,
     var msg: String = ""
-) : Result(), Parcelable {
+) : ProgressResult(), Parcelable {
 
     fun isDownloadSuccess(): Boolean {
-        return isSuccess() && state == State.OnFinish
+        return super.isSuccess()
     }
 
     fun downloadEnable(): Boolean =

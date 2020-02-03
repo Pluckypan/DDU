@@ -1,4 +1,4 @@
-package engineer.echo.easyapi.download
+package engineer.echo.easyapi
 
 enum class State {
     Idle,

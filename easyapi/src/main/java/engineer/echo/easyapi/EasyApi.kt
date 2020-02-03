@@ -115,7 +115,9 @@ class EasyApi {
                     }
                 }
                 .addCallAdapterFactory(LiveDataCallAdapterFactory.create(monitor))
-            builder.build()
+            builder.build().also {
+                // getClient()?.interceptors()?.add(JobInterceptor())
+            }
         }
 
     }

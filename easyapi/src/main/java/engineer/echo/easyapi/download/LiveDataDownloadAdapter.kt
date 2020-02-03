@@ -6,6 +6,7 @@ import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.EasyApi.Companion.toException
 import engineer.echo.easyapi.EasyLiveData
 import engineer.echo.easyapi.EasyMonitor
+import engineer.echo.easyapi.State
 import engineer.echo.easyapi.download.DownloadHelper.calculateProgress
 import engineer.echo.easyapi.download.DownloadHelper.genDownloadId
 import engineer.echo.easyapi.download.DownloadHelper.resumeBytes

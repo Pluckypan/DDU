@@ -4,6 +4,7 @@ import android.text.TextUtils
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import engineer.echo.easyapi.EasyApi
+import engineer.echo.easyapi.State
 import engineer.echo.easyapi.pub.MD5Tool
 import engineer.echo.easyapi.pub.easyId
 import engineer.echo.easyapi.pub.tryCreateFileException
