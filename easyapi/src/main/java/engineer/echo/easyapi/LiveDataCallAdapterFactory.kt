@@ -25,7 +25,7 @@ class LiveDataCallAdapterFactory private constructor(private val monitor: EasyMo
         // require(resultType is ParameterizedType) { "EasyApi: resultType must be Parameterized" }
         val rawType = getRawType(resultType)
         // 必须是继承自 Result
-        require(rawType.superclass == Result::class.java) { "EasyApi: rawType must be a subclass of Result" }
+        require(Result::class.java.isAssignableFrom(rawType)) { "EasyApi: rawType must be a subclass of Result" }
         val paramSize = rawType.constructors.first().parameterTypes.size
         // 必须定义无参构造函数
         require(paramSize == 0) { "EasyApi: class has no zero argument constructor" }
