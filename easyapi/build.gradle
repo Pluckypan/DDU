@@ -38,6 +38,6 @@ dependencies {
     api rootProject.ext.androidx.appcompat
     api rootProject.ext.androidx.ktx
     // retrofit
-    api 'com.squareup.retrofit2:retrofit:2.7.0'
-    api 'com.squareup.retrofit2:converter-gson:2.7.0'
+    api rootProject.ext.retrofit.runtime
+    api rootProject.ext.retrofit.gsonConverter
 }

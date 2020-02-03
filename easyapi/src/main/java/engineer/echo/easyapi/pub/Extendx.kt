@@ -46,9 +46,12 @@ fun LiveData<*>.cancelRequest() {
 }
 
 /**
- * 将下载状态转发给新的 MutableLiveData
+ * LiveData 状态转发
+ * 如：将下载状态转发给新的 MutableLiveData
+ * 使用 DataBinding 重新给 LiveData 赋值时,observers 会丢失
+ * 非最优解
  */
-fun LiveData<DownloadState>.assignTo(liveData: MutableLiveData<DownloadState>) {
+fun <T> LiveData<T>.assignTo(liveData: MutableLiveData<T>) {
     observeForever {
         liveData.value = it
     }
