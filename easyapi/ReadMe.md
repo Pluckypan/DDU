@@ -1,10 +1,12 @@
 # EasyApi
 
+LiveData EveryWhere...
+
 ## 背景
 
-Android 开发过程中,难免遇到内存泄露的问题.`Google` 的原则是尽量避免在界面处于不可见状态时更新界面,为了解决这个问题,`Google` 在 `Architecture` 中引入了 `lifecycle` 的概念,在 `lifecycle` 中借助 `LiveData` 我们可以轻松的实现`可被订阅` & `生命周期感知` 的数据源
+Android 开发过程中,难免遇到内存泄露的问题.`Google` 的原则是尽量避免在界面处于不可见状态下更新界面,为了解决这个问题,`Google` 在 `Architecture` 中引入了 `lifecycle` 的概念,在 `lifecycle` 中借助 `LiveData` 我们可以轻松的实现`可被订阅` & `生命周期感知` 的数据源
 
-当前,基于数据驱动UI这种思想的架构 `MVVM` 已被越来越多的开发人员所接受.为了让 `MVVM` & `LiveData` 执行的更加彻底,于是诞生了 **`EasyApi`** 
+当前,基于数据驱动UI的模式被越来越多的开发人员所接受， `MVVM` 架构应运而生.为了让 `MVVM` & `LiveData` 执行的更加彻底, **`EasyApi`** 诞生了,就让我们一起体验架构之美。 
 
 ## 简介
 
@@ -21,7 +23,10 @@ Android 开发过程中,难免遇到内存泄露的问题.`Google` 的原则是�
 - [x] 接口友好,使用简单
 - [x] 全面的日志打印,通过 `EasyApi` 可以很方便查看请求情况
 - [x] `EasyApi` 所有的请求(包括下载)都有id,通过id均可取消
+
+## TODO
 - [ ] **`「开发中」`** 支持后台任务(耗时操作,如文件解压,数据库操作),并支持组件化调用
+- [ ] 流量计算**`「不太准」`**
 
 ## 简单示例
 
@@ -33,13 +38,23 @@ EasyApi.download(APK_URL,"sdcard/xxx/xxx/xxx.apk").observe(owner) {
     println(it)            
 }
 
-// 状态转发：将下载状态转发给 downloadData,方便结合 DataBinding 使用 
-override val downloadData: MutableLiveData<DownloadState> = MutableLiveData()
-// 开始下载
-EasyApi.download(APK_URL,"sdcard/xxx/xxx/xxx.apk").assignTo(downloadData)
+// 下载触发器
+private val downloadTrigger = MutableLiveData<Boolean>()
+
+// 下载
+override val downloadData: LiveData<DownloadState> =
+    Transformations.switchMap(downloadTrigger) { apk ->
+        model.download(apk)
+    }
+
+// 触发下载
+override fun startDownload(apk: Boolean) {
+    downloadTrigger.value = apk
+}
 
 // 取消下载「方式一」
 downloadData.cancelRequest()
+
 // 取消下载「方式二」
 EasyApi.cancelDownload(id)
 ```
@@ -73,16 +88,34 @@ override val locationData: LiveData<IpLocation> =
 适用于分步执行任务,比如先通过ip定位得到 `位置` ,再通过 `位置` 请求天气接口获取 `当前天气`
 
 ``` kotlin
-// ip 定位数据
-override val locationData: LiveData<IpLocation> =
-        EasyApi.create(IpLocateApi::class.java).getLocation()
+// #1 刷新触发器
+private val refreshTrigger = MutableLiveData<Boolean>()
 
-// 天气数据
+// #2 Ip定位
+override val locationData: LiveData<IpLocation> = Transformations.switchMap(refreshTrigger) {
+    if (it == true) {
+        EasyApi.create(IpLocateApi::class.java).getLocation()
+    } else {
+        null
+    }
+}
+
+// #3 获取天气
 override val weatherData: LiveData<WeatherResp> =
     Transformations.switchMap(locationData) {
-        EasyApi.create(WeatherApi::class.java).getWeather(location = it.getQueryLocation())
+        if (it != null) {
+            EasyApi.create(WeatherApi::class.java).getWeather(location = it.getQueryLocation())
+        } else {
+            null
+        }
     }
+
+// #0 触发刷新
+override fun refresh() {
+    refreshTrigger.value = true
+}
 ```
+上面代码的触发流程是: `refresh()`触发刷新 -> `触发器为 true` -> `触发ip定位` -> `触发获取天气`。可以看到 **LiveData 的世界里执行一个事件的根源仍然是一个 LiveData**
 
 ### map
 适用于数据类型转换,比如ip定位得到 `位置` 后,需要对数据进行深加工
@@ -92,7 +125,7 @@ override val weatherData: LiveData<WeatherResp> =
 override val locationData: LiveData<IpLocation> =
     EasyApi.create(IpLocateApi::class.java).getLocation()
 
-// 深加工数据
+// #4 深加工数据
 override val titleData: LiveData<String> = Transformations.map(locationData) {
     it.city
 }
@@ -188,3 +221,4 @@ public static <X, Y> LiveData<Y> switchMap(
 ## 参考文档
 - [retrofit](https://github.com/square/retrofit)
 - [javaPoet](https://github.com/square/javapoet)
+- [Wandroid](https://github.com/iamyours/Wandroid)
