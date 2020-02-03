@@ -14,7 +14,7 @@ data class DownloadState(
 ) : ProgressResult(), Parcelable {
 
     fun isDownloadSuccess(): Boolean {
-        return super.isSuccess()
+        return super.isFinished()
     }
 
     fun downloadEnable(): Boolean =
