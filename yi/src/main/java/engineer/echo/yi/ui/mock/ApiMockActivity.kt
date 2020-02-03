@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import engineer.echo.easyapi.ProgressResult
 import engineer.echo.easyapi.Result
 import engineer.echo.easyapi.download.DownloadState
+import engineer.echo.easylib.memInfo
 import engineer.echo.yi.R
 import engineer.echo.yi.YiApp
 import engineer.echo.yi.bean.location.IpLocation
@@ -32,7 +33,8 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ApiMockViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, ApiMockViewModel.Factory(memInfo()))
+            .get(ApiMockViewModel::class.java)
         binding = DataBindingUtil.setContentView<MainActivityBinding>(this, R.layout.activity_mock)
             .apply {
                 lifecycleOwner = this@ApiMockActivity
@@ -122,11 +124,13 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
             downloadState: DownloadState? = null,
             zipData: Result? = null
         ) {
-            textView.text = downloadState?.downloadText()
-                ?: if (zipData != null) "${YiApp.getString(
+            val downloadText = downloadState?.downloadText() ?: ""
+            val zipText = zipData?.let {
+                "${YiApp.getString(
                     if (zipData is ProgressResult) R.string.label_unzip else R.string.label_zip
                 )} ${zipData.isSuccess()}"
-                else ""
+            } ?: ""
+            textView.text = downloadText.plus(" ").plus(zipText)
         }
 
         @JvmStatic

@@ -14,7 +14,7 @@
         <item name="android:layout_height">30dp</item>
         <item name="android:layout_marginStart">10dp</item>
         <item name="android:layout_marginTop">10dp</item>
-        <item name="android:background">@drawable/shape_round_download</item>
+        <item name="android:background">@drawable/selector_round_download</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">14sp</item>

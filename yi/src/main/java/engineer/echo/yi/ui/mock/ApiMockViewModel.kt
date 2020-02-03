@@ -1,13 +1,11 @@
 package engineer.echo.yi.ui.mock
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.Result
 import engineer.echo.easyapi.download.DownloadState
 import engineer.echo.easyapi.pub.cancelRequest
+import engineer.echo.easylib.formatLog
 import engineer.echo.yi.R
 import engineer.echo.yi.YiApp
 import engineer.echo.yi.api.IpLocateApi
@@ -15,7 +13,11 @@ import engineer.echo.yi.api.WeatherApi
 import engineer.echo.yi.bean.location.IpLocation
 import engineer.echo.yi.bean.weather.WeatherResp
 
-class ApiMockViewModel : ViewModel(), ApiMockContract.IViewModel {
+class ApiMockViewModel(private val info: Int) : ViewModel(), ApiMockContract.IViewModel {
+
+    init {
+        "init %s".formatLog("ApiMockViewModel",info)
+    }
 
     private val model: ApiMockContract.IModel = ApiMockModel()
     override val indicatorData: MutableLiveData<Pair<Int, Int>> = MutableLiveData()
@@ -74,5 +76,12 @@ class ApiMockViewModel : ViewModel(), ApiMockContract.IViewModel {
 
     override fun startZipAction() {
         zipTrigger.value = switchData.value == true
+    }
+
+    class Factory(private val info: Int) :
+        ViewModelProvider.AndroidViewModelFactory(YiApp.getApp()) {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return ApiMockViewModel(info) as T
+        }
     }
 }
