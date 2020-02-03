@@ -85,7 +85,8 @@ ext {
             mmkv           : "com.tencent:mmkv:1.0.22",
             workManager    : workManager,
             room           : room,
-            rxAndroid      : "io.reactivex.rxjava2:rxandroid:2.0.1"
+            rxAndroid      : "io.reactivex.rxjava2:rxandroid:2.0.1",
+            videocache     : "com.danikula:videocache:2.7.1"
     ]
 
     support = [
@@ -97,7 +98,9 @@ ext {
             sectionedRecyclerview: "com.truizlop.sectionedrecyclerview:library:1.2.0",
             rangeBar             : "com.github.Greymamba:Rangebar:1.2.1",
             gravitySnapHelper    : "com.github.rubensousa:gravitysnaphelper:1.5",
-            lottie               : "com.airbnb.android:lottie:3.3.1"
+            lottie               : "com.airbnb.android:lottie:3.3.1",
+            smartRefreshLayout   : "com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-16",
+            smartRefreshHeader   : "com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-16"
     ]
 
     glide = [
@@ -105,6 +108,12 @@ ext {
             compiler       : "com.github.bumptech.glide:compiler:4.11.0",
             integration    : "com.github.bumptech.glide:recyclerview-integration:4.7.1",
             transformations: "jp.wasabeef:glide-transformations:3.3.0"
+    ]
+
+    retrofit = [
+            runtime           : "com.squareup.retrofit2:retrofit:2.7.0",
+            gsonConverter     : "com.squareup.retrofit2:converter-gson:2.7.0",
+            loggingInterceptor: "com.squareup.okhttp3:logging-interceptor:3.9.0"
     ]
 
     test = [

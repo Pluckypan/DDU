@@ -121,6 +121,8 @@ dependencies {
     implementation rootProject.ext.androidx.constraintlayout
     implementation rootProject.ext.androidx.recyclerview
     implementation rootProject.ext.androidx.lifecycleExt
+    // framework
+    implementation rootProject.ext.framework.videocache
     // glide
     implementation rootProject.ext.glide.runtime
     implementation rootProject.ext.glide.transformations
@@ -128,6 +130,10 @@ dependencies {
     // widget
     implementation rootProject.ext.widget.gravitySnapHelper
     implementation rootProject.ext.widget.lottie
+    implementation rootProject.ext.widget.smartRefreshLayout
+    implementation rootProject.ext.widget.smartRefreshHeader
+    // retrofit
+    implementation rootProject.ext.retrofit.loggingInterceptor
     // test
     testImplementation rootProject.ext.test.junit
     androidTestImplementation rootProject.ext.test.runner
