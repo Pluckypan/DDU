@@ -130,7 +130,7 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
                     if (zipData is ProgressResult) R.string.label_unzip else R.string.label_zip
                 )} ${zipData.isSuccess()}"
             } ?: ""
-            textView.text = downloadText.plus(" ").plus(zipText)
+            textView.text = zipText.plus(" ").plus(downloadText)
         }
 
         @JvmStatic

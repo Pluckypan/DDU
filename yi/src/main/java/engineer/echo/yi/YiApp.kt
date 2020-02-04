@@ -14,18 +14,19 @@ class YiApp : Application() {
     override fun onCreate() {
         super.onCreate()
         app = this
-        EasyApi.init(this, debugMode = BuildConfig.DEBUG, monitor = object : EasyMonitor {
+        EasyApi.init(this, debugMode = BuildConfig.DEBUG,
+            monitor = object : EasyMonitor {
 
-            override fun onResult(
-                isSuccess: Boolean,
-                result: Result?,
-                cost: Long,
-                requestSize: Long,
-                responseSize: Long
-            ) {
+                override fun onResult(
+                    isSuccess: Boolean,
+                    result: Result?,
+                    cost: Long,
+                    requestSize: Long,
+                    responseSize: Long
+                ) {
 
-            }
-        })
+                }
+            })
         SmartRefresh.setup()
     }
 
