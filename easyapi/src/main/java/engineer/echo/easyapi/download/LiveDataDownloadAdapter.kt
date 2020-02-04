@@ -7,6 +7,7 @@ import engineer.echo.easyapi.EasyApi.Companion.toException
 import engineer.echo.easyapi.EasyLiveData
 import engineer.echo.easyapi.EasyMonitor
 import engineer.echo.easyapi.State
+import engineer.echo.easyapi.api.ApiHelper.contentSize
 import engineer.echo.easyapi.download.DownloadHelper.calculateProgress
 import engineer.echo.easyapi.download.DownloadHelper.genDownloadId
 import engineer.echo.easyapi.download.DownloadHelper.resumeBytes
@@ -31,7 +32,7 @@ class LiveDataDownloadAdapter(private val monitor: EasyMonitor? = null) :
 
     override fun adapt(call: Call<ResponseBody>): LiveData<DownloadState> {
         callTime.set(SystemClock.elapsedRealtime())
-        requestSize = call.request().body()?.contentLength() ?: 0L
+        requestSize = call.request().contentSize()
         val resumeBytes = call.resumeBytes()
         val urlAndPath = call.urlAndPath()
         val path = urlAndPath.second ?: ""

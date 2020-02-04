@@ -6,7 +6,7 @@ LiveData EveryWhere...
 
 Android 开发过程中,难免遇到内存泄露的问题.`Google` 的原则是尽量避免在界面处于不可见状态下更新界面,为了解决这个问题,`Google` 在 `Architecture` 中引入了 `lifecycle` 的概念,在 `lifecycle` 中借助 `LiveData` 我们可以轻松的实现`可被订阅` & `生命周期感知` 的数据源
 
-当前,基于数据驱动UI的模式被越来越多的开发人员所接受， `MVVM` 架构应运而生.为了让 `MVVM` & `LiveData` 执行的更加彻底, **`EasyApi`** 诞生了,就让我们一起体验架构之美。 
+当前,基于数据驱动UI的模式被越来越多的开发人员所接受， `MVVM` 架构应运而生.为了让 `MVVM` & `LiveData` 执行的更加彻底, **`EasyApi`** 诞生了,就让我们一起体验架构之美吧。 
 
 ## 简介
 
@@ -19,14 +19,13 @@ Android 开发过程中,难免遇到内存泄露的问题.`Google` 的原则是�
 - [x] 文件下载支持断点续传
 - [x] 文件下载属于全局状态,可在不同界面订阅
 - [x] 可灵活配置自己的 `Retrofit` 和 `Client`
-- [x] 有全局监听器,方便观察执行结果、耗时、流量大小**`「不太准」`**.针对错误可做统一处理
+- [x] 有全局监听器,方便观察执行结果、耗时、流量大小.针对错误可做统一处理
 - [x] 接口友好,使用简单
-- [x] 全面的日志打印,通过 `EasyApi` 可以很方便查看请求情况
+- [x] 全面的日志打印,通过关键字 `EasyApi` 可以很方便查看请求情况
 - [x] `EasyApi` 所有的请求(包括下载)都有id,通过id均可取消
 
 ## TODO
 - [ ] **`「开发中」`** 支持后台任务(耗时操作,如文件解压,数据库操作),并支持组件化调用
-- [ ] 流量计算**`「不太准」`**
 
 ## 简单示例
 
@@ -197,7 +196,9 @@ public static <X, Y> LiveData<Y> switchMap(
             ├── EasyLiveData.kt
             ├── EasyMonitor.kt
             ├── LiveDataCallAdapterFactory.kt
+            ├── ProgressResult.kt
             ├── Result.kt
+            ├── State.kt
             ├── api
             │   ├── ApiHelper.kt
             │   └── LiveDataApiCallAdapter.kt
@@ -205,13 +206,17 @@ public static <X, Y> LiveData<Y> switchMap(
             │   ├── DownloadApi.kt
             │   ├── DownloadHelper.kt
             │   ├── DownloadState.kt
-            │   ├── LiveDataDownloadAdapter.kt
-            │   └── State.kt
+            │   └── LiveDataDownloadAdapter.kt
+            ├── job
+            │   ├── EasyJob.kt
+            │   ├── JobHelper.kt
+            │   ├── JobInterceptor.kt
+            │   └── NetInterceptor.kt
             └── pub
                 ├── Extendx.kt
                 └── MD5Tool.kt
 
-6 directories, 14 files
+7 directories, 19 files
 
 ```
 

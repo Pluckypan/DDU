@@ -7,6 +7,7 @@ import engineer.echo.easyapi.EasyApi.Companion.toException
 import engineer.echo.easyapi.EasyLiveData
 import engineer.echo.easyapi.EasyMonitor
 import engineer.echo.easyapi.Result
+import engineer.echo.easyapi.api.ApiHelper.contentSize
 import engineer.echo.easyapi.job.JobHelper.injectHeader
 import engineer.echo.easyapi.pub.MD5Tool
 import retrofit2.Call
@@ -30,10 +31,13 @@ internal class LiveDataApiCallAdapter<T : Result>(
 
     override fun adapt(call: Call<T>): LiveData<T> {
         callTime.set(SystemClock.elapsedRealtime())
-        requestSize = call.request().body()?.contentLength() ?: 0L
+        requestSize = call.request().contentSize()
         liveData.id = MD5Tool.getMD5(call.request().toString())
         call.injectHeader(annotations, liveData.id)
-        EasyApi.printLog("LiveDataApiCallAdapter adapt id=%s", liveData.id)
+        EasyApi.printLog(
+            "LiveDataApiCallAdapter adapt %s id=%s",
+            call.request().method(), liveData.id
+        )
         call.enqueue(object : Callback<T> {
             override fun onFailure(call: Call<T>, t: Throwable) {
                 postResult("onFailure", null, t)
@@ -49,7 +53,8 @@ internal class LiveDataApiCallAdapter<T : Result>(
     @Suppress("UNCHECKED_CAST")
     private fun postResult(method: String, response: Response<T>? = null, t: Throwable? = null) {
         val cost = SystemClock.elapsedRealtime() - callTime.get()
-        val responseSize = response?.raw()?.body()?.contentLength() ?: 0
+
+        val responseSize = response?.contentSize() ?: 0
         EasyApi.printLog(
             "postResult adapt $method cost = %sms request[%s] response[%s]",
             cost, requestSize, responseSize

@@ -8,6 +8,7 @@ import engineer.echo.easyapi.download.DownloadHelper
 import engineer.echo.easyapi.download.DownloadHelper.downloadInner
 import engineer.echo.easyapi.download.DownloadState
 import engineer.echo.easyapi.job.JobInterceptor
+import engineer.echo.easyapi.job.NetInterceptor
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Response
@@ -25,6 +26,7 @@ class EasyApi {
         private var customRetrofit: Retrofit? = null
         private var monitor: EasyMonitor? = null
         private var debugMode = false
+
         private const val DEFAULT_URL = "http://www.1991th.com/"
 
         internal fun printLog(format: String, vararg args: Any?) {
@@ -45,7 +47,6 @@ class EasyApi {
                 val originalRequest = chain.request()
                 val requestBuilder = originalRequest.newBuilder().apply {
                     header("powerBy", TAG)
-                    header("author", "plucky")
                 }
                 val request = requestBuilder.build()
                 chain.proceed(request)
@@ -60,6 +61,7 @@ class EasyApi {
                 if (it != null) it.newBuilder() else OkHttpClient.Builder()
             }
                 .addInterceptor(JobInterceptor())
+                .addNetworkInterceptor(NetInterceptor())
                 .apply {
                     if (customRetrofit == null) {
                         addInterceptor(addHeaderInterceptor())
