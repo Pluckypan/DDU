@@ -140,5 +140,6 @@ dependencies {
     androidTestImplementation rootProject.ext.test.espresso
     // modules
     implementation project(path: ':easyapi')
+    kapt project(':compiler')
     implementation project(path: ':easylib')
 }
