@@ -13,10 +13,10 @@ import engineer.echo.yi.api.WeatherApi
 import engineer.echo.yi.bean.location.IpLocation
 import engineer.echo.yi.bean.weather.WeatherResp
 
-class ApiMockViewModel(private val info: Int) : ViewModel(), ApiMockContract.IViewModel {
+class ApiMockViewModel(info: Int) : ViewModel(), ApiMockContract.IViewModel {
 
     init {
-        "init %s".formatLog("ApiMockViewModel",info)
+        "init %s".formatLog("ApiMockViewModel", info)
     }
 
     private val model: ApiMockContract.IModel = ApiMockModel()
