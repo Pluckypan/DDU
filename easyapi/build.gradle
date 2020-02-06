@@ -32,6 +32,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    // compiler
+    // api project(path:":easyapi:compiler")
     // build
     api rootProject.ext.build.kotlinLib
     // androidx

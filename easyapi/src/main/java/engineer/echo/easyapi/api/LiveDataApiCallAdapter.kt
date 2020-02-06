@@ -3,7 +3,7 @@ package engineer.echo.easyapi.api
 import android.os.SystemClock
 import androidx.lifecycle.LiveData
 import engineer.echo.easyapi.EasyApi
-import engineer.echo.easyapi.EasyApi.Companion.toException
+import engineer.echo.easyapi.EasyApi.toException
 import engineer.echo.easyapi.EasyLiveData
 import engineer.echo.easyapi.EasyMonitor
 import engineer.echo.easyapi.Result

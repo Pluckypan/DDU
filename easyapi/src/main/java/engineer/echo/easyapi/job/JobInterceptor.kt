@@ -1,5 +1,6 @@
 package engineer.echo.easyapi.job
 
+import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.download.DownloadState
 import engineer.echo.easyapi.job.JobHelper.jobGroup
 import engineer.echo.easyapi.job.JobHelper.jobId
@@ -17,6 +18,9 @@ internal class JobInterceptor : Interceptor {
             && group?.isNotEmpty() == true
             && module?.isNotEmpty() == true
         ) {
+            originRequest.url().queryParameterNames().forEach {
+                EasyApi.printLog("%s : %s",it,originRequest.url().queryParameter(it))
+            }
             Response.Builder().body(
                 ResponseBody.create(
                     MediaType.get("application/json; charset=UTF-8"),
