@@ -9,7 +9,6 @@ import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
-import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
@@ -26,8 +25,7 @@ import engineer.echo.easyapi.annotation.JobServer;
 public class EasyProrcessor extends AbstractProcessor {
 
     private Filer filer;
-    private Messager messager;
-    private String appId;
+    private String appId = "engineer.echo.easyapi";
     private Set<String> supportAnnos = new LinkedHashSet<>();
     private HashMap<String, String> metaInfo = new HashMap<>();
 
@@ -35,7 +33,6 @@ public class EasyProrcessor extends AbstractProcessor {
     public synchronized void init(ProcessingEnvironment env) {
         super.init(env);
         filer = env.getFiler();
-        messager = env.getMessager();
         supportAnnos.add(JobServer.class.getCanonicalName());
         Map<String, String> options = env.getOptions();
         if (options.containsKey("easyapi.appId")) {
@@ -55,7 +52,7 @@ public class EasyProrcessor extends AbstractProcessor {
                 metaInfo.put(jobServer.uniqueId(), ((TypeElement) element).getQualifiedName().toString());
             }
         }
-        return CompilerHelper.createMetaInfoFile(filer, metaInfo);
+        return CompilerHelper.createMetaInfoFile(filer, appId, metaInfo);
     }
 
     @Override
