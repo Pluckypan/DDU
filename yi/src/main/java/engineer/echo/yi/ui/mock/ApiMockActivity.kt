@@ -2,6 +2,8 @@ package engineer.echo.yi.ui.mock
 
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -16,12 +18,14 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import engineer.echo.easyapi.ProgressResult
 import engineer.echo.easyapi.Result
 import engineer.echo.easyapi.download.DownloadState
+import engineer.echo.easyapi.proxy.EasyProxy
 import engineer.echo.easylib.memInfo
 import engineer.echo.yi.R
-import engineer.echo.yi.YiApp
 import engineer.echo.yi.bean.location.IpLocation
-import engineer.echo.yi.cmpts.glide.ImageYi
 import engineer.echo.yi.cmpts.widgets.IndicatorView
+import engineer.echo.yi.common.EasyApp
+import engineer.echo.yi.common.Proxy
+import engineer.echo.yi.common.cpmts.glide.EasyPicture
 import engineer.echo.yi.databinding.MainActivityBinding
 import jp.wasabeef.glide.transformations.BlurTransformation
 import java.util.*
@@ -52,6 +56,21 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
     override fun onPause() {
         super.onPause()
         binding.mockWindLottieView.pauseAnimation()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.proxy, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_consumer -> EasyProxy.create(Proxy.ConsumerApi::class.java).goto(this)
+            R.id.menu_im -> EasyProxy.create(Proxy.IMApi::class.java).goto(this)
+            R.id.menu_live -> EasyProxy.create(Proxy.LiveApi::class.java).goto(this)
+            R.id.menu_producer -> EasyProxy.create(Proxy.ProducerApi::class.java).goto(this)
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDownloadClick(view: View) {
@@ -85,10 +104,10 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
         })
 
         // background
-        ImageYi.with(this)
+        EasyPicture.with(this)
             .load(getBackground())
             .transition(DrawableTransitionOptions.withCrossFade())
-            .placeholder(ColorDrawable(YiApp.getColor(R.color.colorPrimaryDark)))
+            .placeholder(ColorDrawable(EasyApp.getColor(R.color.colorPrimaryDark)))
             .transform(BG_TRANSFORM)
             .into(binding.mockBgIv)
     }
@@ -126,7 +145,7 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
         ) {
             val downloadText = downloadState?.downloadText() ?: ""
             val zipText = zipData?.let {
-                "${YiApp.getString(
+                "${EasyApp.getString(
                     if (zipData is ProgressResult) R.string.label_unzip else R.string.label_zip
                 )} ${zipData.isSuccess()}"
             } ?: ""
@@ -136,7 +155,7 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
         @JvmStatic
         @BindingAdapter("locationData")
         fun onBindLocation(textView: TextView, location: IpLocation? = null) {
-            textView.text = location?.getLocation(YiApp.getString(R.string.tips_network_error))
+            textView.text = location?.getLocation(EasyApp.getString(R.string.tips_network_error))
         }
 
         @JvmStatic

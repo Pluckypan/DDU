@@ -57,7 +57,12 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    // modules
     implementation project(":yi:common")
+    // kapt
+    kapt rootProject.ext.glide.compiler
+    kapt project(':compiler')
 
     // test
     testImplementation rootProject.ext.test.junit

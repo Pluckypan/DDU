@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.rubensousa.gravitysnaphelper.GravityPagerSnapHelper
 import engineer.echo.yi.R
-import engineer.echo.yi.YiApp
 import engineer.echo.yi.bean.weather.WeatherResp
 import engineer.echo.yi.bean.weather.WeatherResult
+import engineer.echo.yi.common.EasyApp
 import engineer.echo.yi.databinding.WeatherOtherBinding
 import engineer.echo.yi.databinding.WeatherTodayBinding
 
@@ -35,7 +35,7 @@ object WeatherRecyclerViewHelper {
     }
 
     private fun RecyclerView.ViewHolder.setupItemSize() {
-        YiApp.displayMetrics.widthPixels.let {
+        EasyApp.displayMetrics.widthPixels.let {
             itemView.layoutParams = ViewGroup.LayoutParams(it, it)
         }
     }
@@ -61,7 +61,7 @@ object WeatherRecyclerViewHelper {
     private class WeatherAdapter :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         var data: WeatherResult? = null
-        private val inflater: LayoutInflater = LayoutInflater.from(YiApp.getApp())
+        private val inflater: LayoutInflater = LayoutInflater.from(EasyApp.getApp())
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             return if (viewType == TYPE_TODAY)

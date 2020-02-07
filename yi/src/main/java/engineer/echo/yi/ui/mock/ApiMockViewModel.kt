@@ -8,11 +8,11 @@ import engineer.echo.easyapi.proxy.EasyProxy
 import engineer.echo.easyapi.pub.cancelRequest
 import engineer.echo.easylib.formatLog
 import engineer.echo.yi.R
-import engineer.echo.yi.YiApp
 import engineer.echo.yi.api.IpLocateApi
 import engineer.echo.yi.api.WeatherApi
 import engineer.echo.yi.bean.location.IpLocation
 import engineer.echo.yi.bean.weather.WeatherResp
+import engineer.echo.yi.common.EasyApp
 import engineer.echo.yi.ui.main.ProxyApi
 
 class ApiMockViewModel(info: Int) : ViewModel(), ApiMockContract.IViewModel {
@@ -46,7 +46,7 @@ class ApiMockViewModel(info: Int) : ViewModel(), ApiMockContract.IViewModel {
         }
 
     override val titleData: LiveData<String> = Transformations.map(locationData) {
-        if (it.isSuccess() && it.city.isNotEmpty()) it.city else YiApp.getString(R.string.app_name)
+        if (it.isSuccess() && it.city.isNotEmpty()) it.city else EasyApp.getString(R.string.app_name)
     }
 
     override fun refresh() {
@@ -86,7 +86,7 @@ class ApiMockViewModel(info: Int) : ViewModel(), ApiMockContract.IViewModel {
     }
 
     class Factory(private val info: Int) :
-        ViewModelProvider.AndroidViewModelFactory(YiApp.getApp()) {
+        ViewModelProvider.AndroidViewModelFactory(EasyApp.getApp()) {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return ApiMockViewModel(info) as T
         }

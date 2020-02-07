@@ -1,4 +1,4 @@
-package engineer.echo.yi
+package engineer.echo.yi.common
 
 import android.app.Application
 import android.util.DisplayMetrics
@@ -7,10 +7,9 @@ import androidx.annotation.StringRes
 import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.EasyMonitor
 import engineer.echo.easyapi.Result
-import engineer.echo.yi.cmpts.widgets.refresh.SmartRefresh
+import engineer.echo.yi.common.cpmts.widgets.refresh.SmartRefresh
 
-class YiApp : Application() {
-
+open class EasyApp : Application() {
     override fun onCreate() {
         super.onCreate()
         app = this

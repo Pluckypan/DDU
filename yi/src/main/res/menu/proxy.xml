@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+    <item
+            android:id="@+id/menu_consumer"
+            android:title="消费"
+            tools:ignore="HardcodedText" />
+    <item
+            android:id="@+id/menu_im"
+            android:title="IM"
+            tools:ignore="HardcodedText" />
+    <item
+            android:id="@+id/menu_live"
+            android:title="直播"
+            tools:ignore="HardcodedText" />
+    <item
+            android:id="@+id/menu_producer"
+            android:title="生产"
+            tools:ignore="HardcodedText" />
+</menu>
