@@ -1,0 +1,69 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+            }
+        }
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        incremental true // 增量编译
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+
+    // build
+    api rootProject.ext.build.kotlinLib
+    // androidx
+    api rootProject.ext.androidx.appcompat
+    api rootProject.ext.androidx.ktx
+    api rootProject.ext.androidx.constraintlayout
+    api rootProject.ext.androidx.recyclerview
+    api rootProject.ext.androidx.lifecycleExt
+    // framework
+    api rootProject.ext.framework.videocache
+    // glide
+    api rootProject.ext.glide.runtime
+    api rootProject.ext.glide.transformations
+    kapt rootProject.ext.glide.compiler
+    // widget
+    api rootProject.ext.widget.gravitySnapHelper
+    api rootProject.ext.widget.lottie
+    api rootProject.ext.widget.smartRefreshLayout
+    api rootProject.ext.widget.smartRefreshHeader
+
+    // modules
+    api project(':easylib')
+    api project(':easyapi')
+    kapt project(':compiler')
+
+    // test
+    testImplementation rootProject.ext.test.junit
+    androidTestImplementation rootProject.ext.test.runner
+    androidTestImplementation rootProject.ext.test.espresso
+}

@@ -4,7 +4,9 @@ include ':easylib'
 include ':imessenger'
 include ':easyprinter'
 include ':logic'
+// EasyApi
 include ':easyapi'
 include ':annotation'
 include ':compiler'
-include ':yi'
+// Yi
+include ':yi', ':yi:live', ':yi:common', ':yi:consumer', ':yi:producer', ':yi:im'
