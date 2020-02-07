@@ -10,6 +10,9 @@ object EasyProxy {
     private val handlerMap = ConcurrentHashMap<Class<*>, EasyHandler<*>>()
 
     fun <T> create(jobApiClz: Class<T>): T {
+        require(jobApiClz.isInterface) {
+            "EasyApi EasyProxy: [${jobApiClz.simpleName}] is not an interface"
+        }
         if (ownerMap.containsKey(jobApiClz)) {
             return ownerMap[jobApiClz] as T
         } else {

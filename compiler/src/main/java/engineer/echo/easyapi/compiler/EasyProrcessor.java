@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
+import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
@@ -17,6 +18,7 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
+import javax.tools.Diagnostic;
 
 import engineer.echo.easyapi.annotation.JobServer;
 
@@ -25,6 +27,7 @@ import engineer.echo.easyapi.annotation.JobServer;
 public class EasyProrcessor extends AbstractProcessor {
 
     private Filer filer;
+    private Messager messager;
     private String appId = "engineer.echo.easyapi";
     private Set<String> supportAnnos = new LinkedHashSet<>();
     private HashMap<String, String> metaInfo = new HashMap<>();
@@ -33,6 +36,7 @@ public class EasyProrcessor extends AbstractProcessor {
     public synchronized void init(ProcessingEnvironment env) {
         super.init(env);
         filer = env.getFiler();
+        messager = env.getMessager();
         supportAnnos.add(JobServer.class.getCanonicalName());
         Map<String, String> options = env.getOptions();
         if (options.containsKey("easyapi.appId")) {
@@ -49,7 +53,14 @@ public class EasyProrcessor extends AbstractProcessor {
         for (Element element : env.getElementsAnnotatedWith(JobServer.class)) {
             if (element.getKind() == ElementKind.CLASS && element instanceof TypeElement) {
                 JobServer jobServer = element.getAnnotation(JobServer.class);
-                metaInfo.put(jobServer.uniqueId(), ((TypeElement) element).getQualifiedName().toString());
+                String className = ((TypeElement) element).getQualifiedName().toString();
+                if (!metaInfo.containsKey(jobServer.uniqueId())) {
+                    metaInfo.put(jobServer.uniqueId(), className);
+                } else {
+                    String message = jobServer.uniqueId() + " has bind to " + metaInfo.get(jobServer.uniqueId()) + " please set an uniqueId to " + className;
+                    messager.printMessage(Diagnostic.Kind.ERROR, message);
+                    throw new IllegalArgumentException(message);
+                }
             }
         }
         return CompilerHelper.createMetaInfoFile(filer, appId, metaInfo);
