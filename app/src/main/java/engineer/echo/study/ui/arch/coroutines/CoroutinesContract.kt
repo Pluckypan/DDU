@@ -10,5 +10,6 @@ object CoroutinesContract {
     interface IView {
         fun onHelloClick()
         fun onHiClick()
+        fun onWeatherClick()
     }
 }

@@ -10,10 +10,7 @@ import engineer.echo.oneactivity.core.Request
 import engineer.echo.study.R
 import engineer.echo.study.cmpts.BaseFragment
 import engineer.echo.study.databinding.CoroutinesBinding
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 
 /**
  *  CoroutinesFragment.kt
@@ -35,8 +32,17 @@ class CoroutinesFragment : BaseFragment(), CoroutinesContract.IView {
 
     private lateinit var mBinding: CoroutinesBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        DataBindingUtil.inflate<CoroutinesBinding>(inflater, R.layout.fragment_coroutines, container, false).also {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        DataBindingUtil.inflate<CoroutinesBinding>(
+            inflater,
+            R.layout.fragment_coroutines,
+            container,
+            false
+        ).also {
             mBinding = it
             mBinding.iView = this
             mBinding.code = "+"
@@ -63,6 +69,19 @@ class CoroutinesFragment : BaseFragment(), CoroutinesContract.IView {
                 it.code += "\naft:${Thread.currentThread().name}\ncoroutines"
             }
             it.code = "Default Hello.${Thread.currentThread().name}"
+        }
+    }
+
+    override fun onWeatherClick() {
+        mBinding.let {
+            GlobalScope.launch(Dispatchers.Main) {
+                it.code += "\nonWeatherClick pre:${Thread.currentThread().name}\n"
+                val ip = Helper.getLocation()?.getQueryLocation()
+                val weather = Helper.getWeather(ip ?: "beijing")
+                it.code += weather?.getWeather("noData")
+                it.code += "\nonWeatherClick aft:${Thread.currentThread().name}\n"
+            }
+
         }
     }
 

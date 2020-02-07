@@ -27,6 +27,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    androidExtensions {
+        experimental = true
+    }
+
     sourceSets {
         main {
             proto {
@@ -34,6 +39,10 @@ android {
                 include '**/*.proto'
             }
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -46,7 +55,11 @@ dependencies {
     implementation rootProject.ext.androidx.ktx
     implementation rootProject.ext.androidx.constraintlayout
     implementation rootProject.ext.androidx.recyclerview
-    implementation rootProject.ext.androidx.coroutines
+    implementation rootProject.ext.androidx.coroutineAndroid
+    // retrofit
+    implementation rootProject.ext.retrofit.runtime
+    implementation rootProject.ext.retrofit.gsonConverter
+    implementation rootProject.ext.retrofit.rxJava2Adapter
     // framework
     implementation rootProject.ext.framework.oneActivity
     implementation rootProject.ext.framework.autoFlowLayout
