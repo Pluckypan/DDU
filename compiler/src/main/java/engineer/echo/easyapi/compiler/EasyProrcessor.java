@@ -55,7 +55,13 @@ public class EasyProrcessor extends AbstractProcessor {
                 JobServer jobServer = element.getAnnotation(JobServer.class);
                 String className = ((TypeElement) element).getQualifiedName().toString();
                 if (!metaInfo.containsKey(jobServer.uniqueId())) {
-                    metaInfo.put(jobServer.uniqueId(), className);
+                    if (CompilerHelper.createMetaInfoFile(filer, appId, jobServer.uniqueId(), className)) {
+                        metaInfo.put(jobServer.uniqueId(), className);
+                    } else {
+                        String message = className + " generate failed for " + " uniqueId  " + jobServer.uniqueId();
+                        messager.printMessage(Diagnostic.Kind.ERROR, message);
+                        throw new IllegalArgumentException(message);
+                    }
                 } else {
                     String message = jobServer.uniqueId() + " has bind to " + metaInfo.get(jobServer.uniqueId()) + " please set an uniqueId to " + className;
                     messager.printMessage(Diagnostic.Kind.ERROR, message);
@@ -63,7 +69,7 @@ public class EasyProrcessor extends AbstractProcessor {
                 }
             }
         }
-        return CompilerHelper.createMetaInfoFile(filer, appId, metaInfo);
+        return true;
     }
 
     @Override

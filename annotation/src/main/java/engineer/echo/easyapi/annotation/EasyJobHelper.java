@@ -1,17 +1,21 @@
 package engineer.echo.easyapi.annotation;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.Field;
 
 public final class EasyJobHelper {
-    public static final String PACKAGE = "engineer.echo.easyapi.compiler";
+    private static final String PACKAGE = "engineer.echo.easyapi.compiler";
     public static final String CLASS = "MetaInfo";
 
-    public static String getClassById(String id) {
+    public static String generatePackage(String id) {
+        return PACKAGE + ".meta" + MD5Tool.getMD5(id);
+    }
+
+    private static String getClassById(String id) {
         try {
-            Class<?> clz = Class.forName(PACKAGE + "." + CLASS);
-            Method method = clz.getMethod("getClassById", String.class);
+            Class<?> clz = Class.forName(generatePackage(id) + "." + CLASS);
+            Field field = clz.getField("metaInfo");
             // 静态方法对象传 null
-            Object result = method.invoke(null, id);
+            Object result = field.get(null);
             if (result instanceof String) {
                 return (String) result;
             }

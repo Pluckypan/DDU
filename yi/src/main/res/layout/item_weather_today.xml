@@ -7,7 +7,7 @@
 
         <variable
                 name="weather"
-                type="engineer.echo.study.ui.arch.coroutines.WeatherResult" />
+                type="engineer.echo.yi.bean.weather.WeatherResult" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,5 +1,6 @@
 package engineer.echo.easyapi.proxy
 
+import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.annotation.EasyJobHelper
 import engineer.echo.easyapi.annotation.JobApi
 import java.util.concurrent.ConcurrentHashMap
@@ -37,10 +38,12 @@ object EasyProxy {
                 "EasyApi EasyProxy: uniqueId isEmpty of interface[${jobApiClz.simpleName}]"
             }
             val jobServer = EasyJobHelper.getObjectById(uniqueId)
-            requireNotNull(jobServer) {
-                "EasyApi EasyProxy: cannot find JobServer by uniqueId[$uniqueId]"
+            val handler = if (jobServer != null) {
+                EasyHandler<T>(jobServer)
+            } else {
+                EasyApi.printLog("EasyProxy: cannot find JobServer by uniqueId[%s]", uniqueId)
+                DefaultHandler(jobApiClz)
             }
-            val handler = EasyHandler<T>(jobServer)
             handlerMap[jobApiClz] = handler
             handler
         }
