@@ -1,6 +1,7 @@
 package engineer.echo.study.ui.arch.coroutines
 
 import com.google.gson.Gson
+import engineer.echo.easylib.formatLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.HttpUrl
@@ -41,6 +42,7 @@ object Helper {
             .url("http://ip-api.com/json/")
             .get()
             .build()
+        "Helper getLocation %s".formatLog("Coroutines", Thread.currentThread().name)
         client.newCall(request).execute().use {
             if (it.isSuccessful) {
                 parser.fromJson(it.body()?.string(), IpLocation::class.java)
@@ -63,6 +65,7 @@ object Helper {
                     .build()
             )
             .build()
+        "Helper getWeather %s".formatLog("Coroutines", Thread.currentThread().name)
         client.newCall(request).execute().use {
             if (it.isSuccessful) {
                 parser.fromJson(it.body()?.string(), WeatherResp::class.java)

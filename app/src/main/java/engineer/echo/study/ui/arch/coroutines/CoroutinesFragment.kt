@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import engineer.echo.easylib.formatLog
 import engineer.echo.oneactivity.core.MasterFragment
 import engineer.echo.oneactivity.core.Request
 import engineer.echo.study.R
@@ -54,35 +55,58 @@ class CoroutinesFragment : BaseFragment(), CoroutinesContract.IView {
         mBinding.let {
             GlobalScope.launch {
                 it.code += "\npre:${Thread.currentThread().name}"
-                delay(1500)
+                delay(3456)
                 it.code += "\naft:${Thread.currentThread().name}\ncoroutines"
             }
             it.code = "runBlocking Hello.${Thread.currentThread().name}"
         }
     }
 
+
+    // 错误的示范 ❌
+    fun signinWith() = runBlocking {
+        "signinWith %s".formatLog("Coroutines", Thread.currentThread().name)
+        val token = getToken()
+        val user = getUserInfo(token)
+        setText(user)
+    }
+
+    fun setText(user: String) = GlobalScope.launch {
+        "setText %s".formatLog("Coroutines", Thread.currentThread().name)
+        mBinding.code = user
+    }
+
+    suspend fun getToken() = GlobalScope.async {
+        "getToken %s".formatLog("Coroutines", Thread.currentThread().name)
+        Thread.sleep(1000)
+        "Token=AK47"
+    }.await()
+
+    suspend fun getUserInfo(token: String) = GlobalScope.async {
+        "getUserInfo %s".formatLog("Coroutines", Thread.currentThread().name)
+        Thread.sleep(600)
+        "User(name=Plucky,age=100,$token)"
+    }.await()
+
+
     override fun onHiClick() {
-        mBinding.let {
-            GlobalScope.launch {
-                it.code += "\npre:${Thread.currentThread().name}"
-                delay(1500)
-                it.code += "\naft:${Thread.currentThread().name}\ncoroutines"
-            }
-            it.code = "Default Hello.${Thread.currentThread().name}"
+        signinWith()
+    }
+
+    private fun test() = runBlocking {
+        GlobalScope.launch {
+            "test() runBlocking %s".formatLog("Coroutines", Thread.currentThread().name)
+            val ip = Helper.getLocation()?.getQueryLocation() ?: "beijing"
+            val weather = Helper.getWeather(ip)
+            Thread.sleep(2345)
+            "test() launch %s".formatLog("Coroutines", Thread.currentThread().name)
+            mBinding.code = weather?.getWeather("xxx")
         }
     }
 
-    override fun onWeatherClick() {
-        mBinding.let {
-            GlobalScope.launch(Dispatchers.Main) {
-                it.code += "\nonWeatherClick pre:${Thread.currentThread().name}\n"
-                val ip = Helper.getLocation()?.getQueryLocation()
-                val weather = Helper.getWeather(ip ?: "beijing")
-                it.code += weather?.getWeather("noData")
-                it.code += "\nonWeatherClick aft:${Thread.currentThread().name}\n"
-            }
 
-        }
+    override fun onWeatherClick() {
+        test()
     }
 
     override fun getTitle(): Int {
