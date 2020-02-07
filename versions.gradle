@@ -10,6 +10,8 @@ ext {
     getPropertyVal = this.&getPropertyVal
     localProperties = this.&localProperties
     currentTime = this.&currentTime
+    modulePlugin = this.&modulePlugin
+    moduleAction = this.&moduleAction
 
     app = [
             id     : "engineer.echo.study",
@@ -152,4 +154,21 @@ def getPropertyVal(key, defVal = "") {
     }
 }
 
+def modulePlugin(id) {
+    // 等于 true 表示参与合包编译
+    if ("${localProperties(id, "true")}" == "false") {
+        return "com.android.application"
+    } else {
+        return "com.android.library"
+    }
+}
+
+def moduleAction(id){
+    // 等于 true 表示参与合包编译
+    if ("${localProperties(id, "true")}" == "false") {
+        return "android.intent.action.MAIN"
+    } else {
+        return "android.intent.action.${id}"
+    }
+}
 

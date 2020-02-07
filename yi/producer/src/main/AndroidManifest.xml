@@ -13,7 +13,7 @@
             tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="${MODULE_ACTION}" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

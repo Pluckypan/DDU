@@ -111,11 +111,27 @@ android {
     }
 }
 
+def getImpl(id) {
+    if (modulePlugin(id) == "com.android.library") {
+        return ":yi:${id}"
+    } else {
+        return ""
+    }
+}
+
 dependencies {
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // modules
     implementation project(":yi:common")
+    // 模块编译
+    [getImpl("consumer"), getImpl("im"), getImpl("live"), getImpl("producer")].each {
+        if (it != null && it.length() > 0) {
+            implementation project(it)
+        }
+    }
+
     // kapt
     kapt rootProject.ext.glide.compiler
     kapt project(':compiler')
