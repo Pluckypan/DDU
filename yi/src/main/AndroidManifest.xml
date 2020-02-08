@@ -13,7 +13,10 @@
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning"
             tools:replace="android:label">
-        <activity android:name=".ui.mock.ApiMockActivity">
+        <activity
+                android:name=".ui.mock.ApiMockActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
+                android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

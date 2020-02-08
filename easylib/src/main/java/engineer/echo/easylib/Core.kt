@@ -26,7 +26,7 @@ fun String.formatLog(
     printLog(SWITCH, tag, this, *args)
 }
 
-fun printLog(
+private fun printLog(
     switch: Boolean = SWITCH,
     tag: String = "EasyLib",
     format: String,
@@ -38,6 +38,15 @@ fun printLog(
         }
     }
 }
+
+fun Any.printLog(
+    tag: String = "EasyLib",
+    message: String,
+    vararg args: Any?
+) {
+    printLog(SWITCH, "${this.javaClass.simpleName}-$tag", message, *args)
+}
+
 
 fun String?.isFileExist(): Boolean {
     return !this.isNullOrEmpty() && File(this).exists()
