@@ -10,7 +10,7 @@ Android 开发过程中,难免遇到内存泄露的问题.`Google` 的原则是�
 
 ## 简介
 
-**`EasyApi`** 主要结合了 `LiveData` & `Retrofit`,支持接口请求,支持文件下载,支持后台任务(实现中)
+**`EasyApi`** 主要结合了 `LiveData` & `Retrofit`,支持接口请求,支持文件下载,支持后台任务
 
 ## 功能特点
 - [x] 接口请求直接返回 LiveData
@@ -23,11 +23,39 @@ Android 开发过程中,难免遇到内存泄露的问题.`Google` 的原则是�
 - [x] 接口友好,使用简单
 - [x] 全面的日志打印,通过关键字 `EasyApi` 可以很方便查看请求情况
 - [x] `EasyApi` 所有的请求(包括下载)都有id,通过id均可取消
+- [x] 支持后台任务 `EasyJob` (耗时操作,如文件解压,数据库操作)
+- [x] `EasyJob` 完全复用 `Retrofit` 的线程池，线程管理方便
+- [x] 支持模块化(动态代理+接口下沉)：`EasyProxy`
 
 ## TODO
-- [ ] **`「开发中」`** 支持后台任务(耗时操作,如文件解压,数据库操作),并支持组件化调用
+- [ ] 后台任务 `EasyJob` 支持进度回调 ProgressResult
+- [ ] 后台任务  `EasyJob` 支持复杂入参和复杂返回类型
+- [ ] `Release` 环境混淆检测,依赖检测,性能数据
 
 ## 简单示例
+
+### 接口请求
+
+``` kotlin
+// 定义接口
+interface IpLocateApi {
+
+    companion object {
+        private const val API_URL = "http://ip-api.com/json/"
+    }
+
+    @FormUrlEncoded
+    @POST(API_URL)
+    fun getLocation(
+        @Field("app") app: String = "EasyApi",
+        @Query("lang") lang: String = "zh-CN"
+    ): LiveData<IpLocation>
+}
+
+// 请求接口
+override val locationData: LiveData<IpLocation> =
+        EasyApi.create(IpLocateApi::class.java).getLocation()
+```
 
 ### 文件下载
 
@@ -58,28 +86,73 @@ downloadData.cancelRequest()
 EasyApi.cancelDownload(id)
 ```
 
-### 接口请求
+### 后台任务
+```
+// 定义接口 注意 retrofit = true
+@JobApi(uniqueId = "Zip@Producer", retrofit = true)
+interface ZipApi {
 
-``` kotlin
-// 定义接口
-interface IpLocateApi {
+    fun zip(source: String, target: String, i: Int, b: Boolean, f: Float,l:Long): Result
 
-    companion object {
-        private const val API_URL = "http://ip-api.com/json/"
-    }
-
-    @FormUrlEncoded
-    @POST(API_URL)
-    fun getLocation(
-        @Field("app") app: String = "EasyApi",
-        @Query("lang") lang: String = "zh-CN"
-    ): LiveData<IpLocation>
+    fun unzip(source: String, target: String): Result
 }
 
-// 请求接口
-override val locationData: LiveData<IpLocation> =
-        EasyApi.create(IpLocateApi::class.java).getLocation()
+// 定义服务
+@JobServer(uniqueId = "Zip@Producer")
+class ZipServer : ZipApi {
+
+    override fun zip(
+        source: String,
+        target: String,
+        i: Int,
+        b: Boolean,
+        f: Float,
+        l: Long
+    ): Result {
+        return Result(if (File(target).zip(source)) null else Exception("zip failed"))
+    }
+
+    override fun unzip(source: String, target: String): Result {
+        return Result(if (ZipFile(source).unZipTo(target)) null else Exception("unzip failed"))
+    }
+}
+
+// 调用服务 注意传入的 Interface 为 ZipApiRetrofit 而不是 ZipApi
+EasyApi.create(ZipApiRetrofit::class.java).unzip(source, target)
 ```
+
+**后台任务** 在 `EasyApi` 中叫做 `EasyJob`。设计的思想是把本地的耗时操作抽象为服务端的接口,和服务端的接口一样:发起请求 `Request` + 得到响应 `Response`。我们需要做的是：
+1. 定义接口如 `ZipApi`, 加上注解 `@JobApi(uniqueId = "Zip@Producer", retrofit = true)`
+2. 实现接口 `class ZipServer : ZipApi` 加上注解 `@JobServer(uniqueId = "Zip@Producer")`
+3. 调用 `EasyApi.create(ZipApiRetrofit::class.java).unzip(source, target)`
+4. 需要注意的是,和请求服务端接口一样,数据返回类型需要继承自 `Result`
+
+### 实现原理
+```
+// easyapi.compiler 生成的接口信息
+public interface ZipApiRetrofit {
+  @GET("EasyApi/EasyProxy/?_api_=engineer.echo.yi.producer.cmpts.zip.ZipApi&_method_=zip")
+  @Headers({
+      "source:java.lang.String",
+      "target:java.lang.String",
+      "i:int",
+      "b:boolean",
+      "f:float",
+      "l:long"
+  })
+  LiveData<Result> zip(@Query("source") String source, @Query("target") String target,
+      @Query("i") int i, @Query("b") boolean b, @Query("f") float f, @Query("l") long l);
+
+  @GET("EasyApi/EasyProxy/?_api_=engineer.echo.yi.producer.cmpts.zip.ZipApi&_method_=unzip")
+  @Headers({
+      "source:java.lang.String",
+      "target:java.lang.String"
+  })
+  LiveData<Result> unzip(@Query("source") String source, @Query("target") String target);
+}
+```
+`EasyJob` 的实现主要靠 `easyapi.compiler` 通过注解 `JobApi` (retrofit = true 时) 生成如上代码。可以看出，`ZipApiRetrofit` 的格式完全就是 `Retrofit` 接口定义的形式。当请求发生时,通过 `JobInterceptor` 对请求进行拦截解析,然后通过动态代理的方式 `EasyProxy` 去执行 `ZipServer` 中定义好的方法。
+
 
 ## Transformations
 
@@ -227,11 +300,42 @@ EasyProxy.create(ProxyApi::class.java).also {
 ## 实现原理
 - LiveData 的实现：`addCallAdapterFactory(LiveDataCallAdapterFactory.create(monitor))` Retrofit 支持自定义返回类型,可参考官方 RxJava 的实现
 - 下载的实现：下载和接口请求大同小异,反射得到类型为下载任务后进行下载处理
-- 后台任务的实现：注解 & `JavaPoet` & 反射
+- `EasyJob`后台任务的实现：`JobInterceptor` ,`AutoService` & 注解 & `JavaPoet` , 反射，`EasyProxy` 动态代理
+- 模块化：`EasyProxy` 动态代理 & 接口下沉
 
 ## 文件结构
+
+### easyapi.annotation
 ```
 .
+└── engineer
+    └── echo
+        └── easyapi
+            └── annotation
+                ├── EasyJobHelper.java
+                ├── JobApi.java
+                ├── JobServer.java
+                └── MD5Tool.java
+
+4 directories, 4 files
+
+```
+
+### easyapi.compiler
+```
+.
+└── engineer
+    └── echo
+        └── easyapi
+            └── compiler
+                ├── CompilerHelper.java
+                └── EasyProcessor.java
+
+4 directories, 2 files
+```
+
+### EasyApi
+```
 └── engineer
     └── echo
         └── easyapi
@@ -251,16 +355,18 @@ EasyProxy.create(ProxyApi::class.java).also {
             │   ├── DownloadState.kt
             │   └── LiveDataDownloadAdapter.kt
             ├── job
-            │   ├── EasyJob.kt
             │   ├── JobHelper.kt
             │   ├── JobInterceptor.kt
             │   └── NetInterceptor.kt
+            ├── proxy
+            │   ├── DefaultHandler.kt
+            │   ├── EasyHandler.kt
+            │   └── EasyProxy.kt
             └── pub
                 ├── Extendx.kt
                 └── MD5Tool.kt
 
-7 directories, 19 files
-
+8 directories, 21 files
 ```
 
 ## 示例 demo

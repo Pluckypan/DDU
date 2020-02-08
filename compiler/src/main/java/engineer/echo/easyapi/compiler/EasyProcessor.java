@@ -25,7 +25,7 @@ import engineer.echo.easyapi.annotation.JobServer;
 
 @AutoService(Processor.class)
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
-public class EasyProrcessor extends AbstractProcessor {
+public class EasyProcessor extends AbstractProcessor {
 
     private Filer filer;
     private Messager messager;
