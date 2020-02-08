@@ -1,6 +1,8 @@
 package engineer.echo.yi.common
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import engineer.echo.easyapi.Result
 import engineer.echo.easyapi.annotation.JobApi
 
 object Proxy {
@@ -28,6 +30,11 @@ object Proxy {
 
     @JobApi(uniqueId = KEY_PRODUCER)
     interface ProducerApi {
+
         fun goto(context: Context)
+
+        fun zip(source: String, target: String): LiveData<Result>
+
+        fun unzip(source: String, target: String): LiveData<Result>
     }
 }

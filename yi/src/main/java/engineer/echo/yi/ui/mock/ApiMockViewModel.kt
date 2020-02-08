@@ -4,7 +4,6 @@ import androidx.lifecycle.*
 import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.Result
 import engineer.echo.easyapi.download.DownloadState
-import engineer.echo.easyapi.proxy.EasyProxy
 import engineer.echo.easyapi.pub.cancelRequest
 import engineer.echo.easylib.formatLog
 import engineer.echo.yi.R
@@ -13,7 +12,6 @@ import engineer.echo.yi.api.WeatherApi
 import engineer.echo.yi.bean.location.IpLocation
 import engineer.echo.yi.bean.weather.WeatherResp
 import engineer.echo.yi.common.EasyApp
-import engineer.echo.yi.ui.main.ProxyApi
 
 class ApiMockViewModel(info: Int) : ViewModel(), ApiMockContract.IViewModel {
 
@@ -67,11 +65,6 @@ class ApiMockViewModel(info: Int) : ViewModel(), ApiMockContract.IViewModel {
 
     override fun cancelDownload() {
         downloadData.cancelRequest()
-        EasyProxy.create(ProxyApi::class.java).also {
-            it.showToast("${it.add(3,9)}")
-            it.print()
-            it.go()
-        }
     }
 
     // 解压相关

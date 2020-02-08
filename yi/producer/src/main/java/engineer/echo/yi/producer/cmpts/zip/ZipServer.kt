@@ -10,7 +10,14 @@ import java.util.zip.ZipFile
 @JobServer(uniqueId = "Zip@Producer")
 class ZipServer : ZipApi {
 
-    override fun zip(source: String, target: String): Result {
+    override fun zip(
+        source: String,
+        target: String,
+        i: Int,
+        b: Boolean,
+        f: Float,
+        l: Long
+    ): Result {
         return Result(if (File(target).zip(source)) null else Exception("zip failed"))
     }
 

@@ -15,7 +15,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import engineer.echo.easyapi.ProgressResult
 import engineer.echo.easyapi.Result
 import engineer.echo.easyapi.download.DownloadState
 import engineer.echo.easyapi.proxy.EasyProxy
@@ -137,16 +136,17 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
         }
 
         @JvmStatic
-        @BindingAdapter("downloadData", "zipData")
+        @BindingAdapter("downloadData", "zipData", "switchData")
         fun onBindDownload(
             textView: TextView,
             downloadState: DownloadState? = null,
-            zipData: Result? = null
+            zipData: Result? = null,
+            switchData: Boolean? = null
         ) {
             val downloadText = downloadState?.downloadText() ?: ""
             val zipText = zipData?.let {
                 "${EasyApp.getString(
-                    if (zipData is ProgressResult) R.string.label_unzip else R.string.label_zip
+                    if (switchData == false) R.string.label_unzip else R.string.label_zip
                 )} ${zipData.isSuccess()}"
             } ?: ""
             textView.text = zipText.plus(" ").plus(downloadText)
@@ -162,6 +162,12 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
         @BindingAdapter("downloadData")
         fun onBindDownload(textView: Button, downloadState: DownloadState? = null) {
             textView.isEnabled = downloadState == null || downloadState.downloadEnable()
+        }
+
+        @JvmStatic
+        @BindingAdapter("switchData")
+        fun onBindZip(textView: Button, switchData: Boolean? = null) {
+            textView.setText(if (switchData == false) R.string.label_unzip else R.string.label_zip)
         }
     }
 }

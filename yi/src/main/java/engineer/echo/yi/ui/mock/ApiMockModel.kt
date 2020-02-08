@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.Result
 import engineer.echo.easyapi.download.DownloadState
+import engineer.echo.easyapi.proxy.EasyProxy
 import engineer.echo.easylib.externalCache
 import engineer.echo.yi.common.EasyApp
+import engineer.echo.yi.common.Proxy
 import java.io.File
 
 class ApiMockModel : ApiMockContract.IModel {
@@ -16,7 +18,12 @@ class ApiMockModel : ApiMockContract.IModel {
     }
 
     override fun zipAction(zip: Boolean): LiveData<Result> {
-        TODO("EasyProxy & EasyApi")
+        return EasyProxy.create(Proxy.ProducerApi::class.java).let {
+            if (zip) it.zip(getPath(), getZip()) else it.unzip(
+                getZip(),
+                unzipFolder
+            )
+        }
     }
 
     companion object {
