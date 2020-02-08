@@ -5,7 +5,6 @@ import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.Result
 import engineer.echo.easyapi.download.DownloadState
 import engineer.echo.easylib.externalCache
-import engineer.echo.yi.cmpts.zip.ZipHelper
 import engineer.echo.yi.common.EasyApp
 import java.io.File
 
@@ -17,14 +16,7 @@ class ApiMockModel : ApiMockContract.IModel {
     }
 
     override fun zipAction(zip: Boolean): LiveData<Result> {
-        return if (zip) {
-            EasyApi.create(ZipHelper.ZipApi::class.java).zip(getPath(), getZip())
-        } else {
-            EasyApi.create(ZipHelper.ZipApi::class.java).unzip(
-                getZip(),
-                unzipFolder
-            ) as LiveData<Result>
-        }
+        TODO("EasyProxy & EasyApi")
     }
 
     companion object {

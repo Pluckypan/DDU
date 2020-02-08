@@ -1,4 +1,4 @@
-package engineer.echo.yi.cmpts.zip
+package engineer.echo.yi.producer.cmpts.zip
 
 import androidx.lifecycle.LiveData
 import engineer.echo.easyapi.ProgressResult
@@ -13,7 +13,7 @@ import java.util.zip.ZipFile
 
 sealed class ZipHelper {
 
-    interface ZipApi {
+    interface ZipApi1 {
 
         @GET("zip")
         @EasyJob

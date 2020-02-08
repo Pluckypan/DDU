@@ -20,6 +20,7 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 
+import engineer.echo.easyapi.annotation.JobApi;
 import engineer.echo.easyapi.annotation.JobServer;
 
 @AutoService(Processor.class)
@@ -38,6 +39,7 @@ public class EasyProrcessor extends AbstractProcessor {
         filer = env.getFiler();
         messager = env.getMessager();
         supportAnnos.add(JobServer.class.getCanonicalName());
+        supportAnnos.add(JobApi.class.getCanonicalName());
         Map<String, String> options = env.getOptions();
         if (options.containsKey("easyapi.appId")) {
             appId = options.get("easyapi.appId");
@@ -66,6 +68,18 @@ public class EasyProrcessor extends AbstractProcessor {
                     String message = jobServer.uniqueId() + " has bind to " + metaInfo.get(jobServer.uniqueId()) + " please set an uniqueId to " + className;
                     messager.printMessage(Diagnostic.Kind.ERROR, message);
                     throw new IllegalArgumentException(message);
+                }
+            }
+        }
+        for (Element element : env.getElementsAnnotatedWith(JobApi.class)) {
+            if (element.getKind() == ElementKind.INTERFACE && element instanceof TypeElement) {
+                JobApi jobApi = element.getAnnotation(JobApi.class);
+                if (jobApi.retrofit()) {
+                    String error = CompilerHelper.createRetrofitApi(filer, (TypeElement) element);
+                    if (error != null) {
+                        messager.printMessage(Diagnostic.Kind.ERROR, error);
+                        throw new IllegalArgumentException(error);
+                    }
                 }
             }
         }
