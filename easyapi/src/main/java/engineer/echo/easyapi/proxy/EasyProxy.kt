@@ -1,5 +1,6 @@
 package engineer.echo.easyapi.proxy
 
+import android.os.SystemClock
 import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.annotation.EasyJobHelper
 import engineer.echo.easyapi.annotation.JobApi
@@ -11,16 +12,19 @@ object EasyProxy {
     private val handlerMap = ConcurrentHashMap<Class<*>, EasyHandler<*>>()
 
     fun <T> create(jobApiClz: Class<T>): T {
+        val before = SystemClock.uptimeMillis()
         require(jobApiClz.isInterface) {
             "EasyApi EasyProxy: [${jobApiClz.simpleName}] is not an interface"
         }
-        if (ownerMap.containsKey(jobApiClz)) {
-            return ownerMap[jobApiClz] as T
+        return if (ownerMap.containsKey(jobApiClz)) {
+            ownerMap[jobApiClz] as T
         } else {
             getHandlerByAnno(jobApiClz).proxy.also {
                 ownerMap[jobApiClz] = it as Any
-                return it
+                it
             }
+        }.also {
+            EasyApi.printLog("EasyProxy create cost = %sms", SystemClock.uptimeMillis() - before)
         }
     }
 

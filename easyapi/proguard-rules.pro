@@ -19,3 +19,11 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class engineer.echo.easyapi.compiler.** { *; }
+-keep @engineer.echo.easyapi.annotation.JobServer class *
+-keepattributes SourceFile,LineNumberTable
+-keepclassmembers class * implements java.io.Serializable {*;}
+-keepclassmembers class * implements android.io.Parcelable {*;}
+-keep class * implements android.os.Parcelable {*;}
+-keep class * implements android.io.Parcelable{*;}

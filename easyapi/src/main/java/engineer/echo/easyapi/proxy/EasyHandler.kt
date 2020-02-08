@@ -1,5 +1,6 @@
 package engineer.echo.easyapi.proxy
 
+import android.os.SystemClock
 import engineer.echo.easyapi.EasyApi
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
@@ -14,6 +15,7 @@ internal open class EasyHandler<T>(private val client: Any) : InvocationHandler 
         }
 
     override fun invoke(proxy: Any?, method: Method, args: Array<out Any>?): Any {
+        val before = SystemClock.uptimeMillis()
         return try {
             if (args != null) {
                 method.invoke(client, *args)
@@ -27,6 +29,11 @@ internal open class EasyHandler<T>(private val client: Any) : InvocationHandler 
                 e.cause?.message ?: e.message
             )
             DefaultHandler.getDefaultValue(method.returnType)
+        } finally {
+            EasyApi.printLog(
+                "EasyProxy EasyHandler invoke cost = %sms",
+                SystemClock.uptimeMillis() - before
+            )
         }
     }
 }

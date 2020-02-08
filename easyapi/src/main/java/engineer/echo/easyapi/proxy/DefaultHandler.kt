@@ -16,7 +16,7 @@ internal class DefaultHandler<T>(private val jobApiClz: Class<T>) : EasyHandler<
             return if (returnType == Void::class.java) {
                 0
             } else {
-                -1
+                Int.MIN_VALUE
             }
         }
     }
