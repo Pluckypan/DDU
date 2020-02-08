@@ -22,6 +22,7 @@
 
 -keep class engineer.echo.easyapi.compiler.** { *; }
 -keep @engineer.echo.easyapi.annotation.JobServer class *
+-keep @engineer.echo.easyapi.annotation.JobApi { *; }
 -keepattributes SourceFile,LineNumberTable
 -keepclassmembers class * implements java.io.Serializable {*;}
 -keepclassmembers class * implements android.io.Parcelable {*;}

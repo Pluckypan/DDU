@@ -5,6 +5,15 @@ import java.lang.reflect.Field;
 public final class EasyJobHelper {
     private static final String PACKAGE = "engineer.echo.easyapi.compiler";
     public static final String CLASS = "MetaInfo";
+    private static final String JOB_API_URL = "EasyApi/EasyProxy/?api=";
+
+    public static boolean isEasyJobRequest(String url) {
+        return url != null && url.length() > 0 && url.contains(JOB_API_URL);
+    }
+
+    public static String generateRetrofitPath(String api, String method) {
+        return JOB_API_URL + api + "&method=" + method;
+    }
 
     public static String generatePackage(String id) {
         return PACKAGE + ".meta" + MD5Tool.getMD5(id);

@@ -5,7 +5,11 @@ import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterSpec;
+import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
+import com.sun.tools.javac.code.Symbol;
 
 import java.io.IOException;
 import java.util.List;
@@ -70,18 +74,35 @@ final class CompilerHelper {
                     .addModifiers(Modifier.PUBLIC);
             List<? extends Element> elements = interfaceElement.getEnclosedElements();
             for (Element element : elements) {
-                if (element.getKind() == ElementKind.METHOD) {
-
-                    AnnotationSpec getSpec = AnnotationSpec.builder(ClassName.get("retrofit2.http", "GET"))
-                            .addMember("value", "$S", "xxx")
+                if (element.getKind() == ElementKind.METHOD && element instanceof Symbol.MethodSymbol) {
+                    String methodName = element.getSimpleName().toString();
+                    Symbol.MethodSymbol methodSymbol = (Symbol.MethodSymbol) element;
+                    AnnotationSpec specGet = AnnotationSpec.builder(ClassName.get("retrofit2.http", "GET"))
+                            .addMember("value", "$S",
+                                    EasyJobHelper.generateRetrofitPath(className, methodName))
                             .build();
 
+                    ClassName liveDataClass = ClassName.get("androidx.lifecycle", "LiveData");
+                    TypeName returnClass = TypeName.get(methodSymbol.getReturnType());
+                    ParameterizedTypeName returnTyoe = ParameterizedTypeName.get(liveDataClass, returnClass);
 
-                    MethodSpec methodSpec = MethodSpec.methodBuilder(element.getSimpleName().toString())
-                            .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-                            .addAnnotation(getSpec)
-                            .build();
-                    interfaceBuilder.addMethod(methodSpec);
+                    MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(methodName)
+                            .addModifiers(methodSymbol.getModifiers())
+                            .addAnnotation(specGet)
+                            .returns(returnTyoe);
+
+                    List<Symbol.VarSymbol> varSymbols = methodSymbol.getParameters();
+                    for (Symbol.VarSymbol var : varSymbols) {
+                        String queryName = var.name.toString();
+                        AnnotationSpec specQuery = AnnotationSpec
+                                .builder(ClassName.get("retrofit2.http", "Query"))
+                                .addMember("value", "$S", queryName)
+                                .build();
+                        methodBuilder.addParameter(ParameterSpec.builder(TypeName.get(var.type), queryName)
+                                .addAnnotation(specQuery)
+                                .build());
+                    }
+                    interfaceBuilder.addMethod(methodBuilder.build());
                 }
             }
             TypeSpec interfaceType = interfaceBuilder.build();

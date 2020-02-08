@@ -7,4 +7,6 @@ import engineer.echo.easyapi.annotation.JobApi
 interface ZipApi {
 
     fun zip(source: String, target: String): Result
+
+    fun unzip(source: String, target: String): Result
 }

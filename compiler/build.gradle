@@ -1,10 +1,13 @@
 apply plugin: 'java-library'
+def jdkHome = System.getenv("JAVA_HOME")
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation rootProject.ext.build.autoService
     implementation rootProject.ext.build.javapoet
     implementation project(":annotation")
+    // 解决 程序包 com.sun.tools.javac.code 不存在
+    implementation files("$jdkHome/lib/tools.jar")
 }
 
 tasks.withType(JavaCompile) {
