@@ -8,7 +8,6 @@ import engineer.echo.easyapi.EasyLiveData
 import engineer.echo.easyapi.EasyMonitor
 import engineer.echo.easyapi.Result
 import engineer.echo.easyapi.api.ApiHelper.contentSize
-import engineer.echo.easyapi.job.JobHelper.injectHeader
 import engineer.echo.easyapi.pub.MD5Tool
 import retrofit2.Call
 import retrofit2.CallAdapter
@@ -20,7 +19,6 @@ import java.util.concurrent.atomic.AtomicLong
 internal class LiveDataApiCallAdapter<T : Result>(
     private val rawType: Class<*>,
     private val responseType: Type,
-    private val annotations: Array<Annotation>,
     private val monitor: EasyMonitor? = null
 ) :
     CallAdapter<T, LiveData<T>> {
@@ -33,7 +31,6 @@ internal class LiveDataApiCallAdapter<T : Result>(
         callTime.set(SystemClock.elapsedRealtime())
         requestSize = call.request().contentSize()
         liveData.id = MD5Tool.getMD5(call.request().toString())
-        call.injectHeader(annotations, liveData.id)
         EasyApi.printLog(
             "LiveDataApiCallAdapter adapt %s id=%s",
             call.request().method(), liveData.id

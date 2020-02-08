@@ -29,7 +29,10 @@ object EasyApi {
 
     internal fun printLog(format: String, vararg args: Any?) {
         if (debugMode) {
-            Log.i(TAG, format.format(*args).plus(" thread=[${Thread.currentThread().name}]"))
+            Log.i(
+                TAG,
+                format.format(*args).plus(" thread=[${Thread.currentThread().id}:${Thread.currentThread().name}]")
+            )
         }
     }
 

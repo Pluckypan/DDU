@@ -12,11 +12,11 @@ internal class DefaultHandler<T>(private val jobApiClz: Class<T>) : EasyHandler<
 
     companion object {
 
-        fun getDefaultValue(returnType: Type): Any {
-            return if (returnType == Void::class.java) {
+        fun getDefaultValue(returnType: Type, e: Exception): Any {
+            return if (returnType == Void.TYPE) {
                 0
             } else {
-                Int.MIN_VALUE
+                throw e
             }
         }
     }

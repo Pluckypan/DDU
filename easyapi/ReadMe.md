@@ -181,6 +181,49 @@ public static <X, Y> LiveData<Y> switchMap(
 }
 ```
 
+## 动态代理
+```
+// 定义接口
+@JobApi(uniqueId = "AAA")
+interface ProxyApi {
+
+    fun add(a: Int, b: Int): Int
+
+    fun showToast(msg: String)
+
+    fun print():String
+
+    fun go()
+}
+
+// 定义接口实现
+@JobServer(uniqueId = "AAA")
+class ProxyServer : ProxyApi {
+
+    override fun add(a: Int, b: Int): Int = a + b
+
+    override fun showToast(msg: String) = msg.toastLong(EasyApp.getApp())
+
+    override fun print(): String {
+        return "EasyApi ${add(1, 3)}"
+    }
+
+    override fun go() {
+        showToast(print())
+    }
+}
+
+// 调用
+EasyProxy.create(ProxyApi::class.java).also {
+    it.showToast("${it.add(3,9)}")
+    it.print()
+    it.go()
+}
+```
+
+`EasyProxy` 的实现原理是动态代理,主要用到 `InvocationHandler` & `Proxy` 。`EasyProxy` 的应用场景：组件化(接口下沉的方式)、`EasyJob` 等等
+
+
 ## 实现原理
 - LiveData 的实现：`addCallAdapterFactory(LiveDataCallAdapterFactory.create(monitor))` Retrofit 支持自定义返回类型,可参考官方 RxJava 的实现
 - 下载的实现：下载和接口请求大同小异,反射得到类型为下载任务后进行下载处理

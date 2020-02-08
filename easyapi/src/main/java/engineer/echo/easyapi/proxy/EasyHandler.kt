@@ -28,7 +28,7 @@ internal open class EasyHandler<T>(private val client: Any) : InvocationHandler 
                 method.returnType.simpleName,
                 e.cause?.message ?: e.message
             )
-            DefaultHandler.getDefaultValue(method.returnType)
+            DefaultHandler.getDefaultValue(method.returnType, e)
         } finally {
             EasyApi.printLog(
                 "EasyProxy EasyHandler invoke cost = %sms",

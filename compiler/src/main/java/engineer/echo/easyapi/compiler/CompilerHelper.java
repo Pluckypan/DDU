@@ -2,6 +2,7 @@ package engineer.echo.easyapi.compiler;
 
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -84,24 +85,30 @@ final class CompilerHelper {
 
                     ClassName liveDataClass = ClassName.get("androidx.lifecycle", "LiveData");
                     TypeName returnClass = TypeName.get(methodSymbol.getReturnType());
-                    ParameterizedTypeName returnTyoe = ParameterizedTypeName.get(liveDataClass, returnClass);
+                    ParameterizedTypeName returnType = ParameterizedTypeName.get(liveDataClass, returnClass);
 
                     MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(methodName)
                             .addModifiers(methodSymbol.getModifiers())
                             .addAnnotation(specGet)
-                            .returns(returnTyoe);
+                            .returns(returnType);
 
                     List<Symbol.VarSymbol> varSymbols = methodSymbol.getParameters();
+                    AnnotationSpec.Builder specHeader = AnnotationSpec.builder(ClassName.get("retrofit2.http", "Headers"));
                     for (Symbol.VarSymbol var : varSymbols) {
                         String queryName = var.name.toString();
                         AnnotationSpec specQuery = AnnotationSpec
                                 .builder(ClassName.get("retrofit2.http", "Query"))
                                 .addMember("value", "$S", queryName)
                                 .build();
-                        methodBuilder.addParameter(ParameterSpec.builder(TypeName.get(var.type), queryName)
+                        TypeName queryType = TypeName.get(var.type);
+                        methodBuilder.addParameter(ParameterSpec.builder(queryType, queryName)
                                 .addAnnotation(specQuery)
                                 .build());
+                        specHeader.addMember("value", "$L",
+                                CodeBlock.builder().add("$S", queryName + ":" + queryType.toString()).build());
                     }
+
+                    methodBuilder.addAnnotation(specHeader.build());
                     interfaceBuilder.addMethod(methodBuilder.build());
                 }
             }

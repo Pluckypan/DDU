@@ -1,46 +1,30 @@
 package engineer.echo.easyapi.job
 
 import com.google.gson.Gson
+import engineer.echo.easyapi.annotation.EasyJobHelper
 import okhttp3.Request
-import retrofit2.Call
 
 internal object JobHelper {
 
-    private const val JOB_ID = "EasyJobId"
-    private const val JOB_GROUP = "EasyJobGroup"
-    private const val JOB_MODULE = "EasyJobModule"
 
     val Parser by lazy {
         Gson()
     }
 
-    fun Request.jobId() = header(JOB_ID)
-    fun Request.jobGroup() = header(JOB_GROUP)
-    fun Request.jobModule() = header(JOB_MODULE)
+    fun Request.isEasyJob(): Boolean {
+        return EasyJobHelper.isEasyJobRequest(url().toString())
+    }
 
-    fun Call<*>.injectHeader(annotations: Array<Annotation>, jobId: String) {
-        annotations.firstOrNull {
-            it is EasyJob
-        }?.let {
-            if (it is EasyJob) {
-                val header = request().headers()
-                // 反射需要注意 proguard
-                val field = header.javaClass.getDeclaredField("namesAndValues")
-                field.isAccessible = true
-                arrayListOf<String>().apply {
-                    header.names().forEach { h ->
-                        add("$h:${header[h]}")
-                    }
-                    add(JOB_ID)
-                    add(jobId)
-                    add(JOB_GROUP)
-                    add(it.group)
-                    add(JOB_MODULE)
-                    add(it.module)
-                }.also { arr ->
-                    field.set(header, arr.toTypedArray())
-                }
-            }
+    fun String.convertTo(clazz: Class<*>): Any {
+        return when (clazz) {
+            Byte::class.java -> this.toByte()
+            Short::class.java -> this.toShort()
+            Integer::class.java -> this.toInt()
+            Long::class.java -> this.toLong()
+            Float::class.java -> this.toFloat()
+            Double::class.java -> this.toDouble()
+            Boolean::class.java -> this.toBoolean()
+            else -> Parser.fromJson(Parser.toJson(this), clazz)
         }
     }
 }
