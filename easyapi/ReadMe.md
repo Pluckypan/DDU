@@ -10,7 +10,7 @@ Android 开发过程中,难免遇到内存泄露的问题.`Google` 的原则是�
 
 ## 简介
 
-**`EasyApi`** 主要结合了 `LiveData` & `Retrofit`,支持接口请求,支持文件下载,支持后台任务
+**`EasyApi`** 主要结合了 `LiveData` & `Retrofit`,支持接口请求,支持文件下载,支持后台作业
 
 ## 功能特点
 - [x] 接口请求直接返回 LiveData
@@ -23,13 +23,13 @@ Android 开发过程中,难免遇到内存泄露的问题.`Google` 的原则是�
 - [x] 接口友好,使用简单
 - [x] 全面的日志打印,通过关键字 `EasyApi` 可以很方便查看请求情况
 - [x] `EasyApi` 所有的请求(包括下载)都有id,通过id均可取消
-- [x] 支持后台任务 `EasyJob` (耗时操作,如文件解压,数据库操作)
+- [x] 支持后台作业 `EasyJob` (耗时操作,如文件解压,数据库操作)
 - [x] `EasyJob` 完全复用 `Retrofit` 的线程池，线程管理方便
 - [x] 支持模块化(动态代理+接口下沉)：`EasyProxy`
 
 ## TODO
-- [ ] 后台任务 `EasyJob` 支持进度回调 ProgressResult
-- [ ] 后台任务  `EasyJob` 支持复杂入参和复杂返回类型
+- [ ] 后台作业 `EasyJob` 支持进度回调 ProgressResult
+- [ ] 后台作业  `EasyJob` 支持复杂入参和复杂返回类型
 - [ ] `Release` 环境混淆检测,依赖检测,性能数据
 
 ## 简单示例
@@ -86,7 +86,7 @@ downloadData.cancelRequest()
 EasyApi.cancelDownload(id)
 ```
 
-### 后台任务
+### 后台作业
 ```
 // 定义接口 注意 retrofit = true
 @JobApi(uniqueId = "Zip@Producer", retrofit = true)
@@ -121,7 +121,7 @@ class ZipServer : ZipApi {
 EasyApi.create(ZipApiRetrofit::class.java).unzip(source, target)
 ```
 
-**后台任务** 在 `EasyApi` 中叫做 `EasyJob`。设计的思想是把本地的耗时操作抽象为服务端的接口,和服务端的接口一样:发起请求 `Request` + 得到响应 `Response`。我们需要做的是：
+**后台作业** 在 `EasyApi` 中叫做 `EasyJob`。设计的思想是把本地的耗时操作抽象为服务端的接口,和处理服务端的接口一样:发起请求 `Request` + 得到响应 `Response`。我们需要做的很简单：
 1. 定义接口如 `ZipApi`, 加上注解 `@JobApi(uniqueId = "Zip@Producer", retrofit = true)`
 2. 实现接口 `class ZipServer : ZipApi` 加上注解 `@JobServer(uniqueId = "Zip@Producer")`
 3. 调用 `EasyApi.create(ZipApiRetrofit::class.java).unzip(source, target)`
@@ -294,13 +294,13 @@ EasyProxy.create(ProxyApi::class.java).also {
 }
 ```
 
-`EasyProxy` 的实现原理是动态代理,主要用到 `InvocationHandler` & `Proxy` 。`EasyProxy` 的应用场景：组件化(接口下沉的方式)、`EasyJob` 等等
+`EasyProxy` 的实现原理是动态代理,主要用到 `InvocationHandler` & `Proxy` 。`EasyProxy` 的应用场景：模块化(接口下沉的方式)、`EasyJob` 等等
 
 
 ## 实现原理
 - LiveData 的实现：`addCallAdapterFactory(LiveDataCallAdapterFactory.create(monitor))` Retrofit 支持自定义返回类型,可参考官方 RxJava 的实现
 - 下载的实现：下载和接口请求大同小异,反射得到类型为下载任务后进行下载处理
-- `EasyJob`后台任务的实现：`JobInterceptor` ,`AutoService` & 注解 & `JavaPoet` , 反射，`EasyProxy` 动态代理
+- `EasyJob`后台作业的实现：`JobInterceptor` ,`AutoService` & 注解 & `JavaPoet` , 反射，`EasyProxy` 动态代理
 - 模块化：`EasyProxy` 动态代理 & 接口下沉
 
 ## 文件结构
@@ -370,7 +370,7 @@ EasyProxy.create(ProxyApi::class.java).also {
 ```
 
 ## 示例 demo
-[请戳](../yi/ReadMe.md)
+[MVVM & 模块化请戳](../yi/ReadMe.md)
 
 ## 参考文档
 - [retrofit](https://github.com/square/retrofit)
