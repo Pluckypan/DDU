@@ -39,6 +39,7 @@ internal class JobInterceptor : Interceptor {
                 val methodAction = obj.javaClass.getMethod(method, *argName.toTypedArray())
                 methodAction.invoke(obj, *argValue.toTypedArray())
             } catch (e: Exception) {
+                // 由于存在 json 转换 所以返回父类的实例 子类再转换的时候不会有类型检查的错误
                 Result(e)
             }.let {
                 Response.Builder().body(
