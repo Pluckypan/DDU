@@ -4,7 +4,7 @@ import android.text.TextUtils
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import engineer.echo.easyapi.EasyApi
-import engineer.echo.easyapi.State
+import engineer.echo.easyapi.annotation.State
 import engineer.echo.easyapi.pub.MD5Tool
 import engineer.echo.easyapi.pub.easyId
 import engineer.echo.easyapi.pub.tryCreateFileException
@@ -16,11 +16,14 @@ import retrofit2.http.Url
 import java.io.File
 import java.io.InputStream
 import java.io.RandomAccessFile
+import java.util.concurrent.ConcurrentHashMap
 import okhttp3.Call as OkCall
 
 internal object DownloadHelper {
 
-    val downloadTask = HashMap<String, LiveData<DownloadState>>()
+    val downloadTask by lazy {
+        ConcurrentHashMap<String, LiveData<DownloadState>>()
+    }
 
     fun deleteIfExist(path: String?): Boolean {
         if (path == null) return false
@@ -46,9 +49,8 @@ internal object DownloadHelper {
         resume: Boolean = false
     ): LiveData<DownloadState> {
         val downloadId = genDownloadId(url, path)
-        if (downloadTask.containsKey(downloadId)) {
-            return downloadTask[downloadId]!!
-        }
+        val runningJob = obtainDownloadJob(downloadId)
+        if (runningJob != null) return runningJob
         val start = File(path).let {
             if (resume && it.exists()) it.length() else 0
         }
@@ -56,6 +58,13 @@ internal object DownloadHelper {
         return EasyApi.create(DownloadApi::class.java).download(range, url, path).also {
             downloadTask[downloadId] = it
         }
+    }
+
+    fun obtainDownloadJob(downloadId: String): LiveData<DownloadState>? {
+        if (downloadTask.containsKey(downloadId)) {
+            return downloadTask[downloadId]!!
+        }
+        return null
     }
 
     fun cancelDownload(id: String) {

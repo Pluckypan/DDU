@@ -2,7 +2,7 @@ package engineer.echo.easyapi.download
 
 import android.os.Parcelable
 import engineer.echo.easyapi.ProgressResult
-import engineer.echo.easyapi.State
+import engineer.echo.easyapi.annotation.State
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize

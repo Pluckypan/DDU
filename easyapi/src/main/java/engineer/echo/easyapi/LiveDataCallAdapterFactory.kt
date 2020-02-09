@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import engineer.echo.easyapi.api.LiveDataApiCallAdapter
 import engineer.echo.easyapi.download.DownloadState
 import engineer.echo.easyapi.download.LiveDataDownloadAdapter
+import engineer.echo.easyapi.job.LiveDataProgressJobAdapter
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
 import java.lang.reflect.ParameterizedType
@@ -34,10 +35,10 @@ class LiveDataCallAdapterFactory private constructor(private val monitor: EasyMo
             rawType.simpleName,
             annotations.size
         )
-        return if (rawType == DownloadState::class.java) {
-            LiveDataDownloadAdapter(monitor)
-        } else {
-            LiveDataApiCallAdapter<Result>(rawType, resultType, monitor)
+        return when {
+            rawType == DownloadState::class.java -> LiveDataDownloadAdapter(monitor)
+            ProgressResult::class.java.isAssignableFrom(rawType) -> LiveDataProgressJobAdapter<ProgressResult>(rawType, resultType, monitor)
+            else -> LiveDataApiCallAdapter<Result>(rawType, resultType, monitor)
         }
     }
 

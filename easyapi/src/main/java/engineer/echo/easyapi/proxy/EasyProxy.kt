@@ -8,8 +8,12 @@ import java.util.concurrent.ConcurrentHashMap
 
 object EasyProxy {
 
-    private val ownerMap = ConcurrentHashMap<Class<*>, Any>()
-    private val handlerMap = ConcurrentHashMap<Class<*>, EasyHandler<*>>()
+    private val ownerMap by lazy {
+        ConcurrentHashMap<Class<*>, Any>()
+    }
+    private val handlerMap by lazy {
+        ConcurrentHashMap<Class<*>, EasyHandler<*>>()
+    }
 
     fun <T> create(jobApiClz: Class<T>): T {
         val before = SystemClock.uptimeMillis()

@@ -2,6 +2,7 @@ package engineer.echo.easyapi
 
 import android.os.Parcelable
 import androidx.annotation.Keep
+import engineer.echo.easyapi.annotation.State
 import kotlinx.android.parcel.Parcelize
 
 /**

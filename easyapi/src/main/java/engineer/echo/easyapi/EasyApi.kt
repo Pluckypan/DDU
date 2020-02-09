@@ -7,6 +7,7 @@ import engineer.echo.easyapi.api.ApiHelper
 import engineer.echo.easyapi.download.DownloadHelper
 import engineer.echo.easyapi.download.DownloadHelper.downloadInner
 import engineer.echo.easyapi.download.DownloadState
+import engineer.echo.easyapi.job.JobHelper
 import engineer.echo.easyapi.job.JobInterceptor
 import engineer.echo.easyapi.job.NetInterceptor
 import okhttp3.Interceptor
@@ -96,6 +97,14 @@ object EasyApi {
         return downloadInner(url, path, resume)
     }
 
+    fun obtainDownloadJob(downloadId: String): LiveData<DownloadState>? {
+        return DownloadHelper.obtainDownloadJob(downloadId)
+    }
+
+    fun <T : ProgressResult> obtainProgressJob(id: String): LiveData<T>? {
+        return JobHelper.obtainProgressJob(id)
+    }
+
     fun cancelDownload(id: String) {
         DownloadHelper.cancelDownload(id)
     }
@@ -112,10 +121,16 @@ object EasyApi {
 
     fun getClient(): OkHttpClient? = lazyApi.okClient()
 
+    /**
+     * 取消正在队列中或执行中的 api ,不包括「下载」和「后台作业」
+     */
     fun cancel(id: String) {
         ApiHelper.cancel(id)
     }
 
+    /**
+     * 取消所有网络请求，包括 api 和「下载」，不包括「后台作业」
+     */
     fun cancelAll() {
         getClient()?.dispatcher()?.cancelAll()
     }

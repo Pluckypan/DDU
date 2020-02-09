@@ -1,6 +1,6 @@
-package engineer.echo.easyapi
+package engineer.echo.easyapi.annotation;
 
-enum class State {
+public enum State {
     Idle,
     OnStart,
     OnProgress,

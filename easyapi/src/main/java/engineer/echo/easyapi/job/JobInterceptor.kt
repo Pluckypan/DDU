@@ -4,6 +4,8 @@ import engineer.echo.easyapi.Result
 import engineer.echo.easyapi.annotation.EasyJobHelper
 import engineer.echo.easyapi.job.JobHelper.convertTo
 import engineer.echo.easyapi.job.JobHelper.isEasyJob
+import engineer.echo.easyapi.job.JobHelper.jobApi
+import engineer.echo.easyapi.job.JobHelper.jobMethod
 import engineer.echo.easyapi.proxy.EasyProxy
 import okhttp3.*
 
@@ -14,11 +16,11 @@ internal class JobInterceptor : Interceptor {
         val originRequest = chain.request()
 
         return if (originRequest.isEasyJob()) {
-            val api = originRequest.url().queryParameter(EasyJobHelper.EASY_JOB_API)
+            val api = originRequest.jobApi()
             requireNotNull(api) {
                 "EasyApi JobInterceptor: invalid api"
             }
-            val method = originRequest.url().queryParameter(EasyJobHelper.EASY_JOB_METHOD)
+            val method = originRequest.jobMethod()
             requireNotNull(method) {
                 "EasyApi JobInterceptor: invalid method"
             }
