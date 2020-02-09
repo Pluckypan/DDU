@@ -1,7 +1,7 @@
 package engineer.echo.easyapi.download
 
-import android.text.TextUtils
 import androidx.annotation.WorkerThread
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.LiveData
 import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.annotation.State
@@ -91,7 +91,7 @@ internal object DownloadHelper {
 
     fun Call<*>.resumeBytes(): Long {
         request().header("RANGE")?.replace("bytes=", "")?.replace("-", "")?.let {
-            return if (TextUtils.isDigitsOnly(it)) it.toLong() else 0
+            return if (it.isDigitsOnly()) it.toLong() else 0
         }
         return 0
     }

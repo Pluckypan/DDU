@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="style_item_temperature">
+    <style name="item_temperature_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@android:color/white</item>
@@ -10,7 +10,7 @@
         <item name="layout_constraintVertical_bias">0.2</item>
     </style>
 
-    <style name="style_item_degree">
+    <style name="item_degree_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@android:color/white</item>
@@ -21,7 +21,7 @@
         <item name="layout_constraintCircleRadius">55dp</item>
     </style>
 
-    <style name="style_item_weather">
+    <style name="item_weather_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@android:color/white</item>
@@ -31,7 +31,7 @@
         <item name="layout_constraintCircleRadius">85dp</item>
     </style>
 
-    <style name="style_item_temperature_range">
+    <style name="item_temperature_range_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@android:color/white</item>
@@ -41,7 +41,7 @@
         <item name="layout_constraintCircleRadius">85dp</item>
     </style>
 
-    <style name="style_item_blur_bg">
+    <style name="item_blur_bg_style">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">40dp</item>
         <item name="android:background">@drawable/shape_round_weather</item>
@@ -51,7 +51,7 @@
         <item name="layout_constraintWidth_percent">0.55</item>
     </style>
 
-    <style name="style_item_blur_text">
+    <style name="item_blur_text_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">20dp</item>
@@ -59,7 +59,7 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="style_item_weather_index">
+    <style name="item_weather_index_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">30dp</item>

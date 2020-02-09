@@ -10,6 +10,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.text.isDigitsOnly
 import androidx.core.view.children
 import java.io.File
 
@@ -24,6 +25,11 @@ fun String.formatLog(
     vararg args: Any?
 ) {
     printLog(SWITCH, tag, this, *args)
+}
+
+fun String.isInteger(): Boolean {
+    if (isDigitsOnly()) return true
+    return replace("-", "").isDigitsOnly()
 }
 
 private fun printLog(

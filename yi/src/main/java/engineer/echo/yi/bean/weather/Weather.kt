@@ -1,7 +1,7 @@
 package engineer.echo.yi.bean.weather
 
 import android.os.Parcelable
-import android.text.TextUtils
+import engineer.echo.easylib.isInteger
 import kotlinx.android.parcel.Parcelize
 import java.util.regex.Pattern
 
@@ -47,7 +47,7 @@ data class WeatherData(
     fun getRealTimeTemperature(): Int {
         val real = realTime()
         val res = Pattern.compile("[^0-9]").matcher(real).replaceAll("")
-        return if (TextUtils.isDigitsOnly(res)) res.toInt() else 0
+        return if (res.isInteger()) res.toInt() else 0
     }
 
     fun getAverageTemperature(): Int {
@@ -61,7 +61,7 @@ data class WeatherData(
     fun getTemperatureArray(): IntArray {
         val res = temperature.replace(" ~ ", ",").replace("℃", "").split(",")
         if (res.size != 2
-            || !TextUtils.isDigitsOnly(res[0]) || !TextUtils.isDigitsOnly(res[1])
+            || !res[0].isInteger() || !res[1].isInteger()
         )
             return intArrayOf(0, 0)
         return intArrayOf(res[0].toInt(), res[1].toInt()).also {
@@ -122,7 +122,7 @@ data class WeatherResult(
     }
 
     fun getTodayEnvIndex(): String {
-        if (!TextUtils.isDigitsOnly(pm25)) return pm25
+        if (!pm25.isInteger()) return pm25
         when (pm25.toInt()) {
             in 0..50 -> return "优"
             in 50..100 -> return "良"

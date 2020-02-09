@@ -17,7 +17,7 @@
 
         <TextView
                 android:id="@+id/temperatureTv"
-                style="@style/style_item_temperature"
+                style="@style/item_temperature_style"
                 android:text="@{String.valueOf(weather.realTimeTemperature)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,7 @@
                 tools:text="12" />
 
         <TextView
-                style="@style/style_item_degree"
+                style="@style/item_degree_style"
                 android:text="o"
                 app:layout_constraintCircle="@+id/temperatureTv"
                 app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +34,7 @@
                 tools:ignore="HardcodedText" />
 
         <TextView
-                style="@style/style_item_weather"
+                style="@style/item_weather_style"
                 android:text="@{weather.todayWeather}"
                 app:layout_constraintCircle="@+id/temperatureTv"
                 app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,7 @@
                 tools:text="多云转小雪" />
 
         <TextView
-                style="@style/style_item_temperature_range"
+                style="@style/item_temperature_range_style"
                 android:text="@{weather.todayTemperature}"
                 app:layout_constraintCircle="@+id/temperatureTv"
                 app:layout_constraintStart_toStartOf="parent"
@@ -51,14 +51,14 @@
 
         <ImageView
                 android:id="@+id/blurTextBgIv"
-                style="@style/style_item_blur_bg"
+                style="@style/item_blur_bg_style"
                 app:layout_constraintCircle="@+id/temperatureTv"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription" />
 
         <TextView
-                style="@style/style_item_blur_text"
+                style="@style/item_blur_text_style"
                 android:text='@{weather.todayDate.concat(" ").concat(weather.todayEnvIndex)}'
                 app:layout_constraintBottom_toBottomOf="@id/blurTextBgIv"
                 app:layout_constraintStart_toStartOf="@+id/blurTextBgIv"
@@ -66,7 +66,7 @@
                 tools:text="轻度污染" />
 
         <TextView
-                style="@style/style_item_blur_text"
+                style="@style/item_blur_text_style"
                 android:text="@{weather.todayWind}"
                 app:layout_constraintBottom_toBottomOf="@id/blurTextBgIv"
                 app:layout_constraintEnd_toEndOf="@+id/blurTextBgIv"
@@ -74,7 +74,7 @@
                 tools:text="东北风微风" />
 
         <TextView
-                style="@style/style_item_weather_index"
+                style="@style/item_weather_index_style"
                 android:text="@{weather.todayWeatherIndex}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
