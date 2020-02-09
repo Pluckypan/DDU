@@ -75,7 +75,10 @@ infix fun File.unZipTo(path: String): Boolean {
 /**
  * 解压文件到指定目录
  */
-fun ZipFile.unZipTo(path: String, callback: ((Int) -> Unit?)? = null): Boolean {
+fun ZipFile.unZipTo(
+    path: String,
+    callback: ((total: Int, current: Int, progress: Int) -> Unit?)? = null
+): Boolean {
     if (!checkUnzipFolder(path)) return false
     var makeDirFailed = false
     var index = 0
@@ -106,7 +109,7 @@ fun ZipFile.unZipTo(path: String, callback: ((Int) -> Unit?)? = null): Boolean {
         index++
         if (callback != null) {
             val progress = if (total == 0) 0 else (index * 100f / total).toInt()
-            callback(progress)
+            callback(total, index, progress)
         }
     }
     return !makeDirFailed
