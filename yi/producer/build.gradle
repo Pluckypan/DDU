@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
+    resourcePrefix 'producer_'
+
     compileSdkVersion rootProject.ext.android.compileSdkVersion
 
     defaultConfig {

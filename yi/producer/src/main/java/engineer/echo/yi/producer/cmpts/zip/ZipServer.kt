@@ -1,7 +1,10 @@
 package engineer.echo.yi.producer.cmpts.zip
 
+import engineer.echo.easyapi.ProgressResult
 import engineer.echo.easyapi.Result
+import engineer.echo.easyapi.annotation.JobCallback
 import engineer.echo.easyapi.annotation.JobServer
+import engineer.echo.easyapi.annotation.State
 import engineer.echo.easylib.unZipTo
 import engineer.echo.easylib.zip
 import java.io.File
@@ -23,5 +26,18 @@ class ZipServer : ZipApi {
 
     override fun unzip(source: String, target: String): Result {
         return Result(if (ZipFile(source).unZipTo(target)) null else Exception("unzip failed"))
+    }
+
+    override fun unzipProgress(
+        source: String,
+        target: String,
+        listener: JobCallback
+    ): ProgressResult {
+        return ProgressResult().apply {
+            exception =
+                if (ZipFile(source).unZipTo(target) { total, index, progress ->
+                        listener.onJobState(State.OnProgress, total, index, progress)
+                    }) null else Exception("unzip progress failed")
+        }
     }
 }

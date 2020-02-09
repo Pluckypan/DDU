@@ -84,7 +84,7 @@
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:lines="2"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/common_colorPrimary"
                     android:textSize="12sp"
                     app:downloadData="@{iViewModel.downloadData}"
                     app:layout_constraintBottom_toBottomOf="@+id/mockApkSwitch"
@@ -96,7 +96,7 @@
 
             <Button
                     android:id="@+id/mockDownloadBtn"
-                    style="@style/style_download_button"
+                    style="@style/common_button_style"
                     android:onClick="@{iView::onDownloadClick}"
                     android:text="@string/main_label_download"
                     app:downloadData="@{iViewModel.downloadData}"
@@ -105,16 +105,16 @@
 
             <Button
                     android:id="@+id/mockZipBtn"
-                    style="@style/style_download_button"
+                    style="@style/common_button_style"
                     android:onClick="@{iView::onZipClick}"
-                    android:text="@string/label_zip"
+                    android:text="@string/common_label_zip"
                     app:layout_constraintStart_toEndOf="@+id/mockDownloadBtn"
                     app:layout_constraintTop_toBottomOf="@+id/mockApkSwitch"
                     app:switchData="@{iViewModel.switchData}" />
 
             <Button
                     android:id="@+id/mockPauseBtn"
-                    style="@style/style_download_button"
+                    style="@style/common_button_style"
                     android:onClick="@{iView::onCancelDownloadClick}"
                     android:text="@android:string/cancel"
                     app:layout_constraintStart_toEndOf="@+id/mockZipBtn"
@@ -134,7 +134,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/common_colorPrimary"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"

@@ -1,3 +1,4 @@
 <resources>
-    <string name="common_app_name">common</string>
+    <string name="common_label_zip">Zip</string>
+    <string name="common_label_unzip">Unzip</string>
 </resources>

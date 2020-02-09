@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="common_colorPrimary">#333</color>
+    <color name="common_colorPrimaryDark">#444</color>
+    <!-- 茶紅色-->
+    <color name="common_colorAccent">#ee3f4d</color>
+</resources>

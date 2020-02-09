@@ -2,6 +2,4 @@
     <string name="app_name">Easy</string>
     <string name="main_label_download">Download</string>
     <string name="tips_network_error">Service not available</string>
-    <string name="label_zip">Zip</string>
-    <string name="label_unzip">Unzip</string>
 </resources>

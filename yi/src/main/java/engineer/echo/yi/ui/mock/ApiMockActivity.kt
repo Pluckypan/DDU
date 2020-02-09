@@ -106,7 +106,7 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
         EasyPicture.with(this)
             .load(getBackground())
             .transition(DrawableTransitionOptions.withCrossFade())
-            .placeholder(ColorDrawable(EasyApp.getColor(R.color.colorPrimaryDark)))
+            .placeholder(ColorDrawable(EasyApp.getColor(R.color.common_colorPrimaryDark)))
             .transform(BG_TRANSFORM)
             .into(binding.mockBgIv)
     }
@@ -146,7 +146,7 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
             val downloadText = downloadState?.downloadText() ?: ""
             val zipText = zipData?.let {
                 "${EasyApp.getString(
-                    if (switchData == false) R.string.label_unzip else R.string.label_zip
+                    if (switchData == false) R.string.common_label_unzip else R.string.common_label_zip
                 )} ${zipData.isSuccess()}"
             } ?: ""
             textView.text = zipText.plus(" ").plus(downloadText)
@@ -167,7 +167,7 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
         @JvmStatic
         @BindingAdapter("switchData")
         fun onBindZip(textView: Button, switchData: Boolean? = null) {
-            textView.setText(if (switchData == false) R.string.label_unzip else R.string.label_zip)
+            textView.setText(if (switchData == false) R.string.common_label_unzip else R.string.common_label_zip)
         }
     }
 }
