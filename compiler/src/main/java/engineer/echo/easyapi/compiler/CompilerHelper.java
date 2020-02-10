@@ -22,6 +22,7 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 
 import engineer.echo.easyapi.annotation.EasyJobHelper;
+import engineer.echo.easyapi.annotation.JobCallback;
 
 
 final class CompilerHelper {
@@ -94,20 +95,28 @@ final class CompilerHelper {
 
                     List<Symbol.VarSymbol> varSymbols = methodSymbol.getParameters();
                     AnnotationSpec.Builder specHeader = AnnotationSpec.builder(ClassName.get("retrofit2.http", "Headers"));
-                    for (Symbol.VarSymbol var : varSymbols) {
+                    int paramSize = varSymbols.size();
+                    for (int i = 0; i < paramSize; i++) {
+                        Symbol.VarSymbol var = varSymbols.get(i);
                         String queryName = var.name.toString();
                         AnnotationSpec specQuery = AnnotationSpec
                                 .builder(ClassName.get("retrofit2.http", "Query"))
                                 .addMember("value", "$S", queryName)
                                 .build();
                         TypeName queryType = TypeName.get(var.type);
-                        methodBuilder.addParameter(ParameterSpec.builder(queryType, queryName)
-                                .addAnnotation(specQuery)
-                                .build());
+                        String queryTypeStr = queryType.toString();
+                        boolean isJobCallback = queryTypeStr.equals(JobCallback.class.getName());
+                        if (isJobCallback && i != paramSize - 1) {
+                            return "EasyApi：require one JobCallback at most and put it at last position.";
+                        }
+                        if (!isJobCallback) {
+                            methodBuilder.addParameter(ParameterSpec.builder(queryType, queryName)
+                                    .addAnnotation(specQuery)
+                                    .build());
+                        }
                         specHeader.addMember("value", "$L",
-                                CodeBlock.builder().add("$S", queryName + ":" + queryType.toString()).build());
+                                CodeBlock.builder().add("$S", queryName + ":" + queryTypeStr).build());
                     }
-
                     methodBuilder.addAnnotation(specHeader.build());
                     interfaceBuilder.addMethod(methodBuilder.build());
                 }

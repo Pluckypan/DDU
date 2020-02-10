@@ -41,4 +41,8 @@ dependencies {
     // retrofit
     api rootProject.ext.retrofit.runtime
     api rootProject.ext.retrofit.gsonConverter
+    // test
+    testImplementation rootProject.ext.test.junit
+    androidTestImplementation rootProject.ext.test.runner
+    androidTestImplementation rootProject.ext.test.espresso
 }

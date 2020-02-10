@@ -4,7 +4,10 @@ import androidx.lifecycle.LiveData
 import com.google.gson.Gson
 import engineer.echo.easyapi.ProgressResult
 import engineer.echo.easyapi.annotation.EasyJobHelper
+import engineer.echo.easyapi.pub.MD5Tool
 import okhttp3.Request
+import java.io.ByteArrayOutputStream
+import java.io.PrintStream
 import java.util.concurrent.ConcurrentHashMap
 
 internal object JobHelper {
@@ -28,6 +31,20 @@ internal object JobHelper {
 
     fun Request.jobMethod(): String? {
         return url().queryParameter(EasyJobHelper.EASY_JOB_METHOD)
+    }
+
+    fun Request.jobId(): String {
+        return MD5Tool.getMD5(toString())
+    }
+
+    fun Throwable.getFullException(): String {
+        ByteArrayOutputStream().use { bOut ->
+            PrintStream(bOut).use {
+                this.printStackTrace(it)
+                return String(bOut.toByteArray())
+            }
+        }
+
     }
 
     fun <T : ProgressResult> obtainProgressJob(id: String): LiveData<T>? {

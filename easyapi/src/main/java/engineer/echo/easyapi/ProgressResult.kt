@@ -20,7 +20,7 @@ open class ProgressResult(
     var progress: Int = 0
 ) : Result(), Parcelable {
 
-    fun isFinished(): Boolean {
+    override fun isSuccess(): Boolean {
         return super.isSuccess() && state == State.OnFinish
     }
 }

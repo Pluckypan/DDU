@@ -9,8 +9,8 @@ import engineer.echo.easyapi.EasyMonitor
 import engineer.echo.easyapi.ProgressResult
 import engineer.echo.easyapi.annotation.State
 import engineer.echo.easyapi.api.ApiHelper.contentSize
+import engineer.echo.easyapi.job.JobHelper.jobId
 import engineer.echo.easyapi.job.JobHelper.jobMethod
-import engineer.echo.easyapi.pub.MD5Tool
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Callback
@@ -39,7 +39,7 @@ internal class LiveDataProgressJobAdapter<T : ProgressResult>(
     }
 
     override fun adapt(call: Call<T>): LiveData<T> {
-        val requestId = MD5Tool.getMD5(call.request().toString())
+        val requestId = call.request().jobId()
         jobMethod = call.request().jobMethod() ?: ""
         if (JobHelper.progressJobTask.containsKey(requestId)) {
             EasyApi.printLog(
