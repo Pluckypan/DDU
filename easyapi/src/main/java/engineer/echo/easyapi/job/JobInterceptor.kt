@@ -1,12 +1,12 @@
 package engineer.echo.easyapi.job
 
+import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.Result
 import engineer.echo.easyapi.annotation.EasyJobHelper
 import engineer.echo.easyapi.job.JobHelper.convertTo
 import engineer.echo.easyapi.job.JobHelper.isEasyJob
 import engineer.echo.easyapi.job.JobHelper.jobApi
 import engineer.echo.easyapi.job.JobHelper.jobMethod
-import engineer.echo.easyapi.proxy.EasyProxy
 import okhttp3.*
 
 internal class JobInterceptor : Interceptor {
@@ -25,7 +25,7 @@ internal class JobInterceptor : Interceptor {
                 "EasyApi JobInterceptor: invalid method"
             }
             try {
-                val obj = EasyProxy.create(Class.forName(api))
+                val obj = EasyApi.getProxy(Class.forName(api))
                 val argName = arrayListOf<Class<*>>()
                 val argValue = arrayListOf<Any>()
                 val headers = originRequest.headers()

@@ -10,7 +10,7 @@ import retrofit2.Retrofit
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
-class LiveDataCallAdapterFactory private constructor(private val monitor: EasyMonitor? = null) :
+internal class LiveDataCallAdapterFactory private constructor(private val monitor: EasyMonitor? = null) :
     CallAdapter.Factory() {
 
     override fun get(

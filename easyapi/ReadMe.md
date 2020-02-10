@@ -288,7 +288,7 @@ class ProxyServer : ProxyApi {
 }
 
 // 调用
-EasyProxy.create(ProxyApi::class.java).also {
+EasyApi.getProxy(ProxyApi::class.java).also {
     it.showToast("${it.add(3,9)}")
     it.print()
     it.go()

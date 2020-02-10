@@ -10,6 +10,7 @@ import engineer.echo.easyapi.download.DownloadState
 import engineer.echo.easyapi.job.JobHelper
 import engineer.echo.easyapi.job.JobInterceptor
 import engineer.echo.easyapi.job.NetInterceptor
+import engineer.echo.easyapi.proxy.EasyProxy
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Response
@@ -87,8 +88,18 @@ object EasyApi {
         this.monitor = monitor
     }
 
+    /**
+     * 调用 Api 接口
+     */
     fun <T> create(service: Class<T>): T {
         return lazyApi.create(service)
+    }
+
+    /**
+     * 动态代理
+     */
+    fun <T> getProxy(jobApiClz: Class<T>): T {
+        return EasyProxy.create(jobApiClz)
     }
 
     fun download(

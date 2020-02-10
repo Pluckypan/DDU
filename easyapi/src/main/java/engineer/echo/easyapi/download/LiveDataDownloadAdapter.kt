@@ -22,7 +22,7 @@ import java.io.File
 import java.lang.reflect.Type
 import java.util.concurrent.atomic.AtomicLong
 
-class LiveDataDownloadAdapter(private val monitor: EasyMonitor? = null) :
+internal class LiveDataDownloadAdapter(private val monitor: EasyMonitor? = null) :
     CallAdapter<ResponseBody, LiveData<DownloadState>> {
 
     private val liveData = EasyLiveData<DownloadState>()

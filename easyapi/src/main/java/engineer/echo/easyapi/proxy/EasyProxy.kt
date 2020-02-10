@@ -6,7 +6,7 @@ import engineer.echo.easyapi.annotation.EasyJobHelper
 import engineer.echo.easyapi.annotation.JobApi
 import java.util.concurrent.ConcurrentHashMap
 
-object EasyProxy {
+internal object EasyProxy {
 
     private val ownerMap by lazy {
         ConcurrentHashMap<Class<*>, Any>()

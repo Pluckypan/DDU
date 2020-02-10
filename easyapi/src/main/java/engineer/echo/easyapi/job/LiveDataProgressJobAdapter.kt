@@ -18,7 +18,7 @@ import retrofit2.Response
 import java.lang.reflect.Type
 import java.util.concurrent.atomic.AtomicLong
 
-class LiveDataProgressJobAdapter<T : ProgressResult>(
+internal class LiveDataProgressJobAdapter<T : ProgressResult>(
     private val rawType: Class<*>,
     private val responseType: Type,
     private val monitor: EasyMonitor? = null
