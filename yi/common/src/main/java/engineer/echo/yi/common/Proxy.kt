@@ -36,5 +36,9 @@ object Proxy {
         fun zip(source: String, target: String): LiveData<Result>
 
         fun unzip(source: String, target: String): LiveData<Result>
+
+        fun getZipPath(): String
+
+        fun getUnzipFolder(): String
     }
 }

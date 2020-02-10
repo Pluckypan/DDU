@@ -2,8 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
+
     <data>
 
+        <import type="engineer.echo.yi.producer.ui.main.MainContract.IViewModel" />
+
+        <variable
+                name="iViewModel"
+                type="IViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,7 +22,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:padding="10dp"
-                android:text="@string/producer_app_name"
+                android:text="@{iViewModel.unzipData.zipDesc}"
                 android:textColor="@color/common_colorPrimary"
                 android:textSize="12sp"
                 android:textStyle="bold"
@@ -29,6 +35,7 @@
                 style="@style/common_button_style"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:onClick="@{()->iViewModel.unzip()}"
                 android:text="@string/common_label_unzip"
                 app:layout_constraintDimensionRatio="3"
                 app:layout_constraintStart_toStartOf="parent"

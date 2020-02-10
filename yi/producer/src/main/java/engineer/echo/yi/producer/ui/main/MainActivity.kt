@@ -16,8 +16,12 @@ class MainActivity : AppCompatActivity(), MainContract.IView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.producer_activity_main)
-        viewModel = ViewModelProviders.of(this)[MainViewModel::class.java]
+        binding.apply {
+            this.lifecycleOwner = this@MainActivity
+            this.iViewModel = viewModel
+        }
     }
 
     companion object {

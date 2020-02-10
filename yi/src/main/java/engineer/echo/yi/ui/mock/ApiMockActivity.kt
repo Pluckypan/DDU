@@ -15,9 +15,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.Result
 import engineer.echo.easyapi.download.DownloadState
-import engineer.echo.easyapi.proxy.EasyProxy
 import engineer.echo.easylib.memInfo
 import engineer.echo.yi.R
 import engineer.echo.yi.bean.location.IpLocation
@@ -64,10 +64,10 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_consumer -> EasyProxy.create(Proxy.ConsumerApi::class.java).goto(this)
-            R.id.menu_im -> EasyProxy.create(Proxy.IMApi::class.java).goto(this)
-            R.id.menu_live -> EasyProxy.create(Proxy.LiveApi::class.java).goto(this)
-            R.id.menu_producer -> EasyProxy.create(Proxy.ProducerApi::class.java).goto(this)
+            R.id.menu_consumer -> EasyApi.getProxy(Proxy.ConsumerApi::class.java).goto(this)
+            R.id.menu_im -> EasyApi.getProxy(Proxy.IMApi::class.java).goto(this)
+            R.id.menu_live -> EasyApi.getProxy(Proxy.LiveApi::class.java).goto(this)
+            R.id.menu_producer -> EasyApi.getProxy(Proxy.ProducerApi::class.java).goto(this)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -146,7 +146,7 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
             val downloadText = downloadState?.downloadText() ?: ""
             val zipText = zipData?.let {
                 "${EasyApp.getString(
-                    if (switchData == false) R.string.common_label_unzip else R.string.common_label_zip
+                    if (switchData == true) R.string.common_label_zip else R.string.common_label_unzip
                 )} ${zipData.isSuccess()}"
             } ?: ""
             textView.text = zipText.plus(" ").plus(downloadText)
@@ -167,7 +167,7 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
         @JvmStatic
         @BindingAdapter("switchData")
         fun onBindZip(textView: Button, switchData: Boolean? = null) {
-            textView.setText(if (switchData == false) R.string.common_label_unzip else R.string.common_label_zip)
+            textView.setText(if (switchData == true) R.string.common_label_zip else R.string.common_label_unzip)
         }
     }
 }

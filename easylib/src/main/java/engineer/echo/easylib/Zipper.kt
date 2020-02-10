@@ -77,12 +77,12 @@ infix fun File.unZipTo(path: String): Boolean {
  */
 fun ZipFile.unZipTo(
     path: String,
-    callback: ((total: Int, current: Int, progress: Int) -> Unit?)? = null
+    callback: ((total: Long, current: Long, progress: Int) -> Unit?)? = null
 ): Boolean {
     if (!checkUnzipFolder(path)) return false
     var makeDirFailed = false
-    var index = 0
-    val total = this.size()
+    var index = 0L
+    val total = this.size() * 1L
     for (entry in entries()) {
         if (entry.isDirectory) {
             //创建文件夹
@@ -107,12 +107,14 @@ fun ZipFile.unZipTo(
             }
         }
         index++
-        if (callback != null) {
-            val progress = if (total == 0) 0 else (index * 100f / total).toInt()
-            callback(total, index, progress)
-        }
+        callback?.invoke(total, index, calculateProgress(index, total))
     }
+    callback?.invoke(total, index, calculateProgress(index, total))
     return !makeDirFailed
+}
+
+private fun calculateProgress(index: Long, total: Long): Int {
+    return if (total == 0L) 0 else (index * 100f / total).toInt()
 }
 
 

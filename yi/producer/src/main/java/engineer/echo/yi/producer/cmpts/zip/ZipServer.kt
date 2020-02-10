@@ -1,6 +1,5 @@
 package engineer.echo.yi.producer.cmpts.zip
 
-import engineer.echo.easyapi.ProgressResult
 import engineer.echo.easyapi.Result
 import engineer.echo.easyapi.annotation.JobCallback
 import engineer.echo.easyapi.annotation.JobServer
@@ -32,12 +31,13 @@ class ZipServer : ZipApi {
         source: String,
         target: String,
         listener: JobCallback
-    ): ProgressResult {
-        return ProgressResult().apply {
+    ): ZipState {
+        return ZipState().apply {
             exception =
                 if (ZipFile(source).unZipTo(target) { total, index, progress ->
                         listener.onJobState(State.OnProgress, total, index, progress)
                     }) null else Exception("unzip progress failed")
+            msg = if (exception == null) "success!kind of~" else "failed omg~~~"
         }
     }
 }
