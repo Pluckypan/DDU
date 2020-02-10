@@ -93,9 +93,12 @@ EasyApi.cancelDownload(id)
 @JobApi(uniqueId = "Zip@Producer", retrofit = true)
 interface ZipApi {
 
-    fun zip(source: String, target: String, i: Int, b: Boolean, f: Float,l:Long): Result
+
+    fun zip(source: String, target: String, i: Int, b: Boolean, f: Float, l: Long): Result
 
     fun unzip(source: String, target: String): Result
+    // 如果是带进度回调的 最后一个参数需要是 JobCallback，并且返回类型需要继承自 ProgressResult
+    fun unzipProgress(source: String, target: String, listener: JobCallback): ZipState
 }
 
 // 定义服务
@@ -116,6 +119,20 @@ class ZipServer : ZipApi {
     override fun unzip(source: String, target: String): Result {
         return Result(if (ZipFile(source).unZipTo(target)) null else Exception("unzip failed"))
     }
+
+    override fun unzipProgress(
+        source: String,
+        target: String,
+        listener: JobCallback
+    ): ZipState {
+        return ZipState().apply {
+            exception =
+                if (ZipFile(source).unZipTo(target) { total, index, progress ->
+                        listener.onJobState(State.OnProgress, total, index, progress)
+                    }) null else Exception("unzip progress failed")
+            msg = if (exception == null) "success!kind of~" else "failed omg~~~"
+        }
+    }
 }
 
 // 调用服务 注意传入的 Interface 为 ZipApiRetrofit 而不是 ZipApi
@@ -127,6 +144,7 @@ EasyApi.create(ZipApiRetrofit::class.java).unzip(source, target)
 2. 实现接口 `class ZipServer : ZipApi` 加上注解 `@JobServer(uniqueId = "Zip@Producer")`
 3. 调用 `EasyApi.create(ZipApiRetrofit::class.java).unzip(source, target)`
 4. 需要注意的是,和请求服务端接口一样,数据返回类型需要继承自 `Result`
+5. 带进度的后台作业需要注意两点：最后一个参数指定 `JobCallback` ,返回类型继承自 `ProgressResult`
 
 ### 实现原理
 ```
@@ -150,6 +168,14 @@ public interface ZipApiRetrofit {
       "target:java.lang.String"
   })
   LiveData<Result> unzip(@Query("source") String source, @Query("target") String target);
+
+  @GET("EasyApi/EasyProxy/?_api_=engineer.echo.yi.producer.cmpts.zip.ZipApi&_method_=unzipProgress")
+  @Headers({
+      "source:java.lang.String",
+      "target:java.lang.String",
+      "listener:engineer.echo.easyapi.annotation.JobCallback"
+  })
+  LiveData<ZipState> unzipProgress(@Query("source") String source, @Query("target") String target);
 }
 ```
 `EasyJob` 的实现主要靠 `easyapi.compiler` 通过注解 `JobApi` (retrofit = true 时) 生成如上代码。可以看出，`ZipApiRetrofit` 的格式完全就是 `Retrofit` 接口定义的形式。当请求发生时,通过 `JobInterceptor` 对请求进行拦截解析,然后通过动态代理的方式 `EasyProxy` 去执行 `ZipServer` 中定义好的方法。

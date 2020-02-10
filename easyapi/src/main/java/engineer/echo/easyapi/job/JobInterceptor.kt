@@ -39,6 +39,7 @@ internal class JobInterceptor : Interceptor {
                 val httpUrl = originRequest.url()
                 val size = headers.size()
                 val jobId = originRequest.jobId()
+                val jobLiveData = EasyApi.obtainProgressJob<ProgressResult>(jobId)
                 for (i in 0 until size) {
                     val key = headers.name(i)
                     val className = headers[key]
@@ -52,7 +53,7 @@ internal class JobInterceptor : Interceptor {
                                 current: Long,
                                 progress: Int
                             ) {
-                                EasyApi.obtainProgressJob<ProgressResult>(jobId)?.let { liveData ->
+                                jobLiveData?.let { liveData ->
                                     liveData.value?.let {
                                         it.progress = progress
                                         it.total = total
@@ -72,7 +73,15 @@ internal class JobInterceptor : Interceptor {
                     }
                 }
                 val methodAction = obj.javaClass.getMethod(method, *argName.toTypedArray())
-                methodAction.invoke(obj, *argValue.toTypedArray())
+                val result = methodAction.invoke(obj, *argValue.toTypedArray())
+                result?.apply {
+                    if (this is ProgressResult) {
+                        total = jobLiveData?.value?.total ?: 0
+                        current = jobLiveData?.value?.current ?: 0
+                        progress = jobLiveData?.value?.progress ?: 0
+                    }
+                }
+                result
             } catch (e: Exception) {
                 // 由于存在 json 转换 所以返回父类的实例 子类再转换的时候不会有类型检查的错误
                 when (e) {

@@ -50,6 +50,7 @@ internal class LiveDataProgressJobAdapter<T : ProgressResult>(
         callTime.set(SystemClock.elapsedRealtime())
         requestSize = call.request().contentSize()
         liveData.id = requestId
+        JobHelper.progressJobTask[requestId] = liveData as LiveData<ProgressResult>
         EasyApi.printLog(
             "LiveDataProgressJobAdapter adapt start job[%s] id=%s", jobMethod, requestId
         )
@@ -74,6 +75,7 @@ internal class LiveDataProgressJobAdapter<T : ProgressResult>(
                 if (response.isSuccessful && data != null) {
                     // 原封不动转发执行结果「让JobServer更加灵活」
                     // Finish
+                    data.state = State.OnFinish
                     postProgress(data, true)
                 } else {
                     // Failed

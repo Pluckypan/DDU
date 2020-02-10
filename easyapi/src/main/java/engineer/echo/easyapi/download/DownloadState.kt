@@ -13,13 +13,15 @@ data class DownloadState(
     var msg: String = ""
 ) : ProgressResult(), Parcelable {
 
+    private fun noException(): Boolean = exception == null
+
     fun isDownloadSuccess(): Boolean {
         return super.isSuccess()
     }
 
     fun downloadEnable(): Boolean =
-        (state != State.OnStart && state != State.OnProgress) || !isSuccess()
+        (state != State.OnStart && state != State.OnProgress) || !noException()
 
     fun downloadText(): String =
-        if (isSuccess()) "$state:$progress $msg" else "${exception?.message}:${exception?.cause?.message}"
+        if (noException()) "$state:$progress $msg" else "${exception?.message}:${exception?.cause?.message}"
 }
