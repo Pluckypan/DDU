@@ -28,6 +28,7 @@ fun String.formatLog(
 }
 
 fun String.isInteger(): Boolean {
+    if (isEmpty()) return false
     if (isDigitsOnly()) return true
     return replace("-", "").isDigitsOnly()
 }
