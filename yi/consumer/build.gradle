@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
+    resourcePrefix 'consumer_'
     compileSdkVersion rootProject.ext.android.compileSdkVersion
 
     defaultConfig {
@@ -46,9 +47,19 @@ android {
         }
     }
 
+    signingConfigs {
+        debug {
+            storeFile rootProject.debugKey.storeFile
+            storePassword rootProject.debugKey.storePassword
+            keyAlias rootProject.debugKey.keyAlias
+            keyPassword rootProject.debugKey.keyPassword
+        }
+    }
+
     buildTypes {
         debug {
             minifyEnabled false
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -60,6 +71,9 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    // weibo
+    implementation rootProject.ext.consumer.weibo
 
     // modules
     implementation project(":yi:common")

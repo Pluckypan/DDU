@@ -69,6 +69,12 @@ android {
             v2SigningEnabled true
             println("storeFile = $storeFilePath")
         }
+        debug {
+            storeFile rootProject.debugKey.storeFile
+            storePassword rootProject.debugKey.storePassword
+            keyAlias rootProject.debugKey.keyAlias
+            keyPassword rootProject.debugKey.keyPassword
+        }
     }
 
     buildTypes {
@@ -80,6 +86,7 @@ android {
         }
         debug {
             minifyEnabled false
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             resValue "string", "build_time", "debug_${currentTime()}"
         }
