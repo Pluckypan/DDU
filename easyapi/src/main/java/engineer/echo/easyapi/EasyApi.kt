@@ -11,6 +11,7 @@ import engineer.echo.easyapi.job.JobHelper
 import engineer.echo.easyapi.job.JobInterceptor
 import engineer.echo.easyapi.job.NetInterceptor
 import engineer.echo.easyapi.proxy.EasyProxy
+import okhttp3.FormBody
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Response
@@ -18,6 +19,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Url
 import java.util.concurrent.TimeUnit
+
 
 object EasyApi {
 
@@ -48,10 +50,54 @@ object EasyApi {
     private fun addHeaderInterceptor(): Interceptor {
         return Interceptor { chain ->
             val originalRequest = chain.request()
+            val url = originalRequest.url().toString()
             val requestBuilder = originalRequest.newBuilder().apply {
                 header("powerBy", TAG)
+                monitor?.applyHeaderParams(url)?.let {
+                    it.keys.forEach { key ->
+                        header(key, it[key] ?: "")
+                    }
+                }
             }
             val request = requestBuilder.build()
+            chain.proceed(request)
+        }
+    }
+
+    private fun addRequestInterceptor(): Interceptor {
+        return Interceptor { chain ->
+            val originalRequest = chain.request()
+            val url = originalRequest.url()
+            val method = originalRequest.method()
+            val request = monitor?.applyCommonParams(url.toString(), method)?.let {
+                when (method) {
+                    "GET" -> {
+                        val builder = url.newBuilder()
+                        it.keys.forEach { key ->
+                            builder.addQueryParameter(key, it[key])
+                        }
+                        originalRequest.newBuilder().url(builder.build()).build()
+                    }
+                    "POST" -> originalRequest.body()?.let { body ->
+                        if (body is FormBody) {
+                            val bodyBuilder = FormBody.Builder()
+                            // 先复制原来的参数
+                            for (i in 0 until body.size()) {
+                                bodyBuilder.addEncoded(
+                                    body.encodedName(i),
+                                    body.encodedValue(i)
+                                )
+                            }
+                            // 添加公共参数
+                            it.keys.forEach { key ->
+                                bodyBuilder.addEncoded(key, it[key] ?: "")
+                            }
+                            originalRequest.newBuilder().post(bodyBuilder.build()).build()
+                        } else originalRequest
+                    } ?: originalRequest
+                    else -> originalRequest
+                }
+            } ?: originalRequest
             chain.proceed(request)
         }
     }
@@ -68,6 +114,7 @@ object EasyApi {
             .apply {
                 if (customRetrofit == null) {
                     addInterceptor(addHeaderInterceptor())
+                    addInterceptor(addRequestInterceptor())
                     connectTimeout(15L, TimeUnit.SECONDS)
                     readTimeout(30L, TimeUnit.SECONDS)
                     writeTimeout(30L, TimeUnit.SECONDS)

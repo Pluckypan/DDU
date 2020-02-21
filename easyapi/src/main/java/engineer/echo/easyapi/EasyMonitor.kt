@@ -8,4 +8,9 @@ interface EasyMonitor {
         requestSize: Long,
         responseSize: Long
     )
+
+    fun applyHeaderParams(url: String): HashMap<String, String>?
+
+    fun applyCommonParams(url: String, method: String): HashMap<String, String>?
+
 }
