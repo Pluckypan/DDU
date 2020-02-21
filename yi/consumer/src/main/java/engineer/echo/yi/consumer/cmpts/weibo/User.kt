@@ -13,6 +13,6 @@ data class User(
 ) : Parcelable {
 
     override fun toString(): String {
-        return "[id=$id name=$name expiresIn=$expiresIn token=$token]"
+        return "[id=$id token=$token]"
     }
 }

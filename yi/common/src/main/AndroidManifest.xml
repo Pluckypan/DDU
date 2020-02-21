@@ -1,9 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="engineer.echo.yi.common">
 
-    <application
-            android:name=".EasyApp"
-            android:theme="@style/CommonEasyAppTheme">
+    <application android:theme="@style/CommonEasyAppTheme">
 
     </application>
 </manifest>

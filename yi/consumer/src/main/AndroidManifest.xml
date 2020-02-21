@@ -4,6 +4,7 @@
         package="engineer.echo.yi.consumer">
 
     <application
+            android:name=".ConsumerApp"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/consumer_app_name"

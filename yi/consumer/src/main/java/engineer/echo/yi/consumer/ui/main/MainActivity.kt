@@ -2,16 +2,20 @@ package engineer.echo.yi.consumer.ui.main
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import engineer.echo.yi.common.EasyApp
+import engineer.echo.yi.common.cpmts.glide.EasyPicture
 import engineer.echo.yi.consumer.R
-import engineer.echo.yi.consumer.cmpts.weibo.User
 import engineer.echo.yi.consumer.cmpts.weibo.Weibo
 import engineer.echo.yi.consumer.cmpts.weibo.WeiboAuthHandler
+import engineer.echo.yi.consumer.cmpts.weibo.bean.Account
 import engineer.echo.yi.consumer.databinding.ConsumerMainBinding
 
 class MainActivity : AppCompatActivity(), MainContract.IView {
@@ -61,10 +65,20 @@ class MainActivity : AppCompatActivity(), MainContract.IView {
             }
         }
 
-        @BindingAdapter("userInfoData")
+        @BindingAdapter("accountInfoData")
         @JvmStatic
-        fun bindUserInfo(textView: TextView, user: User?) {
-            textView.text = user?.toString() ?: "no authorize"
+        fun bindUserInfo(textView: TextView, account: Account?) {
+            textView.text = account?.screenName?.plus("\n")?.plus(account.description) ?: "Plucky"
+        }
+
+        @BindingAdapter("accountInfoData")
+        @JvmStatic
+        fun bindUserInfo(imageView: ImageView, account: Account?) {
+            EasyPicture.with(imageView)
+                .load(account?.avatar ?: "")
+                .placeholder(ColorDrawable(EasyApp.getColor(R.color.common_colorPrimaryDark)))
+                .circleCrop()
+                .into(imageView)
         }
     }
 }

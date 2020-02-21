@@ -5,7 +5,9 @@ import androidx.lifecycle.LiveData
 import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.Result
 import engineer.echo.easyapi.annotation.JobServer
+import engineer.echo.yi.common.EasyApp
 import engineer.echo.yi.common.Proxy
+import engineer.echo.yi.producer.ProducerApp
 import engineer.echo.yi.producer.cmpts.zip.ZipApiRetrofit
 import engineer.echo.yi.producer.ui.main.MainActivity
 import engineer.echo.yi.producer.ui.main.MainViewModel
@@ -26,4 +28,8 @@ class ProducerServer : Proxy.ProducerApi {
     override fun getZipPath(): String = MainViewModel.zipPath
 
     override fun getUnzipFolder(): String = MainViewModel.unzipFolder
+
+    override fun onAppInit(app: EasyApp) {
+        ProducerApp.onAppInit(app)
+    }
 }

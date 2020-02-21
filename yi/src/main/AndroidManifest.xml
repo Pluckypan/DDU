@@ -10,9 +10,10 @@
             android:networkSecurityConfig="${NETWORK_SECURITY_CONFIG}"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
+            android:name=".App"
             android:theme="@style/CommonEasyAppTheme"
             tools:ignore="GoogleAppIndexingWarning"
-            tools:replace="android:label">
+            tools:replace="android:name,android:label">
         <activity
                 android:name=".ui.mock.ApiMockActivity"
                 android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"

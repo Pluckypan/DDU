@@ -15,21 +15,29 @@ object Proxy {
     @JobApi(uniqueId = KEY_CONSUMER)
     interface ConsumerApi {
 
+        fun onAppInit(app:EasyApp)
+
         fun goto(context: Context)
+
+        fun getRequestParams(url: String, method: String): HashMap<String, String>?
     }
 
     @JobApi(uniqueId = KEY_IM)
     interface IMApi {
+        fun onAppInit(app:EasyApp)
         fun goto(context: Context)
     }
 
     @JobApi(uniqueId = KEY_LIVE)
     interface LiveApi {
+        fun onAppInit(app:EasyApp)
         fun goto(context: Context)
     }
 
     @JobApi(uniqueId = KEY_PRODUCER)
     interface ProducerApi {
+
+        fun onAppInit(app:EasyApp)
 
         fun goto(context: Context)
 
