@@ -6,6 +6,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import engineer.echo.yi.common.EasyApp
 import engineer.echo.yi.consumer.BuildConfig
+import engineer.echo.yi.consumer.cmpts.weibo.User
 import engineer.echo.yi.consumer.cmpts.weibo.Weibo
 
 class MainViewModel : ViewModel(), MainContract.IViewModel {
@@ -17,12 +18,13 @@ class MainViewModel : ViewModel(), MainContract.IViewModel {
         tokenTrigger.value = true
     }
 
-    override val tokenData: LiveData<String> = Transformations.switchMap(tokenTrigger) {
-        MutableLiveData<String>().also { it.value = Weibo.readToken() }
+    override val userInfoData: LiveData<User> = Transformations.switchMap(tokenTrigger) {
+        MutableLiveData<User>().also { it.value = Weibo.getUser() }
     }
 
     init {
         Weibo.install(EasyApp.getApp(), BuildConfig.DEBUG)
+        triggerToken()
     }
 
     override fun onCleared() {

@@ -130,7 +130,7 @@ ext {
     ]
 
     consumer = [
-            // weibo: "com.sina.weibo.sdk:core:9.12.0:openDefaultRelease@aar"
+            // last 9.12.0
             weibo: "com.sina.weibo.sdk:core:4.4.3:openDefaultRelease@aar"
     ]
 

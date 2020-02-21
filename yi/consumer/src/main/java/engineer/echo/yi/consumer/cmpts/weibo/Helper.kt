@@ -23,7 +23,19 @@ internal object Helper {
         }
     }
 
-    fun readToken(): String = AccessTokenKeeper.readAccessToken(Weibo.application).token
+    private val user by lazy {
+        User()
+    }
+
+    fun getWeiboUser(): User {
+        return user.apply {
+            AccessTokenKeeper.readAccessToken(Weibo.application).let {
+                id = it.uid
+                token = it.token
+                expiresIn = it.expiresTime
+            }
+        }
+    }
 
     fun clearToken() = AccessTokenKeeper.clear(Weibo.application)
 
@@ -37,7 +49,7 @@ internal object Helper {
 
             override fun onComplete(resp: String?) {
                 printLog("refreshToken onComplete resp = %s", resp)
-                action?.invoke(true, readToken(), null)
+                action?.invoke(true, getWeiboUser().token, null)
             }
 
         })

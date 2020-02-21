@@ -18,11 +18,11 @@ internal class AuthListener : WbAuthListener {
     }
 
     override fun onFailure(error: WbConnectErrorMessage) {
-        Helper.printLog("AuthListener onSuccess error = %s", error)
+        Helper.printLog("AuthListener onFailure error = %s", error)
     }
 
     override fun cancel() {
-        Helper.printLog("AuthListener onSuccess cancel")
+        Helper.printLog("AuthListener cancel")
     }
 
 }

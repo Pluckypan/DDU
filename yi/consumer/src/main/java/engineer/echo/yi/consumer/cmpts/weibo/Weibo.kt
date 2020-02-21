@@ -41,7 +41,12 @@ object Weibo {
     /**
      * get weibo token
      */
-    fun readToken(): String = Helper.readToken()
+    fun readToken(): String = getUser().token
+
+    /**
+     * get weibo user info
+     */
+    fun getUser(): User = Helper.getWeiboUser()
 
     /**
      * logout

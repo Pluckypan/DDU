@@ -1,6 +1,7 @@
 package engineer.echo.yi.consumer.ui.main
 
 import androidx.lifecycle.LiveData
+import engineer.echo.yi.consumer.cmpts.weibo.User
 
 object MainContract {
 
@@ -11,7 +12,7 @@ object MainContract {
     }
 
     interface IViewModel {
-        val tokenData: LiveData<String>
+        val userInfoData: LiveData<User>
         fun triggerToken()
     }
 }
