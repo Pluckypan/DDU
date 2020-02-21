@@ -396,6 +396,9 @@ EasyApi.getProxy(ProxyApi::class.java).also {
 8 directories, 21 files
 ```
 
+## 注意事项
+1. **所有继承自 `Result` 的类必须提供 `无参构造函数`**
+
 ## 示例 demo
 [MVVM & 模块化请戳](../yi/ReadMe.md)
 
