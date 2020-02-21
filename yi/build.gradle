@@ -86,6 +86,7 @@ android {
         }
         debug {
             minifyEnabled false
+            debuggable true
             signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             resValue "string", "build_time", "debug_${currentTime()}"
