@@ -1,5 +1,6 @@
 package engineer.echo.easyapi.proxy
 
+import engineer.echo.easyapi.LiveDataCallAdapterFactory
 import engineer.echo.easyapi.ProgressResult
 import engineer.echo.easyapi.Result
 import engineer.echo.easyapi.download.DownloadState
@@ -27,7 +28,7 @@ internal class DefaultHandler<T>(private val jobApiClz: Class<T>) : EasyHandler<
                 DownloadState::class -> errorDownload(e)
                 ProgressResult::class -> errorProgress(e)
                 Result::class -> Result(e)
-                else -> throw e
+                else -> LiveDataCallAdapterFactory.createObjectByType(returnType) ?: throw e
             }
         }
     }

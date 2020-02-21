@@ -37,7 +37,11 @@ internal class LiveDataCallAdapterFactory private constructor(private val monito
         )
         return when {
             rawType == DownloadState::class.java -> LiveDataDownloadAdapter(monitor)
-            ProgressResult::class.java.isAssignableFrom(rawType) -> LiveDataProgressJobAdapter<ProgressResult>(rawType, resultType, monitor)
+            ProgressResult::class.java.isAssignableFrom(rawType) -> LiveDataProgressJobAdapter<ProgressResult>(
+                rawType,
+                resultType,
+                monitor
+            )
             else -> LiveDataApiCallAdapter<Result>(rawType, resultType, monitor)
         }
     }
@@ -45,5 +49,11 @@ internal class LiveDataCallAdapterFactory private constructor(private val monito
     companion object {
         fun create(monitor: EasyMonitor? = null): LiveDataCallAdapterFactory =
             LiveDataCallAdapterFactory(monitor)
+
+        fun createObjectByType(type: Type): Any? {
+            val rawType = getRawType(type)
+            val paramSize = rawType.constructors.first().parameterTypes.size
+            return if (paramSize == 0) rawType.constructors.first().newInstance() else null
+        }
     }
 }
