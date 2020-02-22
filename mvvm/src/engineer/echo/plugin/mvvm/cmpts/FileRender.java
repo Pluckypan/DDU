@@ -43,8 +43,8 @@ public final class FileRender {
         String baseActivity = baseActivityPackage.substring(baseActivityPackage.lastIndexOf(".") + 1);
         String currentPackagePath = new File(pickPath, moduleLower).getPath();
         String currentPackage = currentPackagePath.replace(javaDir.getPath(), "").replace(File.separator, ".").substring(1);
-        String currentActivityClassPath = new File(currentPackagePath, moduleName).getPath();
-        currentActivityClassPath = currentActivityClassPath.replace(javaDir.getPath(), "").replace(File.separator, ".");
+        String currentActivityClassPath = new File(currentPackagePath, moduleName + "Activity").getPath();
+        currentActivityClassPath = currentActivityClassPath.replace(javaDir.getPath(), "").replace(File.separator, ".").substring(1);
         String rootPackage = Helper.handleAndroidManifest(androidManifest, currentActivityClassPath);
         if (rootPackage != null && rootPackage.length() > 0) {
             renderKotlin(action, currentPackagePath, rootPackage, currentPackage, moduleName, activityAffix, baseActivityPackage, baseActivity);
