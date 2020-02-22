@@ -108,15 +108,18 @@ public final class Helper {
                 List<Element> activityList = application.getChildren("activity");
                 if (activityList != null && activityList.size() > 1) {
                     newActivity = activityList.get(activityList.size() - 1).clone();
+                    newActivity.removeAttribute("launchMode");
                     newActivity.getAttribute("name", namespace).setValue(shortClassPath);
                 } else {
                     newActivity = new Element("activity");
                     newActivity.setAttribute("name", shortClassPath, namespace);
-                    newActivity.setAttribute("configChanges", "orientation|screenSize", namespace);
-                    newActivity.setAttribute("screenOrientation", "portrait", namespace);
                 }
+                newActivity.setAttribute("screenOrientation", "portrait", namespace);
+                newActivity.setAttribute("configChanges", "orientation|keyboardHidden|screenSize|screenLayout", namespace);
+
                 application.addContent(newActivity);
                 outputStream = new FileOutputStream(androidManifest);
+
                 Format format = Format.getPrettyFormat();
                 format.setEncoding("utf-8");
                 XMLOutputter output = new XMLOutputter(format);
