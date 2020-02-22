@@ -2,6 +2,7 @@ package engineer.echo.plugin.mvvm.cmpts;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.vfs.VirtualFile;
+import engineer.echo.plugin.mvvm.prefs.PrefsUtil;
 
 import java.io.File;
 
@@ -39,7 +40,7 @@ public final class FileRender {
         moduleName = moduleName.length() > 1 ? (firstLetter + module.substring(1)) : firstLetter;
         String moduleLower = moduleName.toLowerCase();
         String activityAffix = Helper.camelToUnderline(moduleName).toLowerCase();
-        String baseActivityPackage = "androidx.appcompat.app.AppCompatActivity";
+        String baseActivityPackage = PrefsUtil.getBaseActivity();
         String baseActivity = baseActivityPackage.substring(baseActivityPackage.lastIndexOf(".") + 1);
         String currentPackagePath = new File(pickPath, moduleLower).getPath();
         String currentPackage = currentPackagePath.replace(javaDir.getPath(), "").replace(File.separator, ".").substring(1);
