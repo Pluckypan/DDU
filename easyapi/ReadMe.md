@@ -26,9 +26,9 @@ Android 开发过程中,难免遇到内存泄露的问题.`Google` 的原则是�
 - [x] 支持后台作业 `EasyJob` (耗时操作,如文件解压,数据库操作)
 - [x] `EasyJob` 完全复用 `Retrofit` 的线程池，线程管理方便
 - [x] 支持模块化(动态代理+接口下沉)：`EasyProxy`
+- [x] 后台作业 `EasyJob` 支持进度回调 ProgressResult
 
 ## TODO
-- [ ] 后台作业 `EasyJob` 支持进度回调 ProgressResult
 - [ ] 取消「后台作业」
 - [ ] 「后台作业」 `EasyJob` 支持复杂入参和复杂返回类型
 - [ ] `Release` 环境混淆检测,依赖检测,性能数据
@@ -178,7 +178,7 @@ public interface ZipApiRetrofit {
   LiveData<ZipState> unzipProgress(@Query("source") String source, @Query("target") String target);
 }
 ```
-`EasyJob` 的实现主要靠 `easyapi.compiler` 通过注解 `JobApi` (retrofit = true 时) 生成如上代码。可以看出，`ZipApiRetrofit` 的格式完全就是 `Retrofit` 接口定义的形式。当请求发生时,通过 `JobInterceptor` 对请求进行拦截解析,然后通过动态代理的方式 `EasyProxy` 去执行 `ZipServer` 中定义好的方法。
+`EasyJob` 的实现主要靠 `easyapi.compiler` 通过注解 `JobApi` (retrofit = true 时) 生成如上代码。可以看出，`ZipApiRetrofit` 的格式完全就是 `Retrofit` 接口定义的形式。当请求发生时,通过 `JobInterceptor` 对请求进行拦截解析,然后通过动态代理的方式 `EasyProxy` 去执行 `ZipServer` 中定义好的方法。`Retrofit` 的注解实现亦基于 **`动态代理`** 详见: `retrofit2.Retrofit#create`
 
 
 ## Transformations

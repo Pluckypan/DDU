@@ -1,6 +1,5 @@
 package engineer.echo.plugin.mvvm.prefs;
 
-import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.options.Configurable;
@@ -16,9 +15,10 @@ public class PrefsForm implements Configurable {
     private JTextPane versionField;
     private JTextPane projectField;
     private JTextPane appField;
-    private JTextPane libraryField;
+    private JTextPane commonField;
     private JTextField baseActivityField;
     private JPanel prefsPanel;
+    private JTextPane moduleField;
 
     private String baseActivity = PrefsUtil.getBaseActivity();
 
@@ -44,9 +44,7 @@ public class PrefsForm implements Configurable {
     @Override
     public boolean isModified() {
         String inputVal = baseActivityField.getText();
-        boolean modify = !inputVal.equals(baseActivity);
-        System.out.println("inputVal=" + inputVal + " modify=" + modify);
-        return modify;
+        return !inputVal.equals(baseActivity);
     }
 
     @Override
