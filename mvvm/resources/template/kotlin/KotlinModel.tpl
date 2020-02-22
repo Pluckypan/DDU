@@ -1,4 +1,4 @@
-package engineer.echo.yi.im.ui.kotlin
+package $currentPackage$
 
 import android.os.SystemClock
 import androidx.annotation.WorkerThread
@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import java.util.concurrent.Executors
 
-class KotlinModel : KotlinContract.IModel {
+class $moduleName$Model : $moduleName$Contract.IModel {
 
     private val workExecutor by lazy {
         Executors.newCachedThreadPool()

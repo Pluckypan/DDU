@@ -1,8 +1,8 @@
-package engineer.echo.yi.im.ui.kotlin
+package $currentPackage$
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import $baseActivityPackage$
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -10,28 +10,28 @@ import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
-import engineer.echo.yi.im.R
-import engineer.echo.yi.im.databinding.ActivityKotlinBinding
+import $rootPackage$.R
+import $rootPackage$.databinding.Activity$moduleName$Binding
 
-class KotlinActivity : AppCompatActivity(), KotlinContract.IView {
+class $moduleName$Activity : $baseActivity$(), $moduleName$Contract.IView {
 
-    private lateinit var viewModel: KotlinContract.IViewModel
-    private lateinit var binding: ActivityKotlinBinding
+    private lateinit var viewModel: $moduleName$Contract.IViewModel
+    private lateinit var binding: Activity$moduleName$Binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProviders.of(
             this,
-            KotlinViewModel.Factory(savedInstanceState, application)
-        ).get(KotlinViewModel::class.java)
+            $moduleName$ViewModel.Factory(savedInstanceState, application)
+        ).get($moduleName$ViewModel::class.java)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_kotlin)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_$activityAffix$)
 
         binding.apply {
-            lifecycleOwner = this@KotlinActivity
-            view = this@KotlinActivity
-            viewModel = this@KotlinActivity.viewModel
+            lifecycleOwner = this@$moduleName$Activity
+            view = this@$moduleName$Activity
+            viewModel = this@$moduleName$Activity.viewModel
         }
     }
 
@@ -49,7 +49,7 @@ class KotlinActivity : AppCompatActivity(), KotlinContract.IView {
         }
 
         fun goto(activity: Activity) {
-            Intent(activity, KotlinActivity::class.java).also {
+            Intent(activity, $moduleName$Activity::class.java).also {
                 activity.startActivity(it)
             }
         }

@@ -1,9 +1,9 @@
-package engineer.echo.yi.im.ui.kotlin
+package $currentPackage$
 
 import android.view.View
 import androidx.lifecycle.LiveData
 
-object KotlinContract {
+object $moduleName$Contract {
 
     interface IView {
         fun toast(view: View)

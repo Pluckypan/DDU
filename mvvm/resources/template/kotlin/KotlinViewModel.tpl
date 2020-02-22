@@ -1,12 +1,12 @@
-package engineer.echo.yi.im.ui.kotlin
+package $currentPackage$
 
 import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.*
 
-class KotlinViewModel(bundle: Bundle? = null) : ViewModel(), KotlinContract.IViewModel {
+class $moduleName$ViewModel(bundle: Bundle? = null) : ViewModel(), $moduleName$Contract.IViewModel {
 
-    private val model: KotlinContract.IModel = KotlinModel()
+    private val model: $moduleName$Contract.IModel = $moduleName$Model()
 
     private val jobTrigger = MutableLiveData<Long>()
 
@@ -30,7 +30,7 @@ class KotlinViewModel(bundle: Bundle? = null) : ViewModel(), KotlinContract.IVie
         ViewModelProvider.AndroidViewModelFactory(app) {
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return KotlinViewModel(bundle) as T
+            return $moduleName$ViewModel(bundle) as T
         }
 
     }

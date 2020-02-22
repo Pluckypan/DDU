@@ -19,10 +19,11 @@ public class CreateDialog extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
         setLocationRelativeTo(null);
-        setSize(300,240);
+        setSize(300, 240);
 
         buttonOK.addActionListener(e -> {
-            if (moduleName.getText().isEmpty()) {
+            String text = moduleName.getText().trim().replace(" ", "").replace("　", "").replace("_", "");
+            if (text.isEmpty()) {
                 Helper.showTips("EasyMVVM", "Module required.");
                 return;
             }

@@ -7,11 +7,11 @@
 
         <variable
                 name="viewModel"
-                type="engineer.echo.yi.im.ui.kotlin.KotlinContract.IViewModel" />
+                type="$currentPackage$.$moduleName$Contract.IViewModel" />
 
         <variable
                 name="view"
-                type="engineer.echo.yi.im.ui.kotlin.KotlinContract.IView" />
+                type="$currentPackage$.$moduleName$Contract.IView" />
 
     </data>
 
