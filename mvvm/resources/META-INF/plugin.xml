@@ -1,17 +1,20 @@
 <idea-plugin>
     <id>engineer.echo.plugin.mvvm</id>
     <name>EasyMVVM</name>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <vendor email="plucky@echo.engineer" url="http://www.1991th.com">echo</vendor>
 
     <description><![CDATA[
-      Easy to create MVVM.[Shift Ctrl M]<br>
+      Easy to create MVVM.[ ⌃⇧M ]<br>
       <em>required: androidx,LiveData,DataBinding,Kotlin,ViewModel</em><br>
+      <em>plucky@echo.engineer</em>
     ]]></description>
 
     <change-notes><![CDATA[
-      1.first commit<br>
-      <em>0.0.1,mvvm,plucky@echo.engineer</em>
+      <em>0.0.2</em>
+      1.Generate MVVM  with FolderName or ClassName<br>
+      2.Shortcut: ⌃⇧M ⌃⌥M <br>
+      2.Menu: NewGroup or CodeMenu <br>
     ]]>
     </change-notes>
 
@@ -26,7 +29,8 @@
 
         <action id="EasyMVVMGenerator" class="engineer.echo.plugin.mvvm.EasyMVVM" text="EasyMVVM"
                 description="Easy to create MVVM">
-            <add-to-group group-id="CodeMenu" anchor="last"/>
+            <add-to-group group-id="CodeMenu" relative-to-action="Generate" anchor="after"/>
+            <add-to-group group-id="NewGroup" relative-to-action="NewFile" anchor="after"/>
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl M" second-keystroke="ctrl alt M"/>
         </action>
     </actions>
