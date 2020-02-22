@@ -1,0 +1,34 @@
+<idea-plugin>
+    <id>engineer.echo.plugin.mvvm</id>
+    <name>EasyMVVM</name>
+    <version>0.0.1</version>
+    <vendor email="plucky@echo.engineer" url="http://www.1991th.com">echo</vendor>
+
+    <description><![CDATA[
+      Easy to create MVVM.[Shift Ctrl M]<br>
+      <em>required: androidx,LiveData,DataBinding,Kotlin,ViewModel</em><br>
+    ]]></description>
+
+    <change-notes><![CDATA[
+      1.first commit<br>
+      <em>0.0.1,mvvm,plucky@echo.engineer</em>
+    ]]>
+    </change-notes>
+
+    <idea-version since-build="131"/>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+
+        <action id="EasyMVVMGenerator" class="engineer.echo.plugin.mvvm.EasyMVVM" text="EasyMVVM"
+                description="Easy to create MVVM">
+            <add-to-group group-id="CodeMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl M" second-keystroke="ctrl alt M"/>
+        </action>
+    </actions>
+
+</idea-plugin>
