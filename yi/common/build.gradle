@@ -28,6 +28,14 @@ android {
         }
     }
 
+    dataBinding {
+        enabled = true
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+
     compileOptions {
         incremental true // 增量编译
         sourceCompatibility JavaVersion.VERSION_1_8
