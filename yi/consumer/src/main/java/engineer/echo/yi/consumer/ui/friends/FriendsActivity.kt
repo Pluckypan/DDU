@@ -4,14 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import engineer.echo.yi.consumer.R
-import engineer.echo.yi.consumer.cmpts.weibo.bean.UserList
 import engineer.echo.yi.consumer.databinding.ConsumerActivityFriendsBinding
 
 class FriendsActivity : AppCompatActivity(), FriendsContract.IView {
@@ -36,20 +32,13 @@ class FriendsActivity : AppCompatActivity(), FriendsContract.IView {
         }
     }
 
-    override fun toast(view: View) {
-        Toast.makeText(this, "Hello EasyMVVM.${view.javaClass.simpleName}", Toast.LENGTH_LONG)
-            .show()
+    override fun onActivityClose(view: View) {
+        onBackPressed()
     }
 
     companion object {
 
         internal const val KEY_UID = "uid"
-
-        @BindingAdapter("userListData")
-        @JvmStatic
-        fun onBindJob(textView: TextView, userList: UserList?) {
-            textView.text = "${userList?.totalNumber ?: 0}"
-        }
 
         fun goto(activity: Activity, uid: String) {
             Intent(activity, FriendsActivity::class.java).also {

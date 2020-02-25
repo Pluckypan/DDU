@@ -9,6 +9,10 @@
         <item name="android:fontFamily">@font/han</item>
     </style>
 
+    <style name="CommonNoActionBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
     <style name="common_button_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

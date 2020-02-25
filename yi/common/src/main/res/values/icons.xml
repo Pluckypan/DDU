@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="common_icon_close" translatable="false">&#xe6b6;</string>
     <string name="common_icon_like" translatable="false">&#xe64c;</string>
 </resources>

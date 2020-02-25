@@ -1,4 +1,4 @@
-package engineer.echo.yi.common.cpmts.widgets.refresh.lottie
+package engineer.echo.yi.common.cpmts.widgets.lottie
 
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieCompositionFactory

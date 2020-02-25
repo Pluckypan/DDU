@@ -7,7 +7,7 @@ import engineer.echo.yi.consumer.cmpts.weibo.bean.UserList
 object FriendsContract {
 
     interface IView {
-        fun toast(view: View)
+        fun onActivityClose(view: View)
     }
 
     interface IViewModel {
