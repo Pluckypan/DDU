@@ -23,7 +23,7 @@ class $moduleName$Activity : $baseActivity$(), $moduleName$Contract.IView {
 
         viewModel = ViewModelProviders.of(
             this,
-            $moduleName$ViewModel.Factory(savedInstanceState, application)
+            $moduleName$ViewModel.Factory(intent.extras, application)
         ).get($moduleName$ViewModel::class.java)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_$activityAffix$)
