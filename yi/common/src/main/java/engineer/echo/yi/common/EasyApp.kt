@@ -42,7 +42,7 @@ open class EasyApp : Application(), EasyMonitor {
 
         fun getApp(): Application = app
 
-        fun getString(@StringRes id: Int, vararg args: Any): String = getApp().getString(id, args)
+        fun getString(@StringRes id: Int, vararg args: Any): String = getApp().getString(id, *args)
         fun getColor(@ColorRes id: Int): Int = getApp().resources.getColor(id)
 
         val displayMetrics: DisplayMetrics by lazy {
