@@ -52,6 +52,16 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
+        <Button
+                android:id="@+id/btnFriends"
+                style="@style/common_button_style"
+                android:onClick="@{iView::onFriendsList}"
+                android:text="@string/consumer_fmt_friends"
+                app:layout_constraintBottom_toTopOf="@+id/btnAuth"
+                app:layout_constraintStart_toStartOf="parent"
+                app:onFriendsCount="@{viewModel.accountInfoData}" />
+
         <Button
                 android:id="@+id/btnAuth"
                 style="@style/common_button_style"

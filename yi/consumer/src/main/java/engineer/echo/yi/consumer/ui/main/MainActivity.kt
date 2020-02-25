@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +19,7 @@ import engineer.echo.yi.consumer.cmpts.weibo.Weibo
 import engineer.echo.yi.consumer.cmpts.weibo.WeiboAuthHandler
 import engineer.echo.yi.consumer.cmpts.weibo.bean.Account
 import engineer.echo.yi.consumer.databinding.ConsumerMainBinding
+import engineer.echo.yi.consumer.ui.friends.FriendsActivity
 
 class MainActivity : AppCompatActivity(), MainContract.IView {
 
@@ -52,6 +55,12 @@ class MainActivity : AppCompatActivity(), MainContract.IView {
         }
     }
 
+    override fun onFriendsList(view: View) {
+        viewModel.accountInfoData.value?.id?.let {
+            FriendsActivity.goto(this, it)
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         authHandler?.authorizeCallBack(requestCode, resultCode, data)
@@ -79,6 +88,14 @@ class MainActivity : AppCompatActivity(), MainContract.IView {
                 .placeholder(ColorDrawable(EasyApp.getColor(R.color.common_colorPrimaryDark)))
                 .circleCrop()
                 .into(imageView)
+        }
+
+        @BindingAdapter("onFriendsCount")
+        @JvmStatic
+        fun bindFriendsCount(button: Button, account: Account?) {
+            button.isEnabled = account != null && account.friendsCount > 0
+            button.text =
+                EasyApp.getString(R.string.consumer_fmt_friends, account?.friendsCount ?: 0)
         }
     }
 }

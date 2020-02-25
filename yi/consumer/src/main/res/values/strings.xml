@@ -3,4 +3,5 @@
     <string name="consumer_authorize">authorize</string>
     <string name="consumer_clear_auth">clear token</string>
     <string name="consumer_refresh_auth">refresh token</string>
+    <string name="consumer_fmt_friends">Following %s</string>
 </resources>

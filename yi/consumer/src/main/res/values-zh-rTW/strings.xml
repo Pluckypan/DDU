@@ -4,4 +4,5 @@
     <string name="consumer_authorize">授權</string>
     <string name="consumer_clear_auth">登出</string>
     <string name="consumer_refresh_auth">重新獲取</string>
+    <string name="consumer_fmt_friends">關注 %s</string>
 </resources>
