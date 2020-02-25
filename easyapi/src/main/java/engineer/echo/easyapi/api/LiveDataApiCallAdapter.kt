@@ -55,7 +55,7 @@ internal class LiveDataApiCallAdapter<T : Result>(
         val isSuccess = response != null && response.isSuccessful && t == null
         EasyApi.printLog(
             "postResult adapt $method cost = %sms request[%s] response[%s] isSuccess = %s error = %s",
-            cost, requestSize, responseSize, isSuccess, t?.message ?: "nil"
+            cost, requestSize, responseSize, isSuccess, (t?.message ?: response?.message() ?: "nil")
         )
         if (isSuccess && response != null) {
             monitor?.onResult(true, response.body(), cost, requestSize, responseSize)
