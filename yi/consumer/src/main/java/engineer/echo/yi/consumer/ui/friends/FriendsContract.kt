@@ -13,6 +13,7 @@ object FriendsContract {
     interface IViewModel {
         val userListData: LiveData<UserList>
         fun refresh()
+        fun loadMore()
     }
 
     interface IModel {

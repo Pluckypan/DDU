@@ -30,6 +30,14 @@ class FriendsActivity : AppCompatActivity(), FriendsContract.IView {
             view = this@FriendsActivity
             viewModel = this@FriendsActivity.viewModel
         }
+        binding.refreshLayout.setEnableLoadMore(true)
+        binding.refreshLayout.setOnRefreshListener {
+            viewModel.refresh()
+        }
+
+        binding.refreshLayout.setOnLoadMoreListener {
+            viewModel.loadMore()
+        }
     }
 
     override fun onActivityClose(view: View) {

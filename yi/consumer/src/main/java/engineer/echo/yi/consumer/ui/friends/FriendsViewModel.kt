@@ -15,6 +15,7 @@ class FriendsViewModel(bundle: Bundle? = null) : ViewModel(), FriendsContract.IV
 
     private val model: FriendsContract.IModel = FriendsModel()
 
+    private var refreshAction = true
     private val refreshTrigger = MutableLiveData<String>()
 
 
@@ -27,6 +28,12 @@ class FriendsViewModel(bundle: Bundle? = null) : ViewModel(), FriendsContract.IV
     }
 
     override fun refresh() {
+        refreshAction = true
+        refreshTrigger.value = uid
+    }
+
+    override fun loadMore() {
+        refreshAction = false
         refreshTrigger.value = uid
     }
 
@@ -37,6 +44,7 @@ class FriendsViewModel(bundle: Bundle? = null) : ViewModel(), FriendsContract.IV
     }
 
     private fun getNextCursor(): Int {
+        if (refreshAction) return 0
         return getLastData()?.nextCursor ?: 0
     }
 

@@ -100,7 +100,7 @@ object FriendListHelper {
     fun bindAvatar(imageView: ImageView, account: Account?) {
         EasyPicture.with(imageView)
             .load(account?.avatar ?: "")
-            .centerCrop()
+            .circleCrop()
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(imageView)
     }
