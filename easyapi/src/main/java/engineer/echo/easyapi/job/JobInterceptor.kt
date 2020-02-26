@@ -25,11 +25,15 @@ internal class JobInterceptor : Interceptor {
         return if (originRequest.isEasyJob()) {
             val api = originRequest.jobApi()
             requireNotNull(api) {
-                "EasyApi JobInterceptor: invalid api"
+                "EasyApi JobInterceptor: invalid api".also {
+                    EasyApi.printError("JobInterceptor intercept error = %s", it)
+                }
             }
             val method = originRequest.jobMethod()
             requireNotNull(method) {
-                "EasyApi JobInterceptor: invalid method"
+                "EasyApi JobInterceptor: invalid method".also {
+                    EasyApi.printError("JobInterceptor intercept error = %s", it)
+                }
             }
             try {
                 val obj = EasyApi.getProxy(Class.forName(api))

@@ -18,7 +18,9 @@ internal object EasyProxy {
     fun <T> create(jobApiClz: Class<T>): T {
         val before = SystemClock.uptimeMillis()
         require(jobApiClz.isInterface) {
-            "EasyApi EasyProxy: [${jobApiClz.simpleName}] is not an interface"
+            "EasyApi EasyProxy: [${jobApiClz.simpleName}] is not an interface".also {
+                EasyApi.printError("EasyProxy create error = %s", it)
+            }
         }
         return if (ownerMap.containsKey(jobApiClz)) {
             ownerMap[jobApiClz] as T
@@ -39,11 +41,15 @@ internal object EasyProxy {
             val jobApi =
                 jobApiClz.getAnnotation(JobApi::class.java)
             requireNotNull(jobApi) {
-                "EasyApi EasyProxy: require add @JobApi to interface[${jobApiClz.simpleName}]"
+                "EasyApi EasyProxy: require add @JobApi to interface[${jobApiClz.simpleName}]".also {
+                    EasyApi.printError("getHandlerByAnno error = %s", it)
+                }
             }
             val uniqueId = jobApi.uniqueId
             require(uniqueId.isNotEmpty()) {
-                "EasyApi EasyProxy: uniqueId isEmpty of interface[${jobApiClz.simpleName}]"
+                "EasyApi EasyProxy: uniqueId isEmpty of interface[${jobApiClz.simpleName}]".also {
+                    EasyApi.printError("getHandlerByAnno error = %s", it)
+                }
             }
             val jobServer = EasyJobHelper.getObjectById(uniqueId)
             val handler = if (jobServer != null) {

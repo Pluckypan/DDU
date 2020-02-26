@@ -31,6 +31,13 @@ object EasyApi {
 
     private const val DEFAULT_URL = "http://www.1991th.com/"
 
+    internal fun printError(format: String, vararg args: Any?) {
+        Log.e(
+            TAG,
+            format.format(*args).plus(" thread=[${Thread.currentThread().id}:${Thread.currentThread().name}]")
+        )
+    }
+
     internal fun printLog(format: String, vararg args: Any?) {
         if (debugMode) {
             Log.i(

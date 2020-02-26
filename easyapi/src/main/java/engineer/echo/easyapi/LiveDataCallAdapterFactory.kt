@@ -26,10 +26,18 @@ internal class LiveDataCallAdapterFactory private constructor(private val monito
         // require(resultType is ParameterizedType) { "EasyApi: resultType must be Parameterized" }
         val rawType = getRawType(resultType)
         // 必须是继承自 Result
-        require(Result::class.java.isAssignableFrom(rawType)) { "EasyApi: rawType must be a subclass of Result" }
+        require(Result::class.java.isAssignableFrom(rawType)) {
+            "EasyApi: rawType must be a subclass of Result".also {
+                EasyApi.printError("LiveDataCallAdapterFactory error = %s", it)
+            }
+        }
         val paramSize = rawType.constructors.first().parameterTypes.size
         // 必须定义无参构造函数
-        require(paramSize == 0) { "EasyApi: class require zero argument constructor" }
+        require(paramSize == 0) {
+            "EasyApi: class require zero argument constructor".also {
+                EasyApi.printError("LiveDataCallAdapterFactory error = %s", it)
+            }
+        }
         EasyApi.printLog(
             "LiveDataCallAdapterFactory get rawType = %s,annotations = %s",
             rawType.simpleName,
