@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+                name="account"
+                type="engineer.echo.yi.consumer.cmpts.weibo.bean.Account" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+        <ImageView
+                android:id="@+id/avatarIv"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerCrop"
+                app:accountAvatar="@{account}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/avatars" />
+
+        <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideLine"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.5" />
+
+        <TextView
+                android:id="@+id/nameTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="@{account.name}"
+                android:textColor="@color/common_colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guideLine"
+                app:layout_constraintEnd_toStartOf="@+id/followTv"
+                app:layout_constraintStart_toEndOf="@+id/avatarIv"
+                tools:text="刘雯" />
+
+        <TextView
+                android:id="@+id/descTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:lines="1"
+                android:singleLine="true"
+                android:text="@{account.description}"
+                android:textColor="#666"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/nameTv"
+                app:layout_constraintStart_toStartOf="@+id/nameTv"
+                app:layout_constraintTop_toBottomOf="@+id/nameTv"
+                tools:text="本是个微不足道的人,却不小心..." />
+
+        <TextView
+                android:id="@+id/followTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/consumer_shape_round_selector"
+                android:gravity="center"
+                android:paddingStart="20dp"
+                android:paddingTop="6dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="6dp"
+                android:textColor="#999"
+                android:textSize="16sp"
+                app:followState="@{account}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/consumer_follow" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

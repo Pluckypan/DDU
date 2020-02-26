@@ -19,7 +19,7 @@ class FriendsViewModel(bundle: Bundle? = null) : ViewModel(), FriendsContract.IV
 
 
     override val userListData: LiveData<UserList> = Transformations.switchMap(refreshTrigger) {
-        EasyApi.create(Users::class.java).getFollowing(it)
+        EasyApi.create(Users::class.java).getFollowing(it, 20, getNextCursor())
     }
 
     init {
@@ -28,6 +28,16 @@ class FriendsViewModel(bundle: Bundle? = null) : ViewModel(), FriendsContract.IV
 
     override fun refresh() {
         refreshTrigger.value = uid
+    }
+
+    private fun getLastData(): UserList? = userListData.value
+
+    private fun getPreCursor(): Int {
+        return getLastData()?.previousCursor ?: 0
+    }
+
+    private fun getNextCursor(): Int {
+        return getLastData()?.nextCursor ?: 0
     }
 
     override fun onCleared() {

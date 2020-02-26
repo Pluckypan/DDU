@@ -5,4 +5,6 @@
     <string name="consumer_clear_auth">登出</string>
     <string name="consumer_refresh_auth">重新获取</string>
     <string name="consumer_fmt_friends">关注 %s</string>
+    <string name="consumer_followed">已关注</string>
+    <string name="consumer_follow">关注</string>
 </resources>

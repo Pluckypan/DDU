@@ -4,4 +4,6 @@
     <string name="consumer_clear_auth">clear token</string>
     <string name="consumer_refresh_auth">refresh token</string>
     <string name="consumer_fmt_friends">Following %s</string>
+    <string name="consumer_followed">following</string>
+    <string name="consumer_follow">follow</string>
 </resources>

@@ -31,6 +31,21 @@
                 app:topBarTitle="@string/consumer_app_name"
                 tools:layout_height="60dp" />
 
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:id="@+id/refreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/commonTopBar"
+                app:userList="@{viewModel.userListData}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:userList="@{viewModel.userListData}" />
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

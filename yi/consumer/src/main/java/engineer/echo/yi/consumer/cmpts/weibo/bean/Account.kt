@@ -34,7 +34,10 @@ data class Account(
     @SerializedName("statuses_count")
     val statusesCount: Int = 0,
     @SerializedName("favourites_count")
-    val favouritesCount: Int = 0
+    val favouritesCount: Int = 0,
+    val following: Boolean = false,
+    @SerializedName("follow_me")
+    val followMe: Boolean = false
 ) : Result(), Parcelable {
 
 }
