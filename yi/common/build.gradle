@@ -69,7 +69,7 @@ dependencies {
     // modules
     api project(':easylib')
     api project(':easyapi')
-    kapt project(':compiler')
+    kapt project(':easyapi:compiler')
 
     // test
     testImplementation rootProject.ext.test.junit

@@ -52,10 +52,10 @@ ext {
             "LICENSE_DIST"     : "repo",
             "DEVELOPER_ID"     : "pluckypan",
             "DEVELOPER_NAME"   : "Plucky Pan",
-            "RELEASE_REPO_URL" : "https://oss.sonatype.org/service/local/staging/deploy/maven2/",
-            "SNAPSHOT_REPO_URL": "https://oss.sonatype.org/content/repositories/snapshots/",
-            "NEXUS_USER_NAME"  : NEXUS_USER_NAME,
-            "NEXUS_PASSWORD"   : NEXUS_PASSWORD
+            "RELEASE_REPO_URL" : getPropertyVal("RELEASE_REPO_URL", "https://oss.sonatype.org/service/local/staging/deploy/maven2/"),
+            "SNAPSHOT_REPO_URL": getPropertyVal("SNAPSHOT_REPO_URL", "https://oss.sonatype.org/content/repositories/snapshots/"),
+            "NEXUS_USER_NAME"  : getPropertyVal("NEXUS_USER_NAME"),
+            "NEXUS_PASSWORD"   : getPropertyVal("NEXUS_PASSWORD")
     ]
 
     androidx = [

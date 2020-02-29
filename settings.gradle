@@ -6,7 +6,7 @@ include ':easyprinter'
 include ':logic'
 // EasyApi
 include ':easyapi'
-include ':annotation'
-include ':compiler'
+include ':easyapi:annotation'
+include ':easyapi:compiler'
 // Yi
 include ':yi', ':yi:live', ':yi:common', ':yi:consumer', ':yi:producer', ':yi:im'
