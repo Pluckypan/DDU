@@ -21,7 +21,10 @@ good good study **好好学习**, day day up **天天向上**
 ├── LICENSE
 ├── README.md
 ├── app                --- 研究技术 demo
-├── easyapi            --- 基于 LiveData & Retrofit
+├── easycore
+│   ├── annotation     --- EasyApi 注解
+│   ├── compiler       --- EasyApi 注解编译器
+│   └── easyapi        --- 基于 LiveData & Retrofit 
 ├── easylib            --- 通用方法
 ├── easyprinter        --- 蓝牙打印机
 ├── imessenger         --- 基于 Messenger 的 IPC 方案

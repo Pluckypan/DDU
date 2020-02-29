@@ -2,6 +2,11 @@
 
 LiveData EveryWhere...
 
+![](https://img.shields.io/github/license/Pluckypan/DDU.svg?style=plastic)
+[![Maven Central](https://img.shields.io/maven-central/v/engineer.echo/easyapi.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22engineer.echo%22%20AND%20a:%22easyapi%22)
+![](https://img.shields.io/github/last-commit/pluckypan/DDU.svg)
+![](https://img.shields.io/badge/author-plucky-green.svg)
+
 ## 背景
 
 Android 开发过程中,难免遇到内存泄露的问题.`Google` 的原则是尽量避免在界面处于不可见状态下更新界面,为了解决这个问题,`Google` 在 `Architecture` 中引入了 `lifecycle` 的概念,在 `lifecycle` 中借助 `LiveData` 我们可以轻松的实现`可被订阅` & `生命周期感知` 的数据源
@@ -33,7 +38,15 @@ Android 开发过程中,难免遇到内存泄露的问题.`Google` 的原则是�
 - [ ] 「后台作业」 `EasyJob` 支持复杂入参和复杂返回类型
 - [ ] `Release` 环境混淆检测,依赖检测,性能数据
 
-## 简单示例
+## 接入
+```
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+
+    api "engineer.echo:easyapi:0.0.2"
+    kapt "engineer.echo.easyapi:compiler:0.0.2"
+}
+```
 
 ### 接口请求
 

@@ -5,7 +5,7 @@ dependencies {
     compileOnly fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly rootProject.ext.build.autoService
     compileOnly rootProject.ext.build.javapoet
-    compileOnly project(":annotation")
+    compileOnly project(":easycore:annotation")
     // 解决 程序包 com.sun.tools.javac.code 不存在
     compileOnly files("$jdkHome/lib/tools.jar")
 }
