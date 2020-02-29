@@ -17,5 +17,5 @@ apply plugin: 'happy-maven'
 HappyMaven {
     groupId = "engineer.echo.easyapi"
     artifactId = "annotation"
-    version = "0.0.1"
+    version = "0.0.2"
 }

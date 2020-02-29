@@ -2,12 +2,12 @@ apply plugin: 'java-library'
 def jdkHome = System.getenv("JAVA_HOME")
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation rootProject.ext.build.autoService
-    implementation rootProject.ext.build.javapoet
-    implementation project(":easyapi:annotation")
+    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly rootProject.ext.build.autoService
+    compileOnly rootProject.ext.build.javapoet
+    compileOnly project(":annotation")
     // 解决 程序包 com.sun.tools.javac.code 不存在
-    implementation files("$jdkHome/lib/tools.jar")
+    compileOnly files("$jdkHome/lib/tools.jar")
 }
 
 tasks.withType(JavaCompile) {
@@ -22,5 +22,5 @@ apply plugin: 'happy-maven'
 HappyMaven {
     groupId = "engineer.echo.easyapi"
     artifactId = "compiler"
-    version = "0.0.1"
+    version = "0.0.2"
 }

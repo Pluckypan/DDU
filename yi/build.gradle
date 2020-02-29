@@ -142,7 +142,7 @@ dependencies {
 
     // kapt
     kapt rootProject.ext.glide.compiler
-    kapt project(':easyapi:compiler')
+    kapt rootProject.ext.framework.easyapiCompiler
 
     // test
     testImplementation rootProject.ext.test.junit
