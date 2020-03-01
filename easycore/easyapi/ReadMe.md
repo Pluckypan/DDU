@@ -413,7 +413,7 @@ EasyApi.getProxy(ProxyApi::class.java).also {
 1. **所有继承自 `Result` 的类必须提供 `无参构造函数`**
 
 ## 示例 demo
-[MVVM & 模块化请戳](../yi/ReadMe.md)
+[MVVM & 模块化请戳](../../yi/ReadMe.md)
 
 ## 参考文档
 - [retrofit](https://github.com/square/retrofit)
