@@ -32,7 +32,7 @@ ext {
             gradleX    : 'com.android.tools.build:gradle:3.3.2',
             kotlinX    : "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.61",
             kotlinLib  : "org.jetbrains.kotlin:kotlin-stdlib:1.3.61",
-            happyMaven : "engineer.echo:happymaven:0.0.7",
+            happyMaven : "engineer.echo:happymaven:0.0.8",
             autoService: 'com.google.auto.service:auto-service:1.0-rc4',
             javapoet   : 'com.squareup:javapoet:1.12.1'
     ]
