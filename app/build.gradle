@@ -58,6 +58,7 @@ dependencies {
     implementation rootProject.ext.androidx.coroutineAndroid
     // retrofit
     implementation rootProject.ext.retrofit.runtime
+    implementation rootProject.ext.retrofit.loggingInterceptor
     implementation rootProject.ext.retrofit.gsonConverter
     implementation rootProject.ext.retrofit.rxJava2Adapter
     // framework
