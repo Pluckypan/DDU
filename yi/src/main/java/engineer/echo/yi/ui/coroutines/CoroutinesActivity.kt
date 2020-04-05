@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
@@ -13,10 +14,7 @@ import engineer.echo.easyapi.EasyApi
 import engineer.echo.yi.R
 import engineer.echo.yi.api.IpLocateApi
 import engineer.echo.yi.databinding.ActivityCoroutinesBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import okhttp3.Request
 import okhttp3.Response
 
@@ -45,17 +43,24 @@ class CoroutinesActivity : AppCompatActivity(), CoroutinesContract.IView {
 
     private val uiScope = CoroutineScope(Dispatchers.Main)
 
+    @WorkerThread
+    fun job(): Response? {
+        return EasyApi.getClient()?.newCall(Request.Builder().url(IpLocateApi.API_URL).build())
+            ?.execute()
+    }
+
     override fun runJob(view: View) {
         uiScope.launch {
             var text = "loading thread=${Thread.currentThread().name}"
             binding.outputTv.text = text
-            var location: Response? = null
-            withContext(Dispatchers.IO) {
-                location =
-                    EasyApi.getClient()?.newCall(Request.Builder().url(IpLocateApi.API_URL).build())
-                        ?.execute()
+            val res1 = withContext(Dispatchers.IO) {
+                job()
             }
-            text = "${location?.code()} thread=${Thread.currentThread().name}"
+            val res2 = async(Dispatchers.IO){
+                job()
+            }
+            text =
+                "res1=${res1?.code()} res2=${res2.await()?.code()} thread=${Thread.currentThread().name}"
             binding.outputTv.text = text
         }
     }
