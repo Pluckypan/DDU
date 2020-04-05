@@ -17,4 +17,8 @@
             android:id="@+id/menu_producer"
             android:title="生产"
             tools:ignore="HardcodedText" />
+    <item
+            android:id="@+id/menu_coroutines"
+            android:title="协程"
+            tools:ignore="HardcodedText" />
 </menu>

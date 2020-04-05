@@ -10,7 +10,7 @@ import retrofit2.http.Query
 interface IpLocateApi {
 
     companion object {
-        private const val API_URL = "http://ip-api.com/json/"
+        const val API_URL = "http://ip-api.com/json/"
     }
 
     @FormUrlEncoded

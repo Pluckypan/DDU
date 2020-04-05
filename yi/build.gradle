@@ -143,6 +143,9 @@ dependencies {
     // kapt
     kapt rootProject.ext.glide.compiler
     kapt rootProject.ext.framework.easyapiCompiler
+    // coroutines
+    implementation rootProject.ext.androidx.coroutineCore
+    implementation rootProject.ext.androidx.coroutineAndroid
 
     // test
     testImplementation rootProject.ext.test.junit

@@ -26,6 +26,7 @@ import engineer.echo.yi.common.EasyApp
 import engineer.echo.yi.common.Proxy
 import engineer.echo.yi.common.cpmts.glide.EasyPicture
 import engineer.echo.yi.databinding.MainActivityBinding
+import engineer.echo.yi.ui.coroutines.CoroutinesActivity
 import jp.wasabeef.glide.transformations.BlurTransformation
 import java.util.*
 
@@ -68,6 +69,7 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
             R.id.menu_im -> EasyApi.getProxy(Proxy.IMApi::class.java).goto(this)
             R.id.menu_live -> EasyApi.getProxy(Proxy.LiveApi::class.java).goto(this)
             R.id.menu_producer -> EasyApi.getProxy(Proxy.ProducerApi::class.java).goto(this)
+            R.id.menu_coroutines -> CoroutinesActivity.goto(this)
         }
         return super.onOptionsItemSelected(item)
     }
