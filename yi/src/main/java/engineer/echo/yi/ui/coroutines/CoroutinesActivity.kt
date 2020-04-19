@@ -9,7 +9,7 @@ import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import engineer.echo.easyapi.EasyApi
 import engineer.echo.yi.R
 import engineer.echo.yi.api.IpLocateApi
@@ -27,7 +27,7 @@ class CoroutinesActivity : AppCompatActivity(), CoroutinesContract.IView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(
+        viewModel = ViewModelProvider(
             this,
             CoroutinesViewModel.Factory(intent.extras, application)
         ).get(CoroutinesViewModel::class.java)

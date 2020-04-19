@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -37,7 +37,7 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, ApiMockViewModel.Factory(memInfo()))
+        viewModel = ViewModelProvider(this, ApiMockViewModel.Factory(memInfo()))
             .get(ApiMockViewModel::class.java)
         binding = DataBindingUtil.setContentView<MainActivityBinding>(this, R.layout.activity_mock)
             .apply {

@@ -14,7 +14,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.googlecode.protobuf.format.JsonFormat
 import engineer.echo.easylib.alphaVisible
@@ -42,7 +42,7 @@ import java.util.*
 class PrinterFragment : BaseFragment(), PrinterContract.IView {
 
     companion object {
-        private val FMT_DATE = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        private val FMT_DATE = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
         fun goto(fragment: MasterFragment) {
             Request(PrinterFragment::class.java).also {
                 fragment.startFragment(it)
@@ -63,11 +63,12 @@ class PrinterFragment : BaseFragment(), PrinterContract.IView {
         @JvmStatic
         fun onDeviceSelectShow(textView: TextView, device: BluetoothDevice?) {
             device?.apply {
-                val hint = if (bluetoothClass.majorDeviceClass != BluetoothClass.Device.Major.IMAGING) {
-                    "Not a Printer"
-                } else {
-                    ""
-                }
+                val hint =
+                    if (bluetoothClass.majorDeviceClass != BluetoothClass.Device.Major.IMAGING) {
+                        "Not a Printer"
+                    } else {
+                        ""
+                    }
                 textView.text = "Name=%s\nAddress=%s\n%s".format(name, address, hint)
             }
         }
@@ -79,11 +80,15 @@ class PrinterFragment : BaseFragment(), PrinterContract.IView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mViewModel = ViewModelProviders.of(this).get(PrinterViewModel::class.java)
+        mViewModel = ViewModelProvider(this).get(PrinterViewModel::class.java)
         mViewModel.onCreate(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_printer, container, false)
         return mBinding.root
     }

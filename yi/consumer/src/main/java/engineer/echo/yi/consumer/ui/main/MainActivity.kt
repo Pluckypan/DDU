@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import engineer.echo.yi.common.EasyApp
 import engineer.echo.yi.common.cpmts.glide.EasyPicture
 import engineer.echo.yi.consumer.R
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), MainContract.IView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         binding = DataBindingUtil.setContentView<ConsumerMainBinding>(
             this,
             R.layout.consumer_activity_main

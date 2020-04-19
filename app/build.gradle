@@ -50,6 +50,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     // build
     implementation rootProject.ext.build.kotlinLib
+    implementation rootProject.ext.androidx.lifecycleExt
     // androidx
     implementation rootProject.ext.androidx.appcompat
     implementation rootProject.ext.androidx.ktx

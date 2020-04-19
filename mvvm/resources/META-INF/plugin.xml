@@ -1,8 +1,8 @@
 <idea-plugin>
     <id>engineer.echo.plugin.mvvm</id>
     <name>EasyMVVM</name>
-    <version>0.0.2</version>
-    <vendor email="plucky@echo.engineer" url="http://www.1991th.com">echo</vendor>
+    <version>0.0.3</version>
+    <vendor email="plucky@echo.engineer" url="https://github.com/Pluckypan/DDU/tree/master/mvvm">EasyMVVM</vendor>
 
     <description><![CDATA[
       Easy to create MVVM.[ ⌃⇧M ]<br>
@@ -11,10 +11,9 @@
     ]]></description>
 
     <change-notes><![CDATA[
-      <em>0.0.2</em>
-      1.Generate MVVM  with FolderName or ClassName<br>
-      2.Shortcut: ⌃⇧M ⌃⌥M <br>
-      2.Menu: NewGroup or CodeMenu <br>
+      <em>0.0.3</em>
+      1. support Fragment & Activity <br>
+      2. update ViewModel <br>
     ]]>
     </change-notes>
 

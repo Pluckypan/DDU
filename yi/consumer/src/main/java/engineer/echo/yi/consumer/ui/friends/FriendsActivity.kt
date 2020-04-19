@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import engineer.echo.yi.consumer.R
 import engineer.echo.yi.consumer.databinding.ConsumerActivityFriendsBinding
 
@@ -18,7 +18,7 @@ class FriendsActivity : AppCompatActivity(), FriendsContract.IView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(
+        viewModel = ViewModelProvider(
             this,
             FriendsViewModel.Factory(intent.extras, application)
         ).get(FriendsViewModel::class.java)

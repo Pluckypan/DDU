@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import engineer.echo.yi.producer.R
 import engineer.echo.yi.producer.databinding.ProducerActivityMainBinding
 
@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity(), MainContract.IView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.producer_activity_main)
         binding.apply {
             this.lifecycleOwner = this@MainActivity

@@ -28,3 +28,8 @@
 -keepclassmembers class * implements android.io.Parcelable {*;}
 -keep class * implements android.os.Parcelable {*;}
 -keep class * implements android.io.Parcelable{*;}
+
+-dontwarn com.jeremyliao.liveeventbus.**
+-keep class com.jeremyliao.liveeventbus.** { *; }
+-keep class androidx.lifecycle.** { *; }
+-keep class androidx.arch.core.** { *; }
