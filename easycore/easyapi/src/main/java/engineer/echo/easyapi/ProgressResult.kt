@@ -5,12 +5,6 @@ import androidx.annotation.Keep
 import engineer.echo.easyapi.annotation.State
 import kotlinx.android.parcel.Parcelize
 
-/**
- *  ProgressResult.kt
- *  Info: 带处理进度的结果
- *  Created by Plucky(plucky@echo.engineer) on 2020-02-04 - 02:37
- *  more about me: http://www.1991th.com
- */
 @Keep
 @Parcelize
 open class ProgressResult(
