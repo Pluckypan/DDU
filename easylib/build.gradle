@@ -29,6 +29,7 @@ dependencies {
     // androidx
     implementation rootProject.ext.androidx.appcompat
     implementation rootProject.ext.androidx.ktx
+    api rootProject.ext.widget.baseQuickAdapter
     // test
     testImplementation rootProject.ext.test.junit
     androidTestImplementation rootProject.ext.test.runner
