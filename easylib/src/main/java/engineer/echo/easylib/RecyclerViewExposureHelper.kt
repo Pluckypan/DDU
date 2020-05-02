@@ -17,6 +17,7 @@ abstract class RecyclerViewExposureHelper<T>(
     private var oldFirstPosition = -1
     private var oldLastPosition = -1
     private val positionList: MutableList<Int> = ArrayList()
+    private val tempArray = IntArray(2)
 
     private val resumeAction = this::recordResume
     private val scrollAction = this::recordScroll
@@ -34,7 +35,11 @@ abstract class RecyclerViewExposureHelper<T>(
 
     private fun recordResume() {
         val rangePosition =
-            exposureRecyclerView().visibleRange(completed = false, checkView = false)
+            exposureRecyclerView().visibleRange(
+                completed = false,
+                checkView = false,
+                array = tempArray
+            )
         val firstPosition = rangePosition[0]
         val lastPosition = rangePosition[1]
         if (firstPosition == -1 || lastPosition == -1) return
@@ -57,7 +62,11 @@ abstract class RecyclerViewExposureHelper<T>(
 
     private fun recordScroll() {
         val rangePosition =
-            exposureRecyclerView().visibleRange(completed = false, checkView = false)
+            exposureRecyclerView().visibleRange(
+                completed = false,
+                checkView = false,
+                array = tempArray
+            )
         val firstPosition = rangePosition[0]
         val lastPosition = rangePosition[1]
         if (firstPosition == oldFirstPosition && lastPosition == oldLastPosition) {

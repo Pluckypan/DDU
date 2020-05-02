@@ -128,9 +128,14 @@ fun RecyclerView.findLastVisibleAdapterPos(completed: Boolean = false): Int {
  * RecyclerView 可见区域
  * @param completed 是否完全可见
  * @param checkView 是否排除遮挡情况
+ * @param array 为了防止重复创建 可以传入
  */
-fun RecyclerView.visibleRange(completed: Boolean = false, checkView: Boolean = true): IntArray {
-    val result = IntArray(2)
+fun RecyclerView.visibleRange(
+    completed: Boolean = false,
+    checkView: Boolean = true,
+    array: IntArray? = null
+): IntArray {
+    val result = if (array != null && array.size >= 2) array else IntArray(2)
     val firstPos = findFirstVisibleAdapterPos(completed)
     var lastPos = findLastVisibleAdapterPos(completed)
     if (checkView) {
