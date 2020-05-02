@@ -30,16 +30,18 @@ abstract class RecyclerViewExposureHelper<T>(
 
     abstract fun map(position: Int): T
 
-    open fun exposureRecyclerView(): RecyclerView = scrollRecyclerView
+    open fun exposureRecyclerView(): RecyclerView? = scrollRecyclerView
+
+    open fun filter(position: Int): Boolean = true
 
 
     private fun recordResume() {
         val rangePosition =
-            exposureRecyclerView().visibleRange(
+            exposureRecyclerView()?.visibleRange(
                 completed = false,
                 checkView = false,
                 array = tempArray
-            )
+            ) ?: return
         val firstPosition = rangePosition[0]
         val lastPosition = rangePosition[1]
         if (firstPosition == -1 || lastPosition == -1) return
@@ -53,20 +55,26 @@ abstract class RecyclerViewExposureHelper<T>(
     }
 
     private fun reportInner(first: Int, last: Int) {
-        if (positionList.isNotEmpty()) {
-            exposureData(positionList.map { map(it) })
-            oldFirstPosition = first
-            oldLastPosition = last
+        positionList.filter {
+            filter(it)
+        }.map {
+            map(it)
+        }.let {
+            if (it.isNotEmpty()) {
+                exposureData(it)
+            }
         }
+        oldFirstPosition = first
+        oldLastPosition = last
     }
 
     private fun recordScroll() {
         val rangePosition =
-            exposureRecyclerView().visibleRange(
+            exposureRecyclerView()?.visibleRange(
                 completed = false,
                 checkView = false,
                 array = tempArray
-            )
+            ) ?: return
         val firstPosition = rangePosition[0]
         val lastPosition = rangePosition[1]
         if (firstPosition == oldFirstPosition && lastPosition == oldLastPosition) {
@@ -101,7 +109,7 @@ abstract class RecyclerViewExposureHelper<T>(
     }
 
     private fun checkView(position: Int): Int? {
-        return exposureRecyclerView().layoutManager?.findViewByPosition(position).let {
+        return exposureRecyclerView()?.layoutManager?.findViewByPosition(position).let {
             if (it != null) position else null
         }
     }
