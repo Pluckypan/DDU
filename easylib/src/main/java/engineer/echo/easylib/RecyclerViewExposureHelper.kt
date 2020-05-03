@@ -1,6 +1,5 @@
 package engineer.echo.easylib
 
-import android.os.Looper
 import android.os.SystemClock
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
@@ -140,10 +139,9 @@ abstract class RecyclerViewExposureHelper<T>(
      */
     fun reportFirstScreen() {
         if (hasReportFirstScreen) return
-        Looper.myQueue().addIdleHandler {
+        scrollRecyclerView.post {
             onResume()
             hasReportFirstScreen = true
-            false
         }
     }
 
@@ -151,7 +149,9 @@ abstract class RecyclerViewExposureHelper<T>(
      * 从后台返回前台调用
      */
     fun onResume() {
-        lastResumeTime = handleReportInterval(lastResumeTime, FLAG_RESUME)
+        if (exposureRecyclerView()?.adapter?.itemCount ?: 0 > 0) {
+            lastResumeTime = handleReportInterval(lastResumeTime, FLAG_RESUME)
+        }
     }
 
     /**
@@ -170,6 +170,6 @@ abstract class RecyclerViewExposureHelper<T>(
     companion object {
         private const val FLAG_SCROLL = 0
         private const val FLAG_RESUME = 1
-        private const val INTERVAL_REPORT = 350L
+        private const val INTERVAL_REPORT = 150L
     }
 }
