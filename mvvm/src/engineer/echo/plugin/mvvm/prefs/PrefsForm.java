@@ -19,6 +19,12 @@ public class PrefsForm implements Configurable {
     private JTextField baseActivityField;
     private JPanel prefsPanel;
     private JTextPane moduleField;
+    private JTree treeTemplate;
+    private JTextArea textTemplate;
+    private JButton button2;
+    private JButton button3;
+    private JButton button4;
+    private JButton button5;
 
     private String baseActivity = PrefsUtil.getBaseActivity();
 
