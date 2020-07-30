@@ -1,5 +1,6 @@
 package engineer.echo.yi
 
+import android.text.SpannableStringBuilder
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
 import org.junit.Assert.assertEquals
@@ -18,5 +19,12 @@ class ExampleInstrumentedTest {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("engineer.echo.yi", appContext.packageName)
+    }
+    @Test
+    fun testStringBuilder() {
+        val ssb = SpannableStringBuilder().append("ABCD")
+        val str = "ABCDEF"
+        ssb.replace(0, str.length, str)
+        assertEquals(ssb.length, 6)
     }
 }
