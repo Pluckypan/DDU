@@ -54,6 +54,7 @@ dependencies {
     api rootProject.ext.androidx.constraintlayout
     api rootProject.ext.androidx.recyclerview
     api rootProject.ext.androidx.lifecycleExt
+    api rootProject.ext.androidx.viewmodelKtx
     // framework
     api rootProject.ext.framework.videocache
     // glide
