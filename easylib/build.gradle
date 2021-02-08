@@ -28,6 +28,7 @@ dependencies {
 
     // androidx
     implementation rootProject.ext.androidx.appcompat
+    api rootProject.ext.androidx.recyclerview
     implementation rootProject.ext.androidx.ktx
     api rootProject.ext.widget.baseQuickAdapter
     // test
