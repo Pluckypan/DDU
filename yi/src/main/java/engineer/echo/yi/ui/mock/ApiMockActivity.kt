@@ -115,8 +115,8 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
 
     companion object {
 
-        private const val BG_DAY = "http://img.1991th.com/tuchongeter/statics/HSDH3OCE5QQKWYR"
-        private const val BG_NIGHT = "http://img.1991th.com/tuchongeter/statics/XO5DIZ7YXGU5EVN"
+        private const val BG_DAY = "http://img.1991.wiki/tuchongeter/statics/HSDH3OCE5QQKWYR"
+        private const val BG_NIGHT = "http://img.1991.wiki/tuchongeter/statics/XO5DIZ7YXGU5EVN"
         private val BG_TRANSFORM = MultiTransformation(
             BlurTransformation(10, 2),
             CenterCrop()

@@ -21,7 +21,7 @@ class ApiMockModel : ApiMockContract.IModel {
 
     companion object {
         private const val APK_URL =
-            "http://img.1991th.com/llyf.zip"
+            "http://img.1991.wiki/llyf.zip"
 
         private val zipPath by lazy {
             EasyApi.getProxy(Proxy.ProducerApi::class.java).getZipPath()
