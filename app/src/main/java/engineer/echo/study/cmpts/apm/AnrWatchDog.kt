@@ -1,6 +1,5 @@
 package engineer.echo.study.cmpts.apm
 
-import android.os.HandlerThread
 import android.os.Looper
 import android.os.SystemClock
 import android.util.Log
@@ -9,11 +8,10 @@ import android.util.StringBuilderPrinter
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicLong
 
-class AnrWatchDog : HandlerThread(TAG), Printer {
+class AnrWatchDog : Printer {
 
     private val enable = AtomicBoolean(false)
     private val lastTime = AtomicLong()
-    private val stringBuilder = StringBuilder()
 
     override fun println(x: String) {
         if (DEBUG_MODE.get()) {
@@ -31,7 +29,7 @@ class AnrWatchDog : HandlerThread(TAG), Printer {
         } else if (x.startsWith(END_PREFIX)) {
             val diffTime = SystemClock.elapsedRealtime() - lastTime.get()
             if (diffTime > REPORT_THRESHOLD.get()) {
-                Looper.getMainLooper().dump(StringBuilderPrinter(stringBuilder), TAG)
+
                 Log.i(TAG, "Monitor >>> $x")
             }
         }
@@ -48,7 +46,7 @@ class AnrWatchDog : HandlerThread(TAG), Printer {
 
     companion object {
 
-        private const val TAG = "AnrWatchDog"
+        const val TAG = "AnrWatchDog"
 
         val DEBUG_MODE = AtomicBoolean(true)
         var REPORT_THRESHOLD = AtomicLong(2000)
