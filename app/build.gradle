@@ -60,6 +60,8 @@ dependencies {
     implementation rootProject.ext.androidx.constraintlayout
     implementation rootProject.ext.androidx.recyclerview
     implementation rootProject.ext.androidx.coroutineAndroid
+    implementation rootProject.ext.androidx.viewpager2
+    implementation rootProject.ext.androidx.material
     // retrofit
     implementation rootProject.ext.retrofit.runtime
     implementation rootProject.ext.retrofit.loggingInterceptor
