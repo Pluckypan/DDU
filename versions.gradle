@@ -29,7 +29,7 @@ ext {
     ]
 
     build = [
-            gradleX    : 'com.android.tools.build:gradle:3.3.2',
+            gradleX    : 'com.android.tools.build:gradle:4.0.2',
             kotlinX    : "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.61",
             kotlinLib  : "org.jetbrains.kotlin:kotlin-stdlib:1.3.61",
             happyMaven : "engineer.echo:happymaven:0.0.9",
@@ -66,7 +66,8 @@ ext {
             appcompat       : 'androidx.appcompat:appcompat:1.1.0',
             constraintlayout: 'androidx.constraintlayout:constraintlayout:1.1.3',
             recyclerview    : 'androidx.recyclerview:recyclerview:1.0.0-alpha1',
-            lifecycleExt    : 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+            lifecycleExt    : 'androidx.lifecycle:lifecycle-extensions:2.2.0',
+            viewpager2      : 'androidx.viewpager2:viewpager2:1.0.0'
     ]
 
     protoBuf = [
