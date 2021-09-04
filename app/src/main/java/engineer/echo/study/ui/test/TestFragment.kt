@@ -11,6 +11,7 @@ import engineer.echo.oneactivity.core.Request
 import engineer.echo.study.R
 import engineer.echo.study.cmpts.BaseFragment
 import engineer.echo.study.databinding.TestFragmentBinding
+import engineer.echo.study.mvvm.vp2.Vp2Activity
 
 class TestFragment : BaseFragment() {
 
@@ -19,7 +20,7 @@ class TestFragment : BaseFragment() {
             listOf(
                 R.string.label_recyclerview_app,
                 R.string.label_touch_app,
-                R.string.label_lyric_app
+                R.string.label_vp2
             )
 
         fun goto(fragment: BaseFragment) {
@@ -31,7 +32,11 @@ class TestFragment : BaseFragment() {
 
     private lateinit var mBinding: TestFragmentBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_test, container, false)
         return mBinding.root
     }
@@ -53,8 +58,7 @@ class TestFragment : BaseFragment() {
                 when (TEST[i]) {
                     R.string.label_recyclerview_app -> RecyclerViewFragment.goto(this@TestFragment)
                     R.string.label_touch_app -> TouchEventFragment.goto(this@TestFragment)
-                    R.string.label_lyric_app -> {
-                    }
+                    R.string.label_vp2 -> Vp2Activity.goto(requireActivity())
                 }
             }
         }

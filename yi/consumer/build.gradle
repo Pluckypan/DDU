@@ -71,10 +71,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-
-    // weibo
-    implementation rootProject.ext.consumer.weibo
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
 
     // modules
     implementation project(":yi:common")

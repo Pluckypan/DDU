@@ -61,6 +61,6 @@
     <string name="title_test_center_app">测试中心</string>
     <string name="label_touch_app">TouchEvent</string>
     <string name="label_recyclerview_app">RecyclerView</string>
-    <string name="label_lyric_app">LyricView</string>
+    <string name="label_vp2">ViewPager2</string>
 
 </resources>

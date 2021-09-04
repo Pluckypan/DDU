@@ -2,17 +2,29 @@ package engineer.echo.study.mvvm.vp2
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.CompositePageTransformer
+import androidx.viewpager2.widget.MarginPageTransformer
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import engineer.echo.study.R
 import engineer.echo.study.databinding.ActivityVp2Binding
+import engineer.echo.study.mvvm.vp2.fragment.SimpleFragment
+import kotlin.math.abs
+import kotlin.math.min
 
 class Vp2Activity : AppCompatActivity(), Vp2Contract.IView {
 
@@ -28,6 +40,36 @@ class Vp2Activity : AppCompatActivity(), Vp2Contract.IView {
         ).get(Vp2ViewModel::class.java)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_vp2)
+        (binding.viewPager.getChildAt(0) as? RecyclerView)?.let {
+            it.setPadding(120, 60, 120, 60)
+            it.clipToPadding = false
+        }
+        binding.viewPager.isUserInputEnabled = true
+        binding.viewPager.adapter = object : FragmentStateAdapter(this) {
+            override fun getItemCount(): Int = DATA.size
+
+            override fun createFragment(position: Int): Fragment {
+                return when (position) {
+                    0, 1, 2 -> SimpleFragment.newInstance(
+                        DATA[position].first,
+                        DATA[position].second
+                    )
+                    else -> Fragment()
+                }
+            }
+
+        }
+        binding.viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        binding.viewPager.setCurrentItem(DATA.size - 2, false)
+        binding.viewPager.setPageTransformer(CompositePageTransformer().also {
+            it.addTransformer(MarginPageTransformer(60))
+            it.addTransformer(CardPageTransformer())
+        })
+
+
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab: TabLayout.Tab, i: Int ->
+            tab.text = DATA[i].first
+        }.attach()
 
         binding.apply {
             lifecycleOwner = this@Vp2Activity
@@ -36,12 +78,31 @@ class Vp2Activity : AppCompatActivity(), Vp2Contract.IView {
         }
     }
 
+    private class CardPageTransformer : ViewPager2.PageTransformer {
+
+        override fun transformPage(page: View, position: Float) {
+            val absPos = abs(position)
+            val scale = (1.0f - absPos * 0.1f)
+            page.apply {
+                scaleX = scale
+                scaleY = scale
+            }
+        }
+
+    }
+
     override fun toast(view: View) {
         Toast.makeText(this, "Hello EasyMVVM.${view.javaClass.simpleName}", Toast.LENGTH_LONG)
             .show()
     }
 
     companion object {
+
+        private val DATA = arrayListOf(
+            "A" to Color.parseColor("#DDA52D"),
+            "B" to Color.parseColor("#8B81C3"),
+            "C" to Color.parseColor("#CA7853")
+        )
 
         @BindingAdapter("easyJobData")
         @JvmStatic

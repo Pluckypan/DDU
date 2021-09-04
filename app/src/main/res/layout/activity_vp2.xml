@@ -7,28 +7,37 @@
 
         <variable
             name="viewModel"
-            type="engineer.echo.study.mvvm.easy.vp2.Vp2Contract.IViewModel" />
+            type="engineer.echo.study.mvvm.vp2.Vp2Contract.IViewModel" />
 
         <variable
             name="view"
-            type="engineer.echo.study.mvvm.easy.vp2.Vp2Contract.IView" />
+            type="engineer.echo.study.mvvm.vp2.Vp2Contract.IView" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:background="@android:color/white">
+        tools:viewBindingIgnore="false">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabMode="scrollable"
+            tools:background="#FA2855" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tab_layout"
+            tools:background="#CCC" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

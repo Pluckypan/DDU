@@ -1,5 +1,6 @@
 package engineer.echo.study.cmpts
 
+import android.util.TypedValue
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
@@ -69,3 +70,10 @@ fun View.bottomOut(
         .duration(duration)
         .start()
 }
+
+val (Int).dpToPx: Int
+    get() = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        this.toFloat(),
+        App.getDisplayMetrics()
+    ).toInt()
