@@ -39,9 +39,11 @@ class Vp2Activity : AppCompatActivity(), Vp2Contract.IView {
             Vp2ViewModel.Factory(intent.extras, application)
         ).get(Vp2ViewModel::class.java)
 
+        title = "日本传统色"
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_vp2)
         (binding.viewPager.getChildAt(0) as? RecyclerView)?.let {
-            it.setPadding(120, 60, 120, 60)
+            it.setPadding(180, 120, 180, 120)
             it.clipToPadding = false
         }
         binding.viewPager.isUserInputEnabled = true
@@ -83,9 +85,11 @@ class Vp2Activity : AppCompatActivity(), Vp2Contract.IView {
         override fun transformPage(page: View, position: Float) {
             val absPos = abs(position)
             val scale = (1.0f - absPos * 0.1f)
+            val alphaRatio = (1.0f - absPos * 0.5f)
             page.apply {
                 scaleX = scale
                 scaleY = scale
+                alpha = alphaRatio
             }
         }
 
@@ -99,9 +103,9 @@ class Vp2Activity : AppCompatActivity(), Vp2Contract.IView {
     companion object {
 
         private val DATA = arrayListOf(
-            "A" to Color.parseColor("#DDA52D"),
-            "B" to Color.parseColor("#8B81C3"),
-            "C" to Color.parseColor("#CA7853")
+            "素鼠" to Color.parseColor("#787D7B"),
+            "胡桃" to Color.parseColor("#947A6D"),
+            "老竹" to Color.parseColor("#6A8372")
         )
 
         @BindingAdapter("easyJobData")
