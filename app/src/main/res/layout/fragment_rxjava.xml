@@ -1,45 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data class="RxjavaBinding">
-        <import type="engineer.echo.study.ui.arch.rxjava.RxJavaView"/>
-        <variable name="iView" type="RxJavaView"/>
+
+        <import type="engineer.echo.study.ui.arch.rxjava.RxJavaView" />
+
+        <variable
+            name="iView"
+            type="RxJavaView" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:padding="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
 
         <TextView
-                android:layout_width="100dp"
-                android:id="@+id/tv_toList_rxjava"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:text="toList"
-                android:onClick="@{iView::onToListClick}"
-                android:background="@color/colorPrimary"
-                style="@style/TextItemStyle" tools:ignore="HardcodedText"/>
+            android:id="@+id/tv_toList_rxjava"
+            style="@style/TextItemStyle"
+            android:layout_width="100dp"
+            android:background="@color/colorPrimary"
+            android:onClick="@{iView::onToListClick}"
+            android:text="toList"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
 
         <TextView
-                android:layout_width="140dp"
-                android:id="@+id/tv_onErrorReturn_rxjava"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_toList_rxjava"
-                android:text="onErrorReturn"
-                android:onClick="@{iView::onErrorReturnClick}"
-                android:background="@color/colorPrimary"
-                style="@style/TextItemStyle" tools:ignore="HardcodedText"/>
+            android:id="@+id/tv_onErrorReturn_rxjava"
+            style="@style/TextItemStyle"
+            android:layout_width="140dp"
+            android:background="@color/colorPrimary"
+            android:onClick="@{iView::onErrorReturnClick}"
+            android:text="onErrorReturn"
+            app:layout_constraintStart_toEndOf="@+id/tv_toList_rxjava"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
 
         <TextView
-                android:layout_width="140dp"
-                android:id="@+id/tv_onDownload_rxjava"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_onErrorReturn_rxjava"
-                android:text="onDownload"
-                android:onClick="@{iView::onDownloadClick}"
-                android:background="@color/colorPrimary"
-                style="@style/TextItemStyle"
-                tools:ignore="HardcodedText"/>
+            android:id="@+id/tv_onDownload_rxjava"
+            style="@style/TextItemStyle"
+            android:layout_width="140dp"
+            android:background="@color/colorPrimary"
+            android:onClick="@{iView::onDownloadClick}"
+            android:text="onDownload"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_toList_rxjava"
+            tools:ignore="HardcodedText" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

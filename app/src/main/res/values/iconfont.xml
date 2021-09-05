@@ -11,4 +11,5 @@
     <string name="iconBluetooth">&#xec4b;</string>
     <string name="iconArch">&#xe89d;</string>
     <string name="iconCustomView">&#xe7d3;</string>
+    <string name="iconAPM">&#xe79e;</string>
 </resources>

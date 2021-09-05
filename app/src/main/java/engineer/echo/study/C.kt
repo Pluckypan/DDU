@@ -134,6 +134,14 @@ class C {
                 listOf(
                     R.string.label_behavior_app
                 )
+            ),
+            Subject(
+                R.string.title_apm,
+                R.color.color333366,
+                R.string.iconAPM,
+                listOf(
+                    R.string.label_anr
+                )
             )
         )
     }

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">三省</string>
-    <string name="app_name_en">Studay</string>
+    <string name="app_name_en">Study</string>
     <string name="label_slogan_app">好好学习 天天向上</string>
     <!--贝舍尔曲线-->
     <string name="title_subject_bezier_app">贝舍尔曲线</string>
@@ -62,5 +62,8 @@
     <string name="label_touch_app">TouchEvent</string>
     <string name="label_recyclerview_app">RecyclerView</string>
     <string name="label_vp2">ViewPager2</string>
+    <!--APM-->
+    <string name="title_apm">APM</string>
+    <string name="label_anr">ANR</string>
 
 </resources>

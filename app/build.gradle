@@ -62,6 +62,7 @@ dependencies {
     implementation rootProject.ext.androidx.coroutineAndroid
     implementation rootProject.ext.androidx.viewpager2
     implementation rootProject.ext.androidx.material
+    implementation rootProject.ext.androidx.flexbox
     // retrofit
     implementation rootProject.ext.retrofit.runtime
     implementation rootProject.ext.retrofit.loggingInterceptor

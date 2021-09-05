@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import engineer.echo.study.R
 import engineer.echo.study.cmpts.BaseFragment
 import engineer.echo.study.databinding.MainBinding
+import engineer.echo.study.ui.anr.AnrFragment
 import engineer.echo.study.ui.arch.coroutines.CoroutinesFragment
 import engineer.echo.study.ui.arch.rxjava.RxJavaFragment
 import engineer.echo.study.ui.bezier.BezierViewFragment
@@ -23,7 +24,11 @@ class MainFragment : BaseFragment(), MainAdapter.MainAdapterCallback {
 
     private lateinit var mBinding: MainBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
         return mBinding.root
     }
@@ -50,6 +55,7 @@ class MainFragment : BaseFragment(), MainAdapter.MainAdapterCallback {
             R.string.label_coroutines_arch -> CoroutinesFragment.goto(this)
             R.string.label_behavior_app -> BehaviorFragment.goto(this)
             R.string.label_rxjava_arch -> RxJavaFragment.goto(this)
+            R.string.label_anr -> AnrFragment.goto(this)
         }
     }
 
