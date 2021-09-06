@@ -18,4 +18,14 @@
         android:id="@+id/tv_stop"
         style="@style/style_simple_button"
         android:text="Stop" />
+
+    <TextView
+        android:id="@+id/tv_startFps"
+        style="@style/style_simple_button"
+        android:text="startFps" />
+
+    <TextView
+        android:id="@+id/tv_stopFps"
+        style="@style/style_simple_button"
+        android:text="stopFps" />
 </com.google.android.flexbox.FlexboxLayout>
