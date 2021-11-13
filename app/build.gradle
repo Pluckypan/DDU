@@ -116,3 +116,28 @@ protobuf {
     //生成目录
     generatedFilesBaseDir = "$projectDir/src/generated"
 }
+
+apply plugin: "com.vanniktech.dependency.graph.generator"
+apply plugin: 'project-report'
+//rootProject.plugins.apply(DependencyGraphGeneratorPlugin::class.java)
+//rootProject.configure < DependencyGraphGeneratorExtension > {
+//    generators.create("engineerLibrarys") {
+//        include = { dependency -> dependency.moduleGroup.startsWith("engineer.echo") }
+//        children = { true }
+//        dependencyNode = { node, dependency -> node.add(Style.FILLED, Color.rgb("#ffcb2b")) }
+//    }
+//}
+
+import com.vanniktech.dependency.graph.generator.DependencyGraphGeneratorPlugin
+import guru.nidi.graphviz.attribute.Color
+import guru.nidi.graphviz.attribute.Style
+rootProject.plugins.apply(DependencyGraphGeneratorPlugin)
+dependencyGraphGenerator {
+    generators {
+        engineerLibrarys {
+            include = { dependency -> dependency.getModuleGroup().startsWith("engineer.echo") } // Only want Firebase.
+            children = { dependency -> true } // Include transitive dependencies.
+            dependencyNode = { node, dependency -> node.add(Style.FILLED, Color.rgb("#ffcb2b")) } // Give them some color.
+        }
+    }
+}
