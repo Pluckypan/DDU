@@ -1,90 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data class="ConsumerMainBinding">
 
         <variable
-                name="iView"
-                type="engineer.echo.yi.consumer.ui.main.MainContract.IView" />
+            name="iView"
+            type="engineer.echo.yi.consumer.ui.main.MainContract.IView" />
 
         <variable
-                name="viewModel"
-                type="engineer.echo.yi.consumer.ui.main.MainContract.IViewModel" />
+            name="viewModel"
+            type="engineer.echo.yi.consumer.ui.main.MainContract.IViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".ui.main.MainActivity">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.main.MainActivity">
 
         <ImageView
-                android:id="@+id/ivAvatar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="40dp"
-                android:contentDescription="@string/consumer_app_name"
-                app:accountInfoData="@{viewModel.accountInfoData}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/ivAvatar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="40dp"
+            android:contentDescription="@string/consumer_app_name"
+            app:accountInfoData="@{viewModel.accountInfoData}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                app:accountInfoData="@{viewModel.accountInfoData}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivAvatar" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            app:accountInfoData="@{viewModel.accountInfoData}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivAvatar" />
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:gravity="center"
-                android:text="@{viewModel.userInfoData.toString()}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:gravity="center"
+            android:text="@{viewModel.userInfoData.toString()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <Button
-                android:id="@+id/btnFriends"
-                style="@style/common_button_style"
-                android:onClick="@{iView::onFriendsList}"
-                android:text="@string/consumer_fmt_friends"
-                app:layout_constraintBottom_toTopOf="@+id/btnAuth"
-                app:layout_constraintStart_toStartOf="parent"
-                app:onFriendsCount="@{viewModel.accountInfoData}" />
+            android:id="@+id/btnFriends"
+            style="@style/common_button_style"
+            android:onClick="@{iView::onFriendsList}"
+            android:text="@string/consumer_fmt_friends"
+            app:layout_constraintBottom_toTopOf="@+id/btnAuth"
+            app:layout_constraintStart_toStartOf="parent"
+            app:onFriendsCount="@{viewModel.accountInfoData}" />
 
         <Button
-                android:id="@+id/btnAuth"
-                style="@style/common_button_style"
-                android:onClick="@{()->iView.onAuthorize()}"
-                android:text="@string/consumer_authorize"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+            android:id="@+id/btnBitmap"
+            style="@style/common_button_style"
+            android:onClick="@{iView::gotoBitmap}"
+            android:text="@string/consumer_bitmap"
+            app:layout_constraintBottom_toTopOf="@+id/btnAuth"
+            app:layout_constraintStart_toEndOf="@+id/btnFriends" />
 
         <Button
-                android:id="@+id/btnClearAuth"
-                style="@style/common_button_style"
-                android:onClick="@{()->iView.onClearAuth()}"
-                android:text="@string/consumer_clear_auth"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/btnAuth" />
+            android:id="@+id/btnAuth"
+            style="@style/common_button_style"
+            android:onClick="@{()->iView.onAuthorize()}"
+            android:text="@string/consumer_authorize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-                android:id="@+id/btnRefreshAuth"
-                style="@style/common_button_style"
-                android:onClick="@{()->iView.onRefreshAuth()}"
-                android:text="@string/consumer_refresh_auth"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/btnClearAuth" />
+            android:id="@+id/btnClearAuth"
+            style="@style/common_button_style"
+            android:onClick="@{()->iView.onClearAuth()}"
+            android:text="@string/consumer_clear_auth"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnAuth" />
+
+        <Button
+            android:id="@+id/btnRefreshAuth"
+            style="@style/common_button_style"
+            android:onClick="@{()->iView.onRefreshAuth()}"
+            android:text="@string/consumer_refresh_auth"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnClearAuth" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

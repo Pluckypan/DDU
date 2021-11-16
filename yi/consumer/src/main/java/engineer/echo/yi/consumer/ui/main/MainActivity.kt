@@ -19,6 +19,7 @@ import engineer.echo.yi.consumer.cmpts.weibo.Weibo
 import engineer.echo.yi.consumer.cmpts.weibo.WeiboAuthHandler
 import engineer.echo.yi.consumer.cmpts.weibo.bean.Account
 import engineer.echo.yi.consumer.databinding.ConsumerMainBinding
+import engineer.echo.yi.consumer.ui.bitmap.BitmapActivity
 import engineer.echo.yi.consumer.ui.friends.FriendsActivity
 
 class MainActivity : AppCompatActivity(), MainContract.IView {
@@ -59,6 +60,10 @@ class MainActivity : AppCompatActivity(), MainContract.IView {
         viewModel.accountInfoData.value?.id?.let {
             FriendsActivity.goto(this, it)
         }
+    }
+
+    override fun gotoBitmap(view: View) {
+        BitmapActivity.goto(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

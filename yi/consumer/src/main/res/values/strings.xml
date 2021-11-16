@@ -6,4 +6,5 @@
     <string name="consumer_fmt_friends">Following %s</string>
     <string name="consumer_followed">following</string>
     <string name="consumer_follow">follow</string>
+    <string name="consumer_bitmap" translatable="false">Bitmap</string>
 </resources>

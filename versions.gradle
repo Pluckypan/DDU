@@ -1,8 +1,8 @@
 private static def addRepos(RepositoryHandler handler) {
     // handler.maven { url 'http://localhost:8081/repository/maven-releases/' }
+    handler.maven { url 'https://jitpack.io' }
     handler.mavenCentral()
     handler.maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-    handler.maven { url 'https://jitpack.io' }
     handler.google()
 }
 

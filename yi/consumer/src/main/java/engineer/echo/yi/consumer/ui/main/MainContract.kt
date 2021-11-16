@@ -12,6 +12,7 @@ object MainContract {
         fun onClearAuth()
         fun onRefreshAuth()
         fun onFriendsList(view: View)
+        fun gotoBitmap(view: View)
     }
 
     interface IViewModel {
