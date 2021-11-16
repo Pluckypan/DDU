@@ -22,12 +22,48 @@
 
         <engineer.echo.yi.consumer.ui.bitmap.Van
             android:layout_width="0dp"
-            android:layout_height="280dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="20dp"
+            android:background="#5544cef6"
+            app:layout_constraintBottom_toTopOf="@+id/tvConsole"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <CheckBox
+            android:id="@+id/cbL"
+            style="@style/consumer_bitmap_checkbox"
+            android:text="L"
+            app:layout_constraintBottom_toTopOf="@+id/tvConsole"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="HardcodedText" />
+
+        <CheckBox
+            android:id="@+id/cbT"
+            style="@style/consumer_bitmap_checkbox"
+            android:text="T"
+            app:layout_constraintBottom_toTopOf="@+id/tvConsole"
+            app:layout_constraintStart_toEndOf="@+id/cbL"
+            tools:ignore="HardcodedText" />
+
+        <CheckBox
+            android:id="@+id/cbR"
+            style="@style/consumer_bitmap_checkbox"
+            android:text="R"
+            app:layout_constraintBottom_toTopOf="@+id/tvConsole"
+            app:layout_constraintStart_toEndOf="@+id/cbT"
+            tools:ignore="HardcodedText" />
+
+        <CheckBox
+            android:id="@+id/cbB"
+            style="@style/consumer_bitmap_checkbox"
+            android:text="B"
+            app:layout_constraintBottom_toTopOf="@+id/tvConsole"
+            app:layout_constraintStart_toEndOf="@+id/cbR"
+            tools:ignore="HardcodedText" />
+
         <TextView
+            android:id="@+id/tvConsole"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#333"
