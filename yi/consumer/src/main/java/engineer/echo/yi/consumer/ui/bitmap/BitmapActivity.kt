@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.CompoundButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +28,14 @@ class BitmapActivity : AppCompatActivity(), BitmapContract.IView {
         ).get(BitmapViewModel::class.java)
 
         binding = DataBindingUtil.setContentView(this, R.layout.consumer_activity_bitmap)
+        binding.apply {
+            van.post {
+                cbL.isChecked = van.poster.neighborDistribution[0]
+                cbT.isChecked = van.poster.neighborDistribution[1]
+                cbR.isChecked = van.poster.neighborDistribution[2]
+                cbB.isChecked = van.poster.neighborDistribution[3]
+            }
+        }
 
         binding.apply {
             lifecycleOwner = this@BitmapActivity
@@ -38,6 +47,22 @@ class BitmapActivity : AppCompatActivity(), BitmapContract.IView {
     override fun toast(view: View) {
         Toast.makeText(this, "Hello EasyMVVM.${view.javaClass.simpleName}", Toast.LENGTH_LONG)
             .show()
+    }
+
+    override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
+        if (buttonView.id == R.id.cbV) {
+            binding.van.vertical.set(isChecked)
+            binding.van.invalidate()
+            return
+        }
+        val index = when (buttonView.id) {
+            R.id.cbL -> 0
+            R.id.cbT -> 1
+            R.id.cbR -> 2
+            R.id.cbB -> 3
+            else -> 0
+        }
+        binding.van.update(index, isChecked)
     }
 
     companion object {

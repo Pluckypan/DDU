@@ -21,6 +21,7 @@
         tools:background="@android:color/white">
 
         <engineer.echo.yi.consumer.ui.bitmap.Van
+            android:id="@+id/van"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="20dp"
@@ -31,8 +32,19 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <CheckBox
+            android:id="@+id/cbV"
+            style="@style/consumer_bitmap_checkbox"
+            android:layout_marginBottom="10dp"
+            android:onCheckedChanged="@{view::onCheckedChanged}"
+            android:text="Vertical"
+            app:layout_constraintBottom_toTopOf="@+id/cbL"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="HardcodedText" />
+
+        <CheckBox
             android:id="@+id/cbL"
             style="@style/consumer_bitmap_checkbox"
+            android:onCheckedChanged="@{view::onCheckedChanged}"
             android:text="L"
             app:layout_constraintBottom_toTopOf="@+id/tvConsole"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,6 +53,7 @@
         <CheckBox
             android:id="@+id/cbT"
             style="@style/consumer_bitmap_checkbox"
+            android:onCheckedChanged="@{view::onCheckedChanged}"
             android:text="T"
             app:layout_constraintBottom_toTopOf="@+id/tvConsole"
             app:layout_constraintStart_toEndOf="@+id/cbL"
@@ -49,6 +62,7 @@
         <CheckBox
             android:id="@+id/cbR"
             style="@style/consumer_bitmap_checkbox"
+            android:onCheckedChanged="@{view::onCheckedChanged}"
             android:text="R"
             app:layout_constraintBottom_toTopOf="@+id/tvConsole"
             app:layout_constraintStart_toEndOf="@+id/cbT"
@@ -57,6 +71,7 @@
         <CheckBox
             android:id="@+id/cbB"
             style="@style/consumer_bitmap_checkbox"
+            android:onCheckedChanged="@{view::onCheckedChanged}"
             android:text="B"
             app:layout_constraintBottom_toTopOf="@+id/tvConsole"
             app:layout_constraintStart_toEndOf="@+id/cbR"
