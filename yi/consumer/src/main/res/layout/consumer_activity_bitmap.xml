@@ -31,6 +31,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <engineer.echo.yi.consumer.ui.bitmap.FusionTipsView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="1234ABCD"
+            app:layout_constraintBottom_toTopOf="@+id/cbV"
+            app:layout_constraintStart_toStartOf="@+id/cbV"
+            tools:ignore="HardcodedText" />
+
         <CheckBox
             android:id="@+id/cbV"
             style="@style/consumer_bitmap_checkbox"
