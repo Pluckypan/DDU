@@ -51,6 +51,17 @@
             tools:ignore="HardcodedText" />
 
         <CheckBox
+            android:id="@+id/cbType"
+            style="@style/consumer_bitmap_checkbox"
+            android:layout_marginBottom="10dp"
+            android:checked="true"
+            android:onCheckedChanged="@{view::onCheckedChanged}"
+            android:text="CenterScale"
+            app:layout_constraintBottom_toTopOf="@+id/cbL"
+            app:layout_constraintStart_toEndOf="@+id/cbV"
+            tools:ignore="HardcodedText" />
+
+        <CheckBox
             android:id="@+id/cbL"
             style="@style/consumer_bitmap_checkbox"
             android:onCheckedChanged="@{view::onCheckedChanged}"

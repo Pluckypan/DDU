@@ -23,6 +23,7 @@ class Van @JvmOverloads constructor(
     }
     private val offset = 40f
     val vertical = AtomicBoolean(false)
+    val type = AtomicBoolean(true)
 
     private val origin
         get() = if (vertical.get()) {
@@ -31,7 +32,6 @@ class Van @JvmOverloads constructor(
             tplH
         }.toBitmap()
 
-    private val mtx = Matrix()
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         textSize = 36f
         color = Color.parseColor("#88fff143")
@@ -56,42 +56,12 @@ class Van @JvmOverloads constructor(
         canvas.drawBitmap(origin, 0f, 0f, null)
         canvas.drawText("origin", offset, offset * 2, paint)
 
-        val diff = (min(width, height) * 0.1f).minEdge()
-        // 加高度、宽度会有剩余
-        val fusionHeight = origin.height + 2 * diff
-        val ratio = fusionHeight / origin.height
-        val fusionWidth = fusionHeight * origin.width / origin.height
-        val diffWidth = (fusionWidth - origin.width - 2 * diff) / 2f
-
         val py = origin.height + 20f
-        // canvas.drawRect(0f, py, fusionWidth, py + fusionHeight, paint)
-        mtx.postScale(ratio, ratio)
-        mtx.postTranslate(0f, py)
-        canvas.drawBitmap(origin, mtx, null)
-        // 竖条
-        canvas.drawRect(diffWidth, py, diffWidth + diff, py + fusionHeight, paint)
-        canvas.drawRect(
-            fusionWidth - diffWidth - diff,
-            py,
-            fusionWidth - diffWidth,
-            py + fusionHeight,
-            paint
-        )
-        // 横条
-        canvas.drawRect(diffWidth, py, fusionWidth - diffWidth, py + diff, paint)
-        canvas.drawRect(
-            diffWidth,
-            py + fusionHeight - diff,
-            fusionWidth - diffWidth,
-            py + fusionHeight,
-            paint
-        )
-        mtx.reset()
 
-        val ry = py + fusionHeight + 20f
-        val b1 = origin.fusionEdge(poster, paint, true)
+        val ry = py + 20f
+        val b1 = origin.fusionEdge(poster, paint, true, type.get())
         canvas.drawBitmap(b1, 0f, ry, null)
-        val b2 = origin.fusionEdge(poster, paint, false)
+        val b2 = origin.fusionEdge(poster, paint, false, type.get())
         val b2y = ry + b1.height + 20
         canvas.drawBitmap(b2, 0f, b2y, null)
     }
@@ -108,11 +78,13 @@ class Van @JvmOverloads constructor(
          * 调试模式下，把「融合区域」给画下来
          * 因为要绘制调试边缘区域，所以不能用 Bitmap.createBitmap(result, 0, 0, patchWidth, patchHeight, matrix, false)
          * 用 Canvas & Matrix 步骤，放大 --> 裁剪 --> 输出
+         * @param type 是否居中裁剪，如果非居中裁剪，则哪一边不融合，则优先保哪一边
          */
         private fun Bitmap.fusionEdge(
             patch: PosterPhotoPatch,
             paint: Paint,
-            debug: Boolean
+            debug: Boolean,
+            type: Boolean
         ): Bitmap {
             val originWidth = this.width
             val originHeight = this.height
@@ -158,18 +130,28 @@ class Van @JvmOverloads constructor(
             // 确认上下左右边缘
             if (!hasLeft) {
                 fusionWidth -= fusionSize
-                startX += fusionSize
+                if (type) {
+                    startX += fusionSize
+                }
             }
             if (!hasRight) {
                 fusionWidth -= fusionSize
+                if (!type) {
+                    startX += fusionSize
+                }
             }
 
             if (!hasTop) {
                 fusionHeight -= fusionSize
-                startY += fusionSize
+                if (type) {
+                    startY += fusionSize
+                }
             }
             if (!hasBottom) {
                 fusionHeight -= fusionSize
+                if (!type) {
+                    startY += fusionSize
+                }
             }
             val result = Bitmap.createBitmap(
                 scaleWidth.roundToInt(),

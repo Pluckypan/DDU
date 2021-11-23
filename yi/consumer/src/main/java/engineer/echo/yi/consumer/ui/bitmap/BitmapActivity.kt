@@ -55,6 +55,11 @@ class BitmapActivity : AppCompatActivity(), BitmapContract.IView {
             binding.van.invalidate()
             return
         }
+        if (buttonView.id == R.id.cbType) {
+            binding.van.type.set(isChecked)
+            binding.van.invalidate()
+            return
+        }
         val index = when (buttonView.id) {
             R.id.cbL -> 0
             R.id.cbT -> 1
