@@ -1,13 +1,22 @@
 package engineer.echo.yi.consumer.ui.bitmap
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Bitmap.CompressFormat
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.IntRange
 import androidx.core.graphics.drawable.toBitmap
 import engineer.echo.yi.consumer.R
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 
@@ -19,7 +28,7 @@ class Van @JvmOverloads constructor(
         resources.getDrawable(R.drawable.template)
     }
     private val tplV by lazy {
-        resources.getDrawable(R.drawable.template_v)
+        resources.getDrawable(R.drawable.result)
     }
     private val offset = 40f
     val vertical = AtomicBoolean(false)
@@ -34,7 +43,7 @@ class Van @JvmOverloads constructor(
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         textSize = 36f
-        color = Color.parseColor("#88fff143")
+        color = Color.parseColor("#330000FF")
     }
     val poster by lazy {
         PosterPhotoPatch(width, height, BooleanArray(4) {
@@ -48,157 +57,144 @@ class Van @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
+        canvas.save()
+        canvas.translate(40f, 40f)
         super.onDraw(canvas)
         if (isInEditMode) {
             canvas.drawText("Van", origin.width / 2f, origin.height / 2f, paint)
             return
         }
-        canvas.drawBitmap(origin, 0f, 0f, null)
-        canvas.drawText("origin", offset, offset * 2, paint)
-
-        val py = origin.height + 20f
-
+        val fusionSize = 60f;(min(poster.worldWidth, poster.worldHeight) * 0.1f).minEdge()
+        val py = 0f
         val ry = py + 20f
-        val b1 = origin.fusionEdge(poster, paint, true, type.get())
+        val b1 = origin.fusionEdge(poster, fusionSize)
+        canvas.drawRect(0f, ry, b1.width * 1f, ry + b1.height, paint)
         canvas.drawBitmap(b1, 0f, ry, null)
-        val b2 = origin.fusionEdge(poster, paint, false, type.get())
-        val b2y = ry + b1.height + 20
-        canvas.drawBitmap(b2, 0f, b2y, null)
+        val tx = b1.width * 0.5f
+        val ty = py + b1.height + 60
+        canvas.drawText(
+            "f=$fusionSize dest -> ${b1.width}*${b1.height}",
+            tx,
+            ty,
+            paint
+        )
+        canvas.drawText(
+            "f=$fusionSize src -> ${origin.width}*${origin.height}",
+            tx,
+            ty + 40,
+            paint
+        )
+        canvas.restore()
     }
 
     companion object {
-
         private fun Float.minEdge(): Float {
             return min(20f, this)
         }
 
+        fun saveBitmap2SD(bmp: Bitmap, filePath: String, format: CompressFormat): Boolean {
+            val file = File(filePath)
+            try {
+                file.createNewFile()
+            } catch (e: IOException) {
+                return false
+            }
+            val fOut: FileOutputStream?
+            fOut = try {
+                FileOutputStream(file)
+            } catch (e: FileNotFoundException) {
+                return false
+            }
+            bmp.compress(format, 100, fOut)
+            try {
+                fOut.flush()
+                fOut.close()
+            } catch (e: IOException) {
+                return false
+            }
+            return true
+        }
+
         /**
          * this 为原始用户所见即所得的画面，需要缩放空出融合边界
-         * 以短边为主，否则「等比缩放」后，短边没有足够的「融合宽度」
-         * 调试模式下，把「融合区域」给画下来
-         * 因为要绘制调试边缘区域，所以不能用 Bitmap.createBitmap(result, 0, 0, patchWidth, patchHeight, matrix, false)
-         * 用 Canvas & Matrix 步骤，放大 --> 裁剪 --> 输出
-         * @param type 是否居中裁剪，如果非居中裁剪，则哪一边不融合，则优先保哪一边
          */
         private fun Bitmap.fusionEdge(
             patch: PosterPhotoPatch,
-            paint: Paint,
-            debug: Boolean,
-            type: Boolean
+            fusionSize: Float
         ): Bitmap {
             val originWidth = this.width
             val originHeight = this.height
             // 取画布短边的 10% 作为融合的边界
-            val fusionSize = (min(patch.worldWidth, patch.worldHeight) * 0.1f).minEdge()
+
             // 上下左右的分布
             val hasLeft = patch.neighborDistribution[0]
             val hasTop = patch.neighborDistribution[1]
             val hasRight = patch.neighborDistribution[2]
             val hasBottom = patch.neighborDistribution[3]
-
-            val matrix = Matrix()
-            val ratio: Float
-            var startX: Float
-            var startY: Float
-            val scaleWidth: Float
-            val scaleHeight: Float
-            var fusionWidth: Float
-            var fusionHeight: Float
-            // 基本参数
-            if (originWidth < originHeight) {
-                // 宽度较小的情况下，高度会有多余的「量」，先把多余的量去除掉
-                scaleWidth = originWidth + 2 * fusionSize
-                scaleHeight = scaleWidth * originHeight / originWidth
-                ratio = scaleWidth * 1f / originWidth
-                val diffY = (scaleHeight - originHeight - 2 * fusionSize) / 2f
-                fusionWidth = scaleWidth
-                fusionHeight = scaleHeight - 2 * diffY
-                startX = 0f
-                startY = diffY
+            // 等比缩放后，需要填充的宽高
+            val top = if (hasTop) fusionSize else 0f
+            val bottom = if (hasBottom) fusionSize else 0f
+            val left = if (hasLeft) fusionSize else 0f
+            val right = if (hasRight) fusionSize else 0f
+            // 最终需要裁切的宽高
+            val clipW = originWidth + left + right
+            val clipH = originHeight + top + bottom
+            // 图片需要缩放的比例
+            val factor = max(clipW / originWidth, clipH / originHeight)
+            // 等比缩放完的图片大小
+            val scaleWidth = originWidth * factor
+            val scaleHeight = originHeight * factor
+            // 等比缩放完，与实际裁切大小，一定一边有剩余
+            val diffX = scaleWidth - clipW
+            val diffY = scaleHeight - clipH
+            // 横向裁切位置
+            val startX: Float = if ((hasLeft && hasRight) || (!hasLeft && !hasRight)) {
+                diffX / 2f
+            } else if (hasLeft) {
+                diffX
             } else {
-                // 高度较小的情况下，宽度会有多余的「量」，先把多余的量去除掉
-                scaleHeight = originHeight + 2 * fusionSize
-                scaleWidth = scaleHeight * originWidth / originHeight
-                ratio = scaleHeight * 1f / originHeight
-                val diffX = (scaleWidth - originWidth - 2 * fusionSize) / 2f
-                fusionWidth = scaleWidth - 2 * diffX
-                fusionHeight = scaleHeight
-                startX = diffX
-                startY = 0f
+                0f
             }
-
-            // 确认上下左右边缘
-            if (!hasLeft) {
-                fusionWidth -= fusionSize
-                if (type) {
-                    startX += fusionSize
-                }
+            // 纵向裁切位置
+            val startY: Float = if ((hasTop && hasBottom) || (!hasTop && !hasBottom)) {
+                diffY / 2f
+            } else if (hasLeft) {
+                diffY
+            } else {
+                0f
             }
-            if (!hasRight) {
-                fusionWidth -= fusionSize
-                if (!type) {
-                    startX += fusionSize
-                }
-            }
-
-            if (!hasTop) {
-                fusionHeight -= fusionSize
-                if (type) {
-                    startY += fusionSize
-                }
-            }
-            if (!hasBottom) {
-                fusionHeight -= fusionSize
-                if (!type) {
-                    startY += fusionSize
-                }
-            }
-            val result = Bitmap.createBitmap(
+            // 等比缩放图
+            return Bitmap.createScaledBitmap(
+                this,
                 scaleWidth.roundToInt(),
                 scaleHeight.roundToInt(),
-                Bitmap.Config.ARGB_8888
-            )
-            // 绘制最终展示的区域
-            val canvas = Canvas(result)
-            canvas.drawColor(Color.parseColor("#66FA2855"))
-            matrix.postScale(ratio, ratio)
-            canvas.clipRect(startX, startY, startX + fusionWidth, startY + fusionHeight)
-            canvas.drawBitmap(this, matrix, null)
-
-            // 绘制 debug 区域
-            if (hasLeft) {
-                canvas.drawRect(startX, startY, startX + fusionSize, startY + fusionHeight, paint)
-            }
-            if (hasTop) {
-                canvas.drawRect(startX, startY, startX + fusionWidth, startY + fusionSize, paint)
-            }
-            if (hasRight) {
-                canvas.drawRect(
-                    startX + fusionWidth - fusionSize,
-                    startY,
-                    startX + fusionWidth,
-                    startY + fusionHeight,
-                    paint
-                )
-            }
-            if (hasBottom) {
-                canvas.drawRect(
-                    startX,
-                    startY + fusionHeight - fusionSize,
-                    startX + fusionWidth,
-                    startY + fusionHeight,
-                    paint
-                )
-            }
-            return if (debug) {
-                result
-            } else {
+                true
+            ).let {
+                // 起始位置以及裁切大小
+                val sx = startX.roundToInt()
+                val sy = startY.roundToInt()
+                val cw = clipW.roundToInt()
+                val ch = clipH.roundToInt()
+                // 四舍五入会越界，判断一下
+                val ow = if (sx + cw > it.width) {
+                    it.width - sx
+                } else {
+                    cw
+                }
+                val oh = if (sy + ch > it.height) {
+                    it.height - sy
+                } else {
+                    ch
+                }
+                // 最终渲染图
                 Bitmap.createBitmap(
-                    result,
-                    startX.roundToInt(),
-                    startY.roundToInt(),
-                    fusionWidth.roundToInt(),
-                    fusionHeight.roundToInt()
+                    it,
+                    sx,
+                    sy,
+                    ow,
+                    oh,
+                    null,
+                    true
                 )
             }
         }
