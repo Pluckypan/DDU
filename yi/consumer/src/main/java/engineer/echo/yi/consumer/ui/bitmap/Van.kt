@@ -158,7 +158,7 @@ class Van @JvmOverloads constructor(
             // 纵向裁切位置
             val startY: Float = if ((hasTop && hasBottom) || (!hasTop && !hasBottom)) {
                 diffY / 2f
-            } else if (hasLeft) {
+            } else if (hasTop) {
                 diffY
             } else {
                 0f
