@@ -1,3 +1,4 @@
 <resources>
     <string name="im_app_name">EasyIM</string>
+    <string name="title_activity_combo">ComboActivity</string>
 </resources>

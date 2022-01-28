@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        package="engineer.echo.yi.im">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="engineer.echo.yi.im">
 
     <application
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/im_app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:name=".IMApp"
-            android:theme="@style/CommonEasyAppTheme"
-            tools:ignore="GoogleAppIndexingWarning">
+        android:name=".IMApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/im_app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/CommonEasyAppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".ComboActivity"
+            android:exported="false"
+            android:label="@string/title_activity_combo"
+            android:theme="@style/CommonEasyAppTheme.NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="${MODULE_ACTION}" />
