@@ -99,16 +99,15 @@ class Van @JvmOverloads constructor(
             } catch (e: IOException) {
                 return false
             }
-            val fOut: FileOutputStream?
-            fOut = try {
+            val fOut: FileOutputStream? = try {
                 FileOutputStream(file)
             } catch (e: FileNotFoundException) {
                 return false
             }
             bmp.compress(format, 100, fOut)
             try {
-                fOut.flush()
-                fOut.close()
+                fOut?.flush()
+                fOut?.close()
             } catch (e: IOException) {
                 return false
             }
