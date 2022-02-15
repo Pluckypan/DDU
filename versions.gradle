@@ -1,9 +1,8 @@
 private static def addRepos(RepositoryHandler handler) {
-    // handler.maven { url 'http://localhost:8081/repository/maven-releases/' }
-    handler.maven { url 'https://jitpack.io' }
     handler.mavenCentral()
-    handler.maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
     handler.google()
+    handler.maven { url 'https://jitpack.io' }
+    handler.maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
 }
 
 ext {
@@ -21,14 +20,14 @@ ext {
     ]
 
     android = [
-            compileSdkVersion : 28,
+            compileSdkVersion : 31,
             minSdkVersion     : 21,
-            targetSdkVersion  : 28,
+            targetSdkVersion  : 31,
             renderscriptTarget: 24,
     ]
 
     build = [
-            gradleX    : 'com.android.tools.build:gradle:4.0.2',
+            gradleX    : 'com.android.tools.build:gradle:7.0.0',
             kotlinX    : "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.61",
             kotlinLib  : "org.jetbrains.kotlin:kotlin-stdlib:1.3.61",
             happyMaven : "engineer.echo:happymaven:0.0.9",

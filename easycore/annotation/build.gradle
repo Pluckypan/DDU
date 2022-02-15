@@ -10,12 +10,3 @@ tasks.withType(JavaCompile) {
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
-
-
-apply plugin: 'happy-maven'
-
-HappyMaven {
-    groupId = "engineer.echo.easyapi"
-    artifactId = "annotation"
-    version = "0.0.2"
-}

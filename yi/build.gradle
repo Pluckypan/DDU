@@ -20,7 +20,6 @@ android {
         //各个模块化Modular无法使用 kapt 需要添加如下配置解决
         javaCompileOptions {
             annotationProcessorOptions {
-                includeCompileClasspath = true
                 arguments = [
                         "room.schemaLocation": "$rootDir/schemas".toString() // Room 输出文件夹
                 ]

@@ -41,7 +41,7 @@ fun Bitmap.toFile(
         }
         true
     } catch (e: Exception) {
-        Log.e("BitmapX", e.message)
+        Log.e("BitmapX", e.message ?:"")
         false
     }
 }

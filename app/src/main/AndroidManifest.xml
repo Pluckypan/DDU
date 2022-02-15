@@ -24,7 +24,7 @@
         <service android:name="engineer.echo.study.ui.ipc.messenger.SenderService" />
         <service
             android:name="engineer.echo.study.ui.ipc.messenger.ReceiverService"
-            android:exported="true" />
+            android:exported="false" />
 
         <activity
             android:name=".mvvm.easy.EasyActivity"

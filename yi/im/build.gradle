@@ -15,11 +15,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                includeCompileClasspath = true
-            }
-        }
         //各模块单独添加
         manifestPlaceholders = [
                 MODULE_ACTION: moduleAction("im") as String

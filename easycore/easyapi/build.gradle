@@ -46,10 +46,3 @@ dependencies {
     androidTestImplementation rootProject.ext.test.runner
     androidTestImplementation rootProject.ext.test.espresso
 }
-
-apply plugin: 'happy-maven'
-
-HappyMaven {
-    artifactId = "easyapi"
-    version = "0.0.2"
-}
