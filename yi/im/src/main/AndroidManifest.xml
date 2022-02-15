@@ -16,8 +16,9 @@
             android:name=".ComboActivity"
             android:label="@string/title_activity_combo"
             android:theme="@style/CommonEasyAppTheme.NoActionBar" />
-        <activity android:name=".MainActivity"
-            android:exported="false">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="${MODULE_ACTION}" />
 

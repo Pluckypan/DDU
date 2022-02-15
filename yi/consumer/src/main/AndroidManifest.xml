@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/CommonEasyAppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.main.MainActivity">
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="${MODULE_ACTION}" />
                 <category android:name="android.intent.category.LAUNCHER" />
