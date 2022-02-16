@@ -1,5 +1,7 @@
 package engineer.echo.yi.im
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -21,6 +23,16 @@ class ComboActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    companion object {
+
+        fun goto(activity: Activity) {
+            Intent(activity, ComboActivity::class.java).also {
+                activity.startActivity(it)
+            }
+        }
+
     }
 }
 
