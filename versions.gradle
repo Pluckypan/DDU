@@ -131,10 +131,10 @@ ext {
     ]
 
     retrofit = [
-            runtime           : "com.squareup.retrofit2:retrofit:2.7.0",
-            gsonConverter     : "com.squareup.retrofit2:converter-gson:2.7.0",
+            runtime           : "com.squareup.retrofit2:retrofit:2.9.0",
+            gsonConverter     : "com.squareup.retrofit2:converter-gson:2.9.0",
             loggingInterceptor: "com.squareup.okhttp3:logging-interceptor:3.9.0",
-            rxJava2Adapter    : "com.squareup.retrofit2:adapter-rxjava2:2.7.0"
+            rxJava2Adapter    : "com.squareup.retrofit2:adapter-rxjava2:2.9.0"
     ]
 
     consumer = [

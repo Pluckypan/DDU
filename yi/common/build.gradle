@@ -63,7 +63,8 @@ dependencies {
 
     // modules
     api project(':easylib')
-    api rootProject.ext.framework.easyapi
+    api project(':easycore:easyapi')
+    // api rootProject.ext.framework.easyapi
     kapt rootProject.ext.framework.easyapiCompiler
 
     // test
