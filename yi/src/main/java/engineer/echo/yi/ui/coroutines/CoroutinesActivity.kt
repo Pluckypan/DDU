@@ -13,6 +13,8 @@ import androidx.lifecycle.ViewModelProvider
 import engineer.echo.easyapi.EasyApi
 import engineer.echo.yi.R
 import engineer.echo.yi.api.IpLocateApi
+import engineer.echo.yi.common.cpmts.currentThreadName
+import engineer.echo.yi.common.cpmts.uiScope
 import engineer.echo.yi.databinding.ActivityCoroutinesBinding
 import kotlinx.coroutines.*
 import okhttp3.Request
@@ -22,7 +24,6 @@ class CoroutinesActivity : AppCompatActivity(), CoroutinesContract.IView {
 
     private lateinit var viewModel: CoroutinesContract.IViewModel
     private lateinit var binding: ActivityCoroutinesBinding
-    private val model = CoroutinesModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +42,6 @@ class CoroutinesActivity : AppCompatActivity(), CoroutinesContract.IView {
         }
     }
 
-    private val uiScope = CoroutineScope(Dispatchers.Main)
 
     @WorkerThread
     fun job(): Response? {
@@ -50,17 +50,18 @@ class CoroutinesActivity : AppCompatActivity(), CoroutinesContract.IView {
     }
 
     override fun runJob(view: View) {
-        uiScope.launch {
-            var text = "loading thread=${Thread.currentThread().name}"
+        lifecycle.uiScope.launch {
+            var text = "loading thread=$currentThreadName"
             binding.outputTv.text = text
             val res1 = withContext(Dispatchers.IO) {
                 job()
             }
-            val res2 = async(Dispatchers.IO){
+            val res2 = async(Dispatchers.IO) {
                 job()
             }
-            text =
-                "res1=${res1?.code()} res2=${res2.await()?.code()} thread=${Thread.currentThread().name}"
+            val c1 = res1?.code()
+            val c2 = res2.await()?.code()
+            text = "c1=$c1 c2=$c2 thread=${currentThreadName}"
             binding.outputTv.text = text
         }
     }

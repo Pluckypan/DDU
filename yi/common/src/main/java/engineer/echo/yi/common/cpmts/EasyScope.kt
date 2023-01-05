@@ -1,9 +1,8 @@
 package engineer.echo.yi.common.cpmts
 
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.coroutineScope
+import kotlinx.coroutines.*
 
 /**
  * EasyScope
@@ -17,5 +16,8 @@ private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
 
 val workerScope = CoroutineScope(SupervisorJob() + Dispatchers.IO + exceptionHandler)
 
-val uiScope
-    get() = CoroutineScope(SupervisorJob() + Dispatchers.Main + exceptionHandler)
+val Lifecycle.uiScope
+    get() = this.coroutineScope + SupervisorJob() + Dispatchers.Main + exceptionHandler
+
+val currentThreadName: String
+    get() = Thread.currentThread().name
