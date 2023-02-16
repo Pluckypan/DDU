@@ -11,8 +11,6 @@ import engineer.echo.imessenger.send.SendManager.Companion.KEY_FOR_MESSENGER_MEM
 import engineer.echo.oneactivity.core.MasterFragment
 import engineer.echo.oneactivity.core.Request
 import engineer.echo.study.App
-import engineer.echo.study.C
-import engineer.echo.study.C.Companion.toUser
 import engineer.echo.study.R
 import engineer.echo.study.cmpts.BaseFragment
 import engineer.echo.study.cmpts.MMKVUtils
@@ -55,10 +53,9 @@ class MessengerFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         ReceiverService.observeReceive().observe(this, Observer {
-            val user = it.getByteArray(KEY_USER)?.toUser()
             val mem = it.getString(KEY_FOR_MESSENGER_MEM)
             val cur = mBinding.info ?: "..."
-            mBinding.info = "$cur\nReceive($mem):\n${user?.toString() ?: "failed"}"
+            mBinding.info = "$cur\nReceive($mem):\n}"
 
         })
         SenderService.observeReply().observe(this, Observer {
@@ -69,10 +66,9 @@ class MessengerFragment : BaseFragment() {
         })
         mBinding.tvSendMessenger.setOnClickListener {
             SenderService.getSenderManager()?.apply {
-                val user = C.newUser("Plucky@Messenger")
-                mBinding.info = "Send:\n$user"
+                mBinding.info = "Send:\n"
                 sendMessage(Bundle().apply {
-                    putByteArray(KEY_USER, user.toByteArray())
+                    putByteArray(KEY_USER, null)
                 })
             }
         }
@@ -90,12 +86,10 @@ class MessengerFragment : BaseFragment() {
             }
         }
         mBinding.tvLivebusMessenger.setOnClickListener {
-            val user = C.newUser("Plucky@LiveEventBus")
-            LiveEventBus.get().with(KEY_FOR_LIVE_BUS, ByteArray::class.java).broadcast(user.toByteArray())
+
         }
         LiveEventBus.get().with(KEY_FOR_LIVE_BUS, ByteArray::class.java).observe(this, Observer {
-            val user = it.toUser()
-            mBinding.info = "Receive:\n${user?.toString() ?: "failed"}"
+
         })
     }
 

@@ -1,10 +1,7 @@
 package engineer.echo.study
 
 import android.graphics.Typeface
-import android.os.SystemClock
 import androidx.databinding.BindingAdapter
-import com.googlecode.protobuf.format.JsonFormat
-import engineer.echo.proto.UserEntity
 import engineer.echo.study.entity.Subject
 import net.cryptobrewery.syntaxview.SyntaxView
 
@@ -27,45 +24,6 @@ class C {
             Typeface.createFromAsset(App.getApp().assets, HEITI_PATH)
         }
 
-        var USER = lazy {
-            UserEntity.User.newBuilder().apply {
-                email = "plucky@echo.engineer"
-                id = 1
-                name = "Plucky"
-                val phone1 = UserEntity.User.PhoneNumber.newBuilder()
-                    .setNumber("10086")
-                    .setType(UserEntity.User.PhoneType.HOME)
-                    .build()
-                val phone2 = UserEntity.User.PhoneNumber.newBuilder()
-                    .setNumber("10010")
-                    .setType(UserEntity.User.PhoneType.WORK)
-                    .build()
-                addPhone(phone1)
-                addPhone(phone2)
-            }.build()
-        }
-
-        fun newUser(name: String? = null): UserEntity.User {
-            return UserEntity.User.newBuilder()
-                .mergeFrom(USER.value)
-                .setExtra("${SystemClock.uptimeMillis()}")
-                .apply {
-                    if (name != null && name.isNotEmpty()) {
-                        setName(name)
-                    }
-                }
-                .build()
-        }
-
-        fun ByteArray.toUser(): UserEntity.User? {
-            return try {
-                val builder = UserEntity.User.newBuilder()
-                builder.mergeFrom(this)
-                builder.build()
-            } catch (e: Exception) {
-                null
-            }
-        }
 
         @JvmStatic
         @BindingAdapter("syntaxCode")
@@ -73,16 +31,6 @@ class C {
             syntaxView.code.isEnabled = false
             syntaxView.code.setLines(50)
             syntaxView.code.setText(syntaxCode)
-        }
-
-        fun String.toUser(): UserEntity.User? {
-            return try {
-                val builder = UserEntity.User.newBuilder()
-                JsonFormat.merge(this, builder)
-                builder.build()
-            } catch (e: Exception) {
-                null
-            }
         }
 
         var SUBJECTS = listOf(

@@ -16,7 +16,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.googlecode.protobuf.format.JsonFormat
 import engineer.echo.easylib.alphaVisible
 import engineer.echo.easyprinter.Config
 import engineer.echo.easyprinter.Config.Companion.bondState
@@ -28,14 +27,12 @@ import engineer.echo.easyprinter.command.CommandBox.toBarcode
 import engineer.echo.easyprinter.command.CommandBox.toPrintByte
 import engineer.echo.oneactivity.core.MasterFragment
 import engineer.echo.oneactivity.core.Request
-import engineer.echo.study.C
 import engineer.echo.study.R
 import engineer.echo.study.cmpts.BaseFragment
 import engineer.echo.study.cmpts.bottomIn
 import engineer.echo.study.cmpts.bottomOut
 import engineer.echo.study.databinding.PrinterBinding
 import engineer.echo.study.ui.ipc.printer.Bill.Companion.toBytes
-import java.nio.charset.Charset
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -130,11 +127,7 @@ class PrinterFragment : BaseFragment(), PrinterContract.IView {
             }
 
             tvPrintPrinter.setOnClickListener {
-                print {
-                    val user = C.newUser("Printer打印机")
-                    mBinding.code = JsonFormat.printToString(user)
-                    mBinding.code!!.toByteArray(Charset.forName("GB2312"))
-                }
+
             }
             tvPrintBitmapPrinter.setOnClickListener {
                 print {

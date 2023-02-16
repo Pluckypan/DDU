@@ -1,16 +1,28 @@
 package engineer.echo.easylib
 
+import android.app.Activity
 import android.graphics.Rect
 import android.os.Looper
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.core.view.children
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import java.util.*
+
+fun Window.forbidScreen(canScreenShot: Boolean) {
+    if (canScreenShot) {
+        this.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+    } else {
+        this.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+    }
+}
+
+fun View.forbidScreen(canScreenShot: Boolean) {
+    val window = (this.context as? Activity)?.window
+    window?.forbidScreen(canScreenShot)
+}
 
 fun ViewGroup.allView(): ArrayList<View> {
     val views = ArrayList<View>()

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import engineer.echo.easylib.forbidScreen
 import engineer.echo.oneactivity.core.MasterFragment
 import engineer.echo.oneactivity.core.Request
 import engineer.echo.study.R
@@ -57,6 +58,15 @@ class AnrFragment : BaseFragment() {
         }
         binding?.tvStopFps?.setOnClickListener {
             fpsHelper.stop()
+        }
+        binding?.tvScreenShot?.setOnClickListener {
+            it.isSelected = !it.isSelected
+            binding?.tvScreenShot?.text = if (it.isSelected) {
+                "禁止截屏"
+            } else {
+                "允许截屏"
+            }
+            activity?.window?.forbidScreen(it.isSelected)
         }
     }
 

@@ -18,18 +18,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/common_colorPrimary"
         tools:background="@android:color/white">
 
         <TextView
             android:id="@+id/outputTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#333"
+            android:layout_marginBottom="100dp"
+            android:textColor="#555"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:text="Take it easy &amp; Make it happen" />
 
         <include
@@ -50,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:background="#333"
+            android:background="#444"
             android:onClick="@{view::runJob}"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
@@ -67,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:background="#333"
+            android:background="#444"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:text="绘制"

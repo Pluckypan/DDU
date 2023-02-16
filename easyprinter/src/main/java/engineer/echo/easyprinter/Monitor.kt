@@ -56,10 +56,10 @@ class Monitor(
                     onConnectionStateChanged(device, state, preState)
                 }
                 BluetoothAdapter.ACTION_LOCAL_NAME_CHANGED -> {
-                    onLocalDeviceNameChanged(intent.getStringExtra(BluetoothAdapter.EXTRA_LOCAL_NAME))
+                    onLocalDeviceNameChanged(intent.getStringExtra(BluetoothAdapter.EXTRA_LOCAL_NAME)?:"")
                 }
                 BluetoothDevice.ACTION_FOUND -> {
-                    val device: BluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
+                    val device: BluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)?:return
                     val name: String? = intent.getStringExtra(BluetoothDevice.EXTRA_NAME)
                     val rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, 0)
                     onDeviceFound(device, name, rssi)

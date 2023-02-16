@@ -7,7 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.GodActivity
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -18,7 +18,10 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import engineer.echo.easyapi.EasyApi
 import engineer.echo.easyapi.Result
 import engineer.echo.easyapi.download.DownloadState
+import engineer.echo.easylib.NotifierHelper
+import engineer.echo.easylib.forbidScreen
 import engineer.echo.easylib.memInfo
+import engineer.echo.easylib.toastLong
 import engineer.echo.yi.R
 import engineer.echo.yi.bean.location.IpLocation
 import engineer.echo.yi.cmpts.widgets.IndicatorView
@@ -30,7 +33,7 @@ import engineer.echo.yi.ui.coroutines.CoroutinesActivity
 import jp.wasabeef.glide.transformations.BlurTransformation
 import java.util.*
 
-class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
+class ApiMockActivity : GodActivity(), ApiMockContract.IView {
 
     private lateinit var binding: MainActivityBinding
     private lateinit var viewModel: ApiMockContract.IViewModel
@@ -143,13 +146,15 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
             textView: TextView,
             downloadState: DownloadState? = null,
             zipData: Result? = null,
-            switchData: Boolean? = null
+            switchData: Boolean? = null,
         ) {
             val downloadText = downloadState?.downloadText() ?: ""
             val zipText = zipData?.let {
-                "${EasyApp.getString(
-                    if (switchData == true) R.string.common_label_zip else R.string.common_label_unzip
-                )} ${zipData.isSuccess()}"
+                "${
+                    EasyApp.getString(
+                        if (switchData == true) R.string.common_label_zip else R.string.common_label_unzip
+                    )
+                } ${zipData.isSuccess()}"
             } ?: ""
             textView.text = zipText.plus(" ").plus(downloadText)
         }
@@ -170,6 +175,14 @@ class ApiMockActivity : AppCompatActivity(), ApiMockContract.IView {
         @BindingAdapter("switchData")
         fun onBindZip(textView: Button, switchData: Boolean? = null) {
             textView.setText(if (switchData == true) R.string.common_label_zip else R.string.common_label_unzip)
+            textView.forbidScreen(switchData == true)
+            "Hello-$switchData".toastLong(EasyApp.getApp())
+            NotifierHelper.simple(
+                R.mipmap.ic_launcher,
+                "截屏提示",
+                "截屏标记设置为$switchData",
+                "截屏设置有变化"
+            )
         }
     }
 }

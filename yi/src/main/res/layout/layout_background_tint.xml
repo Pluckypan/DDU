@@ -4,12 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
+    <!--        android:src="@mipmap/icon_puzzle"-->
+    <!--        android:tint="@color/common_colorAccent"-->
+
     <ImageView
         android:id="@+id/ivDefault"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/icon_puzzle"
-        android:tint="@color/common_colorAccent"
+        android:background="@mipmap/icon_puzzle"
+        android:backgroundTint="@color/consumerColorPrimaryDark"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

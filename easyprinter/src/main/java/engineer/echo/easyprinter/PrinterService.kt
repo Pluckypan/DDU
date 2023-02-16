@@ -72,12 +72,12 @@ class PrinterService @JvmOverloads constructor(name: String = TAG) : IntentServi
             )
             when (task) {
                 TASK_PRINT -> {
-                    val data = getByteArrayExtra(KEY_DATA)
-                    val device = getParcelableExtra<BluetoothDevice>(KEY_DEVICE)
+                    val data = getByteArrayExtra(KEY_DATA) ?: return
+                    val device = getParcelableExtra<BluetoothDevice>(KEY_DEVICE) ?: return
                     print(device, data)
                 }
                 TASK_CONNECT -> {
-                    val device = getParcelableExtra<BluetoothDevice>(KEY_DEVICE)
+                    val device = getParcelableExtra<BluetoothDevice>(KEY_DEVICE) ?: return
                     connectTo(device)
                 }
             }
@@ -129,7 +129,12 @@ class PrinterService @JvmOverloads constructor(name: String = TAG) : IntentServi
             it.writeData(CommandBox.RESET)
             it.writeData(data)
         }
-        "print(%s) size=%s cost=%s".formatLog(TAG, device.address, data.size, (SystemClock.uptimeMillis() - before))
+        "print(%s) size=%s cost=%s".formatLog(
+            TAG,
+            device.address,
+            data.size,
+            (SystemClock.uptimeMillis() - before)
+        )
     }
 
     private fun connectTo(device: BluetoothDevice) {

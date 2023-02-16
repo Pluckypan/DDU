@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import engineer.echo.oneactivity.core.MasterFragment
 import engineer.echo.oneactivity.core.Request
 import engineer.echo.study.App
-import engineer.echo.study.C
-import engineer.echo.study.C.Companion.toUser
 import engineer.echo.study.R
 import engineer.echo.study.cmpts.*
 import engineer.echo.study.databinding.WifiP2pBinding
@@ -22,7 +20,6 @@ import engineer.echo.whisper.WhisperDevice
 import engineer.echo.whisper.p2p.*
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
-import java.io.ByteArrayInputStream
 
 class WifiP2pFragment : BaseFragment(), WifiTransferListener,
     WifiListAdapter.WifiListAdapterListener {
@@ -107,7 +104,11 @@ class WifiP2pFragment : BaseFragment(), WifiTransferListener,
         setListener(this@WifiP2pFragment)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_wifi_p2p, container, false)
         if (mReceiver == null) {
             mReceiver = ServerReceiver(mBinding)
@@ -170,27 +171,27 @@ class WifiP2pFragment : BaseFragment(), WifiTransferListener,
 
             tvSendP2p.setOnClickListener {
                 connection?.let { info ->
-                    val stream = C.newUser().toByteArray()
+
                     WifiClientTask(info.groupAddress.hostAddress, onBegin = {
                         transferInfo = "sending..."
                     }, onProgress = {
                         transferInfo = "sending...(%$it)"
                     }, onResult = {
                         transferInfo = "sending ${if (it) "success" else "failed"}"
-                    }).execute(ByteArrayInputStream(stream))
+                    }).execute(null)
                 }
             }
         }
 
         mReceiver?.let {
-            WhisperBroadcastReceiver.register(context!!, it)
+            WhisperBroadcastReceiver.register(context ?: return, it)
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         mReceiver?.let {
-            WhisperBroadcastReceiver.unregister(context!!, it)
+            WhisperBroadcastReceiver.unregister(context ?: return, it)
         }
     }
 
@@ -206,8 +207,8 @@ class WifiP2pFragment : BaseFragment(), WifiTransferListener,
 
     override fun onDestroy() {
         super.onDestroy()
-        WhisperServer.stop(context!!)
         mWifiTransfer.setListener(null)
+        WhisperServer.stop(context ?: return)
     }
 
     override fun onDeviceListChanged(deviceList: List<WhisperDevice>) {
@@ -249,18 +250,28 @@ class WifiP2pFragment : BaseFragment(), WifiTransferListener,
         mBinding.layoutDetailIpc.bottomIn()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
     @AfterPermissionGranted(REQ_WIFI)
     private fun requirePermission(action: (() -> Unit)? = null) {
-        if (EasyPermissions.hasPermissions(context!!, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+        if (EasyPermissions.hasPermissions(
+                context ?: return,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        ) {
             action?.invoke()
         } else {
-            EasyPermissions.requestPermissions(this, "WiFi P2P",
-                REQ_WIFI, Manifest.permission.ACCESS_COARSE_LOCATION)
+            EasyPermissions.requestPermissions(
+                this, "WiFi P2P",
+                REQ_WIFI, Manifest.permission.ACCESS_COARSE_LOCATION
+            )
         }
     }
 
@@ -272,8 +283,7 @@ class WifiP2pFragment : BaseFragment(), WifiTransferListener,
 
     private fun startByTask() {
         WifiServerTask(onResult = {
-            val user = it?.toUser()
-            mBinding.transferInfo = "received ${user?.name} ${user?.extra}"
+            mBinding.transferInfo = "received"
         }, onBegin = {
             mBinding.transferInfo = "receiving..."
         }).execute()
@@ -281,8 +291,7 @@ class WifiP2pFragment : BaseFragment(), WifiTransferListener,
 
     private class ServerReceiver(val binding: WifiP2pBinding) : WhisperBroadcastReceiver() {
         override fun onReceiveData(bytes: ByteArray?) {
-            val user = bytes?.toUser()
-            binding.transferInfo = "received ${user?.name} ${user?.extra}"
+            binding.transferInfo = "received"
         }
     }
 

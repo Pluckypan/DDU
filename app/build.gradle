@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: rootProject.ext.protoBuf.plugin
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -37,10 +36,7 @@ android {
 
     sourceSets {
         main {
-            proto {
-                srcDir 'src/main/proto'
-                include '**/*.proto'
-            }
+
         }
     }
     compileOptions {
@@ -77,17 +73,12 @@ dependencies {
     implementation rootProject.ext.framework.mmkv
     implementation rootProject.ext.framework.workManager.runtime
     implementation rootProject.ext.framework.workManager.firebase
-    kapt rootProject.ext.framework.room.compiler
-    implementation rootProject.ext.framework.room.runtime
-    implementation rootProject.ext.framework.room.rxjava2
+
     implementation rootProject.ext.framework.rxAndroid
     // test
     testImplementation rootProject.ext.test.junit
     androidTestImplementation rootProject.ext.test.runner
     androidTestImplementation rootProject.ext.test.espresso
-    // ProtocolBuffer
-    implementation rootProject.ext.protoBuf.java
-    implementation rootProject.ext.protoBuf.javaFormat
     // Widgets
     implementation rootProject.ext.widget.syntaxView
     implementation rootProject.ext.widget.rangeBar
@@ -97,36 +88,8 @@ dependencies {
     implementation project(':easyprinter')
 }
 
-
-protobuf {
-    protoc {
-        artifact = rootProject.ext.protoBuf.compile
-    }
-    generateProtoTasks {
-        all().each { task ->
-            task.builtins {
-                remove java
-            }
-            task.builtins {
-                java {}
-                cpp {}
-            }
-        }
-    }
-    //生成目录
-    generatedFilesBaseDir = "$projectDir/src/generated"
-}
-
 apply plugin: "com.vanniktech.dependency.graph.generator"
 apply plugin: 'project-report'
-//rootProject.plugins.apply(DependencyGraphGeneratorPlugin::class.java)
-//rootProject.configure < DependencyGraphGeneratorExtension > {
-//    generators.create("engineerLibrarys") {
-//        include = { dependency -> dependency.moduleGroup.startsWith("engineer.echo") }
-//        children = { true }
-//        dependencyNode = { node, dependency -> node.add(Style.FILLED, Color.rgb("#ffcb2b")) }
-//    }
-//}
 
 import com.vanniktech.dependency.graph.generator.DependencyGraphGeneratorPlugin
 import guru.nidi.graphviz.attribute.Color

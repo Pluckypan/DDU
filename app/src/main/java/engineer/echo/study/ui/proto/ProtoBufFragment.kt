@@ -5,11 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import com.googlecode.protobuf.format.JsonFormat
 import engineer.echo.oneactivity.core.MasterFragment
 import engineer.echo.oneactivity.core.Request
-import engineer.echo.study.C
-import engineer.echo.study.C.Companion.toUser
 import engineer.echo.study.R
 import engineer.echo.study.cmpts.BaseFragment
 import engineer.echo.study.databinding.ProtoBufBinding
@@ -26,7 +23,7 @@ class ProtoBufFragment : BaseFragment() {
 
     private lateinit var mBinding: ProtoBufBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_protobuf, container, false)
         return mBinding.root
     }
@@ -34,16 +31,15 @@ class ProtoBufFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mBinding.apply {
-            code = JsonFormat.printToString(C.USER.value)
+
             tvToStringProtobuf.setOnClickListener {
-                code = C.USER.value.toString()
+
             }
             tvToJsonProtobuf.setOnClickListener {
-                code = JsonFormat.printToString(C.USER.value)
+
             }
             tvToEntityProtobuf.setOnClickListener {
-                val user = syntaxProtobufApp.code.text.toString().toUser()
-                code = user?.phoneList?.toString() ?: "Convert Failed."
+
             }
         }
 

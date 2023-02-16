@@ -28,4 +28,10 @@
         android:id="@+id/tv_stopFps"
         style="@style/style_simple_button"
         android:text="stopFps" />
+
+    <TextView
+        android:id="@+id/tvScreenShot"
+        style="@style/style_simple_button"
+        android:text="允许截屏" />
+
 </com.google.android.flexbox.FlexboxLayout>

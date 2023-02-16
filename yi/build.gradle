@@ -17,14 +17,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
 
-        //各个模块化Modular无法使用 kapt 需要添加如下配置解决
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [
-                        "room.schemaLocation": "$rootDir/schemas".toString() // Room 输出文件夹
-                ]
-            }
-        }
         manifestPlaceholders = [
                 NETWORK_SECURITY_CONFIG: "@xml/network_security_config" // 默认网络安全配置
         ]

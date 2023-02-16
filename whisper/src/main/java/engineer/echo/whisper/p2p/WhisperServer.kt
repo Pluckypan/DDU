@@ -30,7 +30,7 @@ class WhisperServer @JvmOverloads constructor(name: String = "WhisperServer") : 
         }
     }
 
-    override fun onHandleIntent(intent: Intent) {
+    override fun onHandleIntent(intent: Intent?) {
         try {
             ServerSocket(8888).use {
                 /**
