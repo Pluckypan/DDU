@@ -1,15 +1,13 @@
 package engineer.echo.easylib
 
 import android.app.Application
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import android.util.Log
-import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-
+import com.ycbjie.notificationlib.NotificationUtils
 
 object NotifierHelper {
 
@@ -81,19 +79,7 @@ object NotifierHelper {
     }
 
     fun simple(icon: Int, title: String, content: String, summary: String) {
-        val builder: NotificationCompat.Builder = NotificationCompat.Builder(
-            application,
-            defaultChannelId
-        )
-        builder.setTicker("EasyInc")
-        val style = NotificationCompat.BigTextStyle()
-        style.setBigContentTitle(title)
-        style.bigText(content)
-        style.setSummaryText(summary)
-        builder.setStyle(style).setSmallIcon(icon)
-        builder.setWhen(System.currentTimeMillis())
-        val notification: Notification = builder.build()
-        notification.flags = Notification.FLAG_AUTO_CANCEL
-        notifyManagerCompat.notify(NO2, notification)
+        NotificationUtils(application, defaultChannelId, "EasyInc")
+            .sendNotification(NO1, title, content, icon)
     }
 }
