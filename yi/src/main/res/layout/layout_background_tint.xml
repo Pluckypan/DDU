@@ -4,21 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-    <!--        android:src="@mipmap/icon_puzzle"-->
-    <!--        android:tint="@color/common_colorAccent"-->
-
-    <ImageView
+    <engineer.echo.yi.cmpts.widgets.TintImageView
         android:id="@+id/ivDefault"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@mipmap/icon_puzzle"
-        android:backgroundTint="@color/consumerColorPrimaryDark"
-
+        android:src="@mipmap/icon_puzzle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
-
 
 </merge>
