@@ -16,6 +16,7 @@ import engineer.echo.yi.api.IpLocateApi
 import engineer.echo.yi.common.cpmts.currentThreadName
 import engineer.echo.yi.common.cpmts.uiScope
 import engineer.echo.yi.databinding.ActivityCoroutinesBinding
+import engineer.echo.yi.ui.mock.ApiMockActivity
 import kotlinx.coroutines.*
 import okhttp3.Request
 import okhttp3.Response
@@ -63,6 +64,7 @@ class CoroutinesActivity : AppCompatActivity(), CoroutinesContract.IView {
             val c2 = res2.await()?.code()
             text = "c1=$c1 c2=$c2 thread=${currentThreadName}"
             binding.outputTv.text = text
+            ApiMockActivity.goHome(this@CoroutinesActivity)
         }
     }
 

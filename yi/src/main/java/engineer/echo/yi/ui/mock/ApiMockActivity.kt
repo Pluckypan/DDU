@@ -1,5 +1,7 @@
 package engineer.echo.yi.ui.mock
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Menu
@@ -124,6 +126,13 @@ class ApiMockActivity : GodActivity(), ApiMockContract.IView {
             BlurTransformation(10, 2),
             CenterCrop()
         )
+
+        fun goHome(activity: Activity) {
+            val intent = Intent(activity, ApiMockActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            activity.startActivity(intent)
+        }
 
         private fun getBackground(): String {
             Calendar.getInstance().get(Calendar.HOUR_OF_DAY).let {
