@@ -14,7 +14,7 @@
                 type="engineer.echo.yi.ui.mock.ApiMockContract.IViewModel" />
     </data>
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
             android:id="@+id/mockRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -144,6 +144,6 @@
                     tools:text="福建泉州" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
 </layout>

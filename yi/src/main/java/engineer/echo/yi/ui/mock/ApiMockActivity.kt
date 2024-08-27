@@ -12,7 +12,6 @@ import android.widget.TextView
 import androidx.core.app.GodActivity
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -33,7 +32,7 @@ import engineer.echo.yi.common.cpmts.glide.EasyPicture
 import engineer.echo.yi.databinding.MainActivityBinding
 import engineer.echo.yi.ui.coroutines.CoroutinesActivity
 import jp.wasabeef.glide.transformations.BlurTransformation
-import java.util.*
+import java.util.Calendar
 
 class ApiMockActivity : GodActivity(), ApiMockContract.IView {
 
@@ -93,9 +92,9 @@ class ApiMockActivity : GodActivity(), ApiMockContract.IView {
 
     private fun setupView() {
         // title
-        viewModel.titleData.observe(this, Observer {
+        viewModel.titleData.observe(this) {
             title = it
-        })
+        }
 
         // refreshLayout
         binding.mockRefreshLayout.apply {
@@ -105,9 +104,9 @@ class ApiMockActivity : GodActivity(), ApiMockContract.IView {
             autoRefresh()
         }
 
-        viewModel.weatherData.observe(this, Observer {
-            binding.mockRefreshLayout.finishRefresh(500, it.isWeatherSuccess())
-        })
+        viewModel.weatherData.observe(this) {
+            binding.mockRefreshLayout.finishRefresh(it.isWeatherSuccess())
+        }
 
         // background
         EasyPicture.with(this)

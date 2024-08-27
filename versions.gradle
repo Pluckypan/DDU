@@ -1,6 +1,6 @@
 private static def addRepos(RepositoryHandler handler) {
     handler.mavenCentral()
-    handler.jcenter()
+//    handler.jcenter()
     handler.maven { url 'https://jitpack.io' }
     handler.google()
 }
@@ -110,7 +110,7 @@ ext {
             runtime        : "com.github.bumptech.glide:glide:4.11.0",
             compiler       : "com.github.bumptech.glide:compiler:4.11.0",
             integration    : "com.github.bumptech.glide:recyclerview-integration:4.7.1",
-            transformations: "jp.wasabeef:glide-transformations:3.3.0"
+            transformations: "jp.wasabeef:glide-transformations:4.3.0"
     ]
 
     retrofit = [

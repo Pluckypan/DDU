@@ -9,7 +9,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.scwang.smartrefresh.layout.SmartRefreshLayout
+import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import engineer.echo.yi.common.cpmts.glide.EasyPicture
 import engineer.echo.yi.consumer.R
 import engineer.echo.yi.consumer.cmpts.weibo.bean.Account

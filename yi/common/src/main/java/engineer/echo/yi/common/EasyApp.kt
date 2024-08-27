@@ -22,7 +22,7 @@ open class EasyApp : Application(), EasyMonitor {
         SmartRefresh.setup()
         NotifierHelper.init(this)
         HookManager.hookActivityThread()
-        HookManager.hookAms(this)
+        // HookManager.hookAms(this)
         HookManager.hookSystemService()
         HookManager.hookNotificationManager(this)
         HookManager.hookToast(this)
